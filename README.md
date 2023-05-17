@@ -2,4 +2,4 @@
 
 Exemplo apresentado na palestra sobre Vertical Slice Architecture em .NET.
 
-Apresentado por @lgcmotta e @ffernandolima.
+Apresentado por [@lgcmotta](https://github.com/lgcmotta) e [@ffernandolima](https://github.com/ffernandolima).
