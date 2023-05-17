@@ -1,0 +1,1 @@
+export { LogoutButton as default } from './logout.button';

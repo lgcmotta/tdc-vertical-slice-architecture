@@ -1,0 +1,1 @@
+export { TabPanel as default } from './tab-panel';

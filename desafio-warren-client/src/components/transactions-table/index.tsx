@@ -1,0 +1,1 @@
+export { TransactionsTable as default } from './transactions-table';
