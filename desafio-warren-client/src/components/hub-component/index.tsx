@@ -1,1 +1,0 @@
-export { HubComponent as default } from './hub-component' ;

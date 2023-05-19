@@ -1,1 +1,0 @@
-export { ApplicationBar as default } from './app-bar';

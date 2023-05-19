@@ -1,1 +1,0 @@
-export { Deposit as default } from './deposit';
