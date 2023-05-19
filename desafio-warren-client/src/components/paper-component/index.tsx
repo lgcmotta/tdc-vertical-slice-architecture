@@ -1,1 +1,0 @@
-export { PaperComponent as default } from './paper-component';

@@ -1,1 +1,0 @@
-export { TransactionsPanel as default } from './transactions-panel';
