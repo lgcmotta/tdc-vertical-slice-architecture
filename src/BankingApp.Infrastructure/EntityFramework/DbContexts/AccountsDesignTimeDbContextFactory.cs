@@ -6,7 +6,7 @@ using System;
 
 namespace BankingApp.Infrastructure.EntityFramework.DbContexts;
 
-public class AccountsDesignTimeDbContextFactory : IDesignTimeDbContextFactory<AccountsDbContext> 
+public class AccountsDesignTimeDbContextFactory : IDesignTimeDbContextFactory<AccountsDbContext>
 {
     public AccountsDbContext CreateDbContext(string[] args)
     {
@@ -21,7 +21,7 @@ public class AccountsDesignTimeDbContextFactory : IDesignTimeDbContextFactory<Ac
 
         var dbContextOptionsBuilder = new DbContextOptionsBuilder<AccountsDbContext>().UseMySql(connectionString, ServerVersion.Parse("8.0.27"));
 
-        return new AccountsDbContext(dbContextOptionsBuilder.Options, new FakeMediator());
+        return new AccountsDbContext(dbContextOptionsBuilder.Options, new NullMediator());
     }
 
     private static string GetAspNetCoreEnvironmentVariable()

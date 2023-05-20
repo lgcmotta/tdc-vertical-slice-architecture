@@ -20,7 +20,7 @@ public class TransactionalBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
         _logger = logger;
     }
 
-    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         try
         {
@@ -35,9 +35,9 @@ public class TransactionalBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
             await strategy.ExecuteAsync(async () =>
             {
                 _logger.Information("Database transaction started");
-                    
+
                 await using var transaction = await _context.BeginTransactionAsync(cancellationToken);
-                    
+
                 response = await next();
 
                 await _context.CommitTransactionAsync(transaction, cancellationToken);
@@ -51,7 +51,7 @@ public class TransactionalBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
         {
 
             _logger.Error(exception, "An exception occurred when executing the transactional behaviour");
-                
+
             return default;
         }
     }
