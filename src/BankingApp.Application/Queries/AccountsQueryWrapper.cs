@@ -54,7 +54,7 @@ public class AccountsQueryWrapper : IAccountsQueryWrapper
 
         var transactionsModels = _mapper.Map<IEnumerable<AccountTransactionModel>>(transactions).ToList();
 
-        transactionsModels.ForAll(transactionsModel => transactionsModel.EarningsTaxPerDay = transactionsModel.TransactionType == TransactionType.Earnings.Value ? _earningsTaxPerDay : null);
+        transactionsModels.ForEach(transactionsModel => transactionsModel.EarningsTaxPerDay = transactionsModel.TransactionType == TransactionType.Earnings.Value ? _earningsTaxPerDay : null);
 
         return new Response(transactionsModels);
     }

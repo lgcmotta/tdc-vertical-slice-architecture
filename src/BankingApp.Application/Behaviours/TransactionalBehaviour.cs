@@ -28,13 +28,13 @@ public class TransactionalBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
 
             if (_context.HasActiveTransaction) return await next();
 
-            _logger.Information("Creating execution strategy for database.");
+            _logger.Information("Creating execution strategy for database");
 
             var strategy = _context.Database.CreateExecutionStrategy();
 
             await strategy.ExecuteAsync(async () =>
             {
-                _logger.Information("Database transaction started.");
+                _logger.Information("Database transaction started");
                     
                 await using var transaction = await _context.BeginTransactionAsync(cancellationToken);
                     
@@ -42,7 +42,7 @@ public class TransactionalBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
 
                 await _context.CommitTransactionAsync(transaction, cancellationToken);
 
-                _logger.Information("Database transaction committed.");
+                _logger.Information("Database transaction committed");
             });
 
             return response;
@@ -50,7 +50,7 @@ public class TransactionalBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
         catch (Exception exception)
         {
 
-            _logger.Error(exception, "An exception occurred when executing the transactional behaviour.");
+            _logger.Error(exception, "An exception occurred when executing the transactional behaviour");
                 
             return default;
         }

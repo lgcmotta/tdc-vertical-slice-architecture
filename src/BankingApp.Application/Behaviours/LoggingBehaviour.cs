@@ -24,7 +24,7 @@ public class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest,
 
         var response = await next();
 
-        _logger.Information("Command '{CommandName}' was handled successfully.", commandName);
+        _logger.Information("Command '{CommandName}' was handled successfully", commandName);
 
         return response;
     }

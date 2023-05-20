@@ -32,7 +32,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
     {
         var requestName = request.GetGenericTypeName();
 
-        _logger.Information("Validation behaviour started for request of type '{RequestType}'.", requestName);
+        _logger.Information("Validation behaviour started for request of type '{RequestType}'", requestName);
 
         var validationFailures = _validators
             .Select(validator => validator.Validate(request))
@@ -42,21 +42,21 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
 
         if (validationFailures.Any())
             return CreateErrorResponse(validationFailures);
-            
+
         var response = await next();
 
-        _logger.Information("Validation behaviour finished for request of type '{RequestType}' without any failure.", requestName);
+        _logger.Information("Validation behaviour finished for request of type '{RequestType}' without any failure", requestName);
 
         return response;
     }
 
     private TResponse CreateErrorResponse(IEnumerable<ValidationFailure> validationFailures)
     {
-        _logger.Error("One or more validation has failed. The command of type '{RequestType}' will not be processed.", typeof(TRequest).GetGenericTypeName());
+        _logger.Error("One or more validation has failed. The command of type '{RequestType}' will not be processed", typeof(TRequest).GetGenericTypeName());
 
         var response = new Response();
 
-        validationFailures.ForAll(validationFailure => _logger.Error(
+        validationFailures.ForEach(validationFailure => _logger.Error(
             "Validation error occurred for property '{PropertyName}' with error message '{ErrorMessage}' and attempted value '{AttemptedValue}'"
             , validationFailure.PropertyName
             , validationFailure.ErrorMessage
