@@ -1,4 +1,3 @@
-using Autofac.Extensions.DependencyInjection;
 using BankingApp.Api;
 using BankingApp.Application.Policies;
 using BankingApp.Infrastructure.EntityFramework;
@@ -36,7 +35,6 @@ finally
 
 static IHostBuilder CreateHostBuilder(string[] args) =>
     Host.CreateDefaultBuilder(args)
-        .UseServiceProviderFactory(new AutofacServiceProviderFactory())
         .UseSerilog()
         .ConfigureWebHostDefaults(webBuilder =>
         {

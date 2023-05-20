@@ -1,11 +1,11 @@
-using Autofac;
 using BankingApp.Api.Extensions;
-using BankingApp.Application.Autofac;
 using BankingApp.Application.AutoMapper;
+using BankingApp.Application.DependencyInjection;
 using BankingApp.Application.Hubs;
 using BankingApp.Application.Quartz;
 using BankingApp.Application.Serilog;
 using BankingApp.Infrastructure.EntityFramework;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Quartz;
+using System.Linq;
+using System.Reflection;
 
 namespace BankingApp.Api;
 
@@ -21,17 +23,11 @@ public class Startup
     public IConfiguration Configuration { get; }
 
     private const string ApplicationAssembly = "BankingApp.Application";
-
     private const string DomainAssembly = "BankingApp.Domain";
 
     public Startup(IConfiguration configuration)
     {
         Configuration = configuration;
-    }
-
-    public void ConfigureContainer(ContainerBuilder container)
-    {
-        container.AddAutofacModules();
     }
 
     public void ConfigureServices(IServiceCollection services)
@@ -40,15 +36,25 @@ public class Startup
 
         services.AddSignalR();
 
-        services
-            .AddHttpContextAccessor()
+        var assemblies = new[]
+            {
+                ApplicationAssembly,
+                "BankingApp.Infrastructure",
+                DomainAssembly
+            }
+            .Select(Assembly.Load)
+            .ToArray();
+
+        services.AddHttpContextAccessor()
             .ConfigureSerilog(Configuration)
             .AddAutoMapperFromAssemblies(ApplicationAssembly)
+            .AddCQRS(assemblies)
+            .AddValidatorsFromAssemblies(assemblies)
+            .AddBankingAppServices()
             .AddAccountsDbContext(Configuration)
             .AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = Configuration.GetConnectionString("Redis");
-
                 options.InstanceName = nameof(BankingApp);
             })
             .AddQuartzJobs()
