@@ -56,11 +56,14 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
 
         var response = new Response();
 
-        validationFailures.ForEach(validationFailure => _logger.Error(
-            "Validation error occurred for property '{PropertyName}' with error message '{ErrorMessage}' and attempted value '{AttemptedValue}'"
-            , validationFailure.PropertyName
-            , validationFailure.ErrorMessage
-            , validationFailure.AttemptedValue));
+        foreach (var validationFailure in validationFailures)
+        {
+            _logger.Error(
+                "Validation error occurred for property '{PropertyName}' with error message '{ErrorMessage}' and attempted value '{AttemptedValue}'"
+                , validationFailure.PropertyName
+                , validationFailure.ErrorMessage
+                , validationFailure.AttemptedValue);
+        }
 
         response.AddValidationFailures(_mapper.Map<IEnumerable<Failure>>(validationFailures));
 
