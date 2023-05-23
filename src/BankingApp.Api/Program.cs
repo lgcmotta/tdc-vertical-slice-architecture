@@ -18,7 +18,6 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-// TODO: migrate this app to use minimal APIs
 var assemblies = new[] { "BankingApp.Application", "BankingApp.Infrastructure", "BankingApp.Domain" }.Select(Assembly.Load).ToArray();
 
 var builder = WebApplication.CreateBuilder();
