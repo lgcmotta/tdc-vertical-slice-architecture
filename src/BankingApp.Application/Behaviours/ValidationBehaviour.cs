@@ -34,9 +34,12 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
 
         _logger.Information("Validation behaviour started for request of type '{RequestType}'", requestName);
 
-        var validationFailures = _validators
-            .Select(validator => validator.Validate(request))
-            .SelectMany(validationResult => validationResult.Errors)
+        var validations = _validators
+            .Select(validator => validator.ValidateAsync(request, cancellationToken));
+
+        var validationResults = await Task.WhenAll(validations);
+
+        var validationFailures = validationResults.SelectMany(validationResult => validationResult.Errors)
             .Where(validationFailure => validationFailure is not null)
             .ToList();
 
