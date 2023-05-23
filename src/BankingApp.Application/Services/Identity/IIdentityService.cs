@@ -3,6 +3,4 @@
 public interface IIdentityService
 {
     string GetRequestPath();
-        
-    string GetUserDisplayName();
 }

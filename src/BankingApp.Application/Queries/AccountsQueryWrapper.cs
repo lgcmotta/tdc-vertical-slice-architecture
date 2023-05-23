@@ -58,13 +58,4 @@ public class AccountsQueryWrapper : IAccountsQueryWrapper
 
         return new Response(transactionsModels);
     }
-
-    public async Task<Response> GetMyselfAsync()
-    {
-        var name = _identityService.GetUserDisplayName();
-
-        var account = await _accountRepository.GetAccountByNameAsync(name);
-
-        return new Response(_mapper.Map<AccountModel>(account));
-    }
 }

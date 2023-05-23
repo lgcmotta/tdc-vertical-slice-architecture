@@ -13,6 +13,4 @@ public class IdentityService : IIdentityService
     }
 
     public string GetRequestPath() => _httpContextAccessor.HttpContext.Request.Path;
-        
-    public string GetUserDisplayName() => _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "name")?.Value;
 }

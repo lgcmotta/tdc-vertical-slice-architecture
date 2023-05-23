@@ -38,8 +38,6 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand,
 
         var response = new Response(accountModel);
 
-        response.SetResponsePath($"{_identityService.GetRequestPath()}/{account.Id}");
-
         return response;
     }
 }
