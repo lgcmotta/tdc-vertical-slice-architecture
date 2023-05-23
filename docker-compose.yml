@@ -1,45 +1,30 @@
 version: '3.9'
+
 services:
-  desafiowarren.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Docker
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=desafiowarren
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/desafiowarren.pfx
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - TZ=America/Sao_Paulo
-    ports:
-      - '5000:80'
-      - '5001:443'
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-      - ${USERPROFILE}/.aspnet/https:/https/
-    image: ${DOCKER_REGISTRY-}desafiowarrenapi
-    container_name: desafiowarren-api
-    build:
-      context: .
-      dockerfile: DesafioWarren.Api/Dockerfile
-    depends_on:
-      - mysql
-      - redis
   mysql:
+    container_name: mysql
+    image: mysql:latest
     ports:
       - '3306:3306'
     environment:
-      - MYSQL_DATABASE=DesafioWarren
+      - MYSQL_DATABASE=BankingApp
       - MYSQL_USER=user
-      - MYSQL_PASSWORD=V3rYStR0nGP@ssW0rD
-      - MYSQL_ROOT_PASSWORD=aDm1nStR0nGP@ssW0rD
+      - MYSQL_PASSWORD=123456
+      - MYSQL_ROOT_PASSWORD=123456
     volumes:
-      - mysqldata:/var/lib/mysql
-    image: mysql:latest
-    container_name: mysql
+      - mysql-data:/var/lib/mysql
+
   redis:
-    command: redis-server --requirepass RedisPassword
+    container_name: redis
+    image: redis
     ports:
       - '6379:6379'
-    image: redis
-    container_name: redis
+    command: redis-server --requirepass RedisPassword
+    volumes:
+      - redis-data:/data
+
 volumes:
-  mysqldata:
+  mysql-data:
+    external: false
+  redis-data:
     external: false
