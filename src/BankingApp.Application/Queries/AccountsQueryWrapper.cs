@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using AutoMapper.Internal;
 using BankingApp.Application.Models;
-using BankingApp.Application.Services.Identity;
 using BankingApp.Domain.Repositories;
 using BankingApp.Domain.ValueObjects;
 using Microsoft.Extensions.Configuration;
@@ -16,18 +14,13 @@ namespace BankingApp.Application.Queries;
 public class AccountsQueryWrapper : IAccountsQueryWrapper
 {
     private readonly IAccountRepository _accountRepository;
-
     private readonly IMapper _mapper;
-
-    private readonly IIdentityService _identityService;
-
     private readonly decimal _earningsTaxPerDay;
 
-    public AccountsQueryWrapper(IAccountRepository accountRepository, IMapper mapper, IIdentityService identityService, IConfiguration configuration)
+    public AccountsQueryWrapper(IAccountRepository accountRepository, IMapper mapper, IConfiguration configuration)
     {
         _accountRepository = accountRepository;
         _mapper = mapper;
-        _identityService = identityService;
         _earningsTaxPerDay = configuration.GetValue<decimal>("EarningsPerDayTax");
     }
 
