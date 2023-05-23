@@ -25,8 +25,7 @@ public static class ApiExtensions
         serviceCollection.AddCors(corsOptions => corsOptions.AddDefaultPolicy(policyBuilder => policyBuilder
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .SetIsOriginAllowed((host) => true)
-            .AllowCredentials()));
+            .AllowAnyOrigin()));
 
         return serviceCollection;
     }
@@ -55,7 +54,7 @@ public static class ApiExtensions
 
         return serviceCollection;
     }
-        
+
     public static IMvcBuilder ConfigureControllers(this IServiceCollection serviceCollection)
     {
         return serviceCollection.AddControllers(configure =>

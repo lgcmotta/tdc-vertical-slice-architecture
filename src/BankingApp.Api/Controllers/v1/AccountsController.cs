@@ -3,7 +3,6 @@ using BankingApp.Application.Commands;
 using BankingApp.Application.Models;
 using BankingApp.Application.Queries;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -11,7 +10,6 @@ using System.Threading.Tasks;
 namespace BankingApp.Api.Controllers.v1;
 
 [ApiController]
-[Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 [ApiExceptionFilter]
@@ -26,7 +24,7 @@ public class AccountsController : ControllerBase
         _mediator = mediator;
         _accountsQueryWrapper = accountsQueryWrapper;
     }
-        
+
     [HttpGet("{accountId}/contacts")]
     public async Task<IActionResult> GetAccountsToTransferAsync([FromRoute] Guid accountId)
     {
@@ -43,20 +41,12 @@ public class AccountsController : ControllerBase
         return ReturnOk(response);
     }
 
-    [HttpGet("myself")]
-    public async Task<IActionResult> GetMyAccountDataAsync()
-    {
-        var response = await _accountsQueryWrapper.GetMyselfAsync();
-
-        return ReturnOk(response);
-    }
-
     [HttpPost]
     public async Task<IActionResult> PostAccountAsync([FromBody] CreateAccountCommand createAccountCommand)
     {
         var response = await _mediator.Send(createAccountCommand);
 
-        return ReturnCreated(response);
+        return FormatActionResult(Created($"'{HttpContext.Request.Path}/{((AccountModel)response.Payload).Id}", response), response);
     }
 
     [HttpPut]
@@ -103,13 +93,6 @@ public class AccountsController : ControllerBase
     private IActionResult ReturnOk(Response response)
     {
         return FormatActionResult(Ok(response), response);
-    }
-
-    private IActionResult ReturnCreated(Response response)
-    {
-        return FormatActionResult(Created(response.GetResponsePath()
-                , response)
-            , response);
     }
 
     private IActionResult ReturnAccepted(Response response)

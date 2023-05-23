@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Identity.Web;
 using Quartz;
 using Serilog;
 using System;
@@ -22,7 +21,6 @@ var assemblies = new[] { "BankingApp.Application", "BankingApp.Infrastructure", 
 
 var builder = WebApplication.CreateBuilder();
 
-builder.Services.AddMicrosoftIdentityWebApiAuthentication(builder.Configuration);
 builder.Services.AddSignalR();
 
 builder.Services.AddHttpContextAccessor()
@@ -59,8 +57,6 @@ if (app.Environment.IsDevelopment())
 app.UseCors()
     .UseHttpsRedirection()
     .UseRouting()
-    .UseAuthentication()
-    .UseAuthorization()
     .UseEndpoints(endpoints =>
     {
         endpoints.MapControllers();

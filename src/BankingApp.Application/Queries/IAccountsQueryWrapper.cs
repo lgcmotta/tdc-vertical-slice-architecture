@@ -10,6 +10,4 @@ public interface IAccountsQueryWrapper
     Task<Response> GetContactsAsync(Guid accountId, CancellationToken cancellationToken = default);
 
     Task<Response> GetAccountTransactions(Guid accountId, CancellationToken cancellationToken = default);
-        
-    Task<Response> GetMyselfAsync();
 }
