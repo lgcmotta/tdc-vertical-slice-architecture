@@ -11,21 +11,11 @@ public static class BankingAppServiceCollectionExtensions
 {
     public static IServiceCollection AddBankingAppServices(this IServiceCollection services)
     {
-        // builder.RegisterType<AccountsRepository>()
-        //     .As<IAccountRepository>()
-        //     .InstancePerLifetimeScope();
-        //
-        // builder.RegisterType<AccountsQueryWrapper>()
-        //     .As<IAccountsQueryWrapper>()
-        //     .InstancePerLifetimeScope();
-        //
-        // builder.RegisterType<IdentityService>()
-        //     .As<IIdentityService>()
-        //     .InstancePerLifetimeScope();
-        //
-        // builder.RegisterType<CachedConnectedAccountsManager>()
-        //     .As<ICachedConnectedAccountsManager>()
-        //     .SingleInstance();
+        services.AddScoped<IAccountRepository, AccountsRepository>();
+        services.AddScoped<IAccountsQueryWrapper, AccountsQueryWrapper>();
+        services.AddScoped<IAccountsQueryWrapper, AccountsQueryWrapper>();
+        services.AddScoped<IIdentityService, IdentityService>();
+        services.AddScoped<ICachedConnectedAccountsManager, CachedConnectedAccountsManager>();
 
         return services;
     }
