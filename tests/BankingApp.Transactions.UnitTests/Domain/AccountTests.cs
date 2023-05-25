@@ -77,10 +77,11 @@ public class AccountTests : IClassFixture<AccountFixture>
     public void Account_TransferWhenAmountIsLessThanOrEqualToZero_ShouldThrowInvalidTransactionValueException(Money amount)
     {
         // Arrange
-        var account = _fixture.GenerateStandardAccount();
+        var sender = _fixture.GenerateStandardAccount();
+        var receiver = _fixture.GenerateStandardAccount();
 
         // Act & Assert
-        Assert.Throws<InvalidTransactionValueException>(() => account.Transfer(amount, DateTime.Now));
+        Assert.Throws<InvalidTransactionValueException>(() => sender.Transfer(amount, receiver, DateTime.Now));
     }
 
     [Theory]
@@ -134,20 +135,29 @@ public class AccountTests : IClassFixture<AccountFixture>
     public void Account_TransferWhenAmountIsValid_ShouldDecreaseBalance()
     {
         // Arrange
-        var depositAmount = _fixture.GenerateMoney();
-        var transferAmount = _fixture.GenerateMoney();
-        var currency = _fixture.PickRandomCurrency();
-        var account = _fixture.GenerateStandardAccount();
+        var senderDeposit = _fixture.GenerateMoney();
+        var receiverDeposit = _fixture.GenerateMoney();
+        var transferAmount = _fixture.GenerateMoneyBetween(senderDeposit, receiverDeposit);
+
+        var senderDepositCurrency = _fixture.PickRandomCurrency();
+        var receiverDepositCurrency = _fixture.PickRandomCurrency();
+
+        var sender = _fixture.GenerateStandardAccount();
+        var receiver = _fixture.GenerateStandardAccount();
 
         // Act
-        account.Deposit(depositAmount, currency, DateTime.Now);
-        account.Transfer(transferAmount, DateTime.Now);
+        sender.Deposit(senderDeposit, senderDepositCurrency, DateTime.Now);
+        receiver.Deposit(receiverDeposit, receiverDepositCurrency, DateTime.Now);
+        sender.Transfer(transferAmount, receiver, DateTime.Now);
 
-        var balance = account.GetCurrentBalance();
+        var senderBalance = sender.GetCurrentBalance();
+        var receiverBalance = receiver.GetCurrentBalance();
 
         // Assert
-        var expected = new Money(depositAmount / currency.DollarRate - transferAmount);
-        balance.Should().Be(expected.Value);
+        var senderExpected = new Money(senderDeposit / senderDepositCurrency.DollarRate - transferAmount);
+        var receiverExpected = new Money(receiverDeposit / receiverDepositCurrency.DollarRate + transferAmount);
+        senderBalance.Should().Be(senderExpected.Value);
+        receiverBalance.Should().Be(receiverExpected.Value);
     }
 
     [Fact]
@@ -166,7 +176,7 @@ public class AccountTests : IClassFixture<AccountFixture>
         var balance = account.GetCurrentBalance();
 
         // Assert
-        var expected = new Money(depositAmount / currency.DollarRate * (earnings * Currency.Dollar.DollarRate));
+        var expected = new Money(depositAmount / currency.DollarRate + (earnings * Currency.Dollar.DollarRate));
         balance.Should().Be(expected.Value);
     }
 

@@ -40,6 +40,13 @@ public class AccountFixture
             .Generate();
     }
 
+    public Money GenerateMoneyBetween(Money left, Money right)
+    {
+        var min = left >= right ? right : left;
+        var max = left <= right ? right : left;
+        return _moneyFaker.CustomInstantiator(faker => new Money(faker.Finance.Amount(min, max))).Generate();
+    }
+
     public Money GenerateEarnings()
     {
         return _moneyFaker.CustomInstantiator(faker => new Money(faker.Finance.Amount() * faker.Finance.Random.Decimal())).Generate();
