@@ -143,7 +143,7 @@ public sealed class Account : AggregateRoot<Guid>, IModifiable
     {
         Credit(amount, sender.Currency);
 
-        _transactions.Add(new Transaction(amount, Balance, TransactionType.TransferOut, sender.Id,  Id, transactionDateTime));
+        _transactions.Add(new Transaction(amount, Balance, TransactionType.TransferIn, sender.Id,  Id, transactionDateTime));
     }
 
     private Money Debit(Money amount, Currency currency)
