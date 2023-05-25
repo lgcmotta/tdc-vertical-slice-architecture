@@ -13,9 +13,6 @@ public class AccountFixture
     private readonly Faker<Currency> _currencyFaker;
     private readonly Faker<DepositData> _depositDataFaker;
 
-    private readonly DateTime _start = new(2023, 5, 1);
-    private readonly DateTime _end = new(2023, 5, 31);
-
     public AccountFixture()
     {
         _accountFaker = new Faker<Account>();
