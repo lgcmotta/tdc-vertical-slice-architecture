@@ -1,6 +1,6 @@
 ﻿using BankingApp.Domain.Core;
 
-namespace BankingApp.Accounts.Domain.ValueObjects;
+namespace BankingApp.Transactions.Domain.ValueObjects;
 
 public sealed class TransactionType : ValueObject<int, string>
 {

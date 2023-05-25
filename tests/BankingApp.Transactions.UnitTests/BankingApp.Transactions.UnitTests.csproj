@@ -4,9 +4,9 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
+        <RootNamespace>BankingApp.Transactions.UnitTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\BankingApp.Accounts.Domain\BankingApp.Accounts.Domain.csproj" />
+      <ProjectReference Include="..\..\src\BankingApp.Transactions.Domain\BankingApp.Transactions.Domain.csproj" />
     </ItemGroup>
 
 </Project>

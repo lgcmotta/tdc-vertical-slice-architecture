@@ -1,6 +1,6 @@
 ﻿using BankingApp.Domain.Core;
 
-namespace BankingApp.Accounts.Domain.Entities;
+namespace BankingApp.Transactions.Domain.Entities;
 
 public sealed class AccountHolderInfo : IModifiable
 {

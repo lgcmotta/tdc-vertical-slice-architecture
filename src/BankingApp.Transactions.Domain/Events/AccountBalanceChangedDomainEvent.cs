@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace BankingApp.Accounts.Domain.Events;
+namespace BankingApp.Transactions.Domain.Events;
 
 public class AccountBalanceChangedDomainEvent : INotification
 {

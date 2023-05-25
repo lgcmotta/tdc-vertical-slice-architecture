@@ -31,9 +31,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Domain.Core", "s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounts", "Accounts", "{5FA22814-A2B3-462D-BF18-39E2AA84D100}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Accounts.Domain", "src\BankingApp.Accounts.Domain\BankingApp.Accounts.Domain.csproj", "{E399EB9A-3F08-4D80-8482-3FBD499AA0AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Transactions.Domain", "src\BankingApp.Transactions.Domain\BankingApp.Transactions.Domain.csproj", "{E399EB9A-3F08-4D80-8482-3FBD499AA0AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Accounts.UnitTests", "tests\BankingApp.Accounts.UnitTests\BankingApp.Accounts.UnitTests.csproj", "{311CEE69-3AAD-496D-BC88-C33D5AB156B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Transactions.UnitTests", "tests\BankingApp.Transactions.UnitTests\BankingApp.Transactions.UnitTests.csproj", "{311CEE69-3AAD-496D-BC88-C33D5AB156B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

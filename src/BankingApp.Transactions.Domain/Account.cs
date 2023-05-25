@@ -1,11 +1,11 @@
-﻿using BankingApp.Accounts.Domain.Entities;
-using BankingApp.Accounts.Domain.Events;
-using BankingApp.Accounts.Domain.Exceptions;
-using BankingApp.Accounts.Domain.ValueObjects;
-using BankingApp.Domain.Core;
+﻿using BankingApp.Domain.Core;
+using BankingApp.Transactions.Domain.Entities;
+using BankingApp.Transactions.Domain.Events;
+using BankingApp.Transactions.Domain.Exceptions;
+using BankingApp.Transactions.Domain.ValueObjects;
 using System.Collections.ObjectModel;
 
-namespace BankingApp.Accounts.Domain;
+namespace BankingApp.Transactions.Domain;
 
 public sealed class Account : AggregateRoot<Guid>, IModifiable
 {

@@ -1,4 +1,4 @@
-﻿namespace BankingApp.Accounts.UnitTests.Domain;
+﻿namespace BankingApp.Transactions.UnitTests.Domain;
 
 public class AccountTests
 {

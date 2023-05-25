@@ -1,4 +1,4 @@
-﻿namespace BankingApp.Accounts.Domain.ValueObjects;
+﻿namespace BankingApp.Transactions.Domain.ValueObjects;
 
 public sealed class Money : IFormattable
 {
@@ -121,5 +121,20 @@ public sealed class Money : IFormattable
     public string ToString(string? format, IFormatProvider? formatProvider)
     {
         return _value.ToString(format, formatProvider);
+    }
+
+    private bool Equals(Money other)
+    {
+        return _value == other._value;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return ReferenceEquals(this, obj) || obj is Money other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return _value.GetHashCode();
     }
 }

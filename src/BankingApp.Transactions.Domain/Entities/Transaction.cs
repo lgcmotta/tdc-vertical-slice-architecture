@@ -1,7 +1,7 @@
-﻿using BankingApp.Accounts.Domain.ValueObjects;
-using BankingApp.Domain.Core;
+﻿using BankingApp.Domain.Core;
+using BankingApp.Transactions.Domain.ValueObjects;
 
-namespace BankingApp.Accounts.Domain.Entities;
+namespace BankingApp.Transactions.Domain.Entities;
 
 public sealed class Transaction : IEntity<Guid>
 {

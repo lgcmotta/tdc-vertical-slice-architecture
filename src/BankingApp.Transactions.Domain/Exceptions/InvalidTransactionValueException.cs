@@ -1,4 +1,4 @@
-﻿namespace BankingApp.Accounts.Domain.Exceptions;
+﻿namespace BankingApp.Transactions.Domain.Exceptions;
 
 public class InvalidTransactionValueException : Exception
 {
