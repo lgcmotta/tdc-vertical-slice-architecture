@@ -15,16 +15,18 @@ public sealed class Account : AggregateRoot<Guid>, IModifiable
     private Account()
     { }
 
-    public Account(string token, Currency currency) : this()
+    public Account(string name, string document, string token, Currency currency) : this()
     {
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+        if (string.IsNullOrWhiteSpace(document)) throw new ArgumentNullException(nameof(document));
         if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
 
-        Token = token;
+        Owner = new Owner(name, document, token);
         Currency = currency ?? throw new ArgumentNullException(nameof(currency));
         Balance = Money.Zero;
     }
 
-    public string Token { get; private set; }
+    public Owner Owner { get; private set; }
     public Money Balance { get; private set; }
     public Currency Currency { get; private set; }
     public IEnumerable<Transaction> Transactions => new ReadOnlyCollection<Transaction>(_transactions);
