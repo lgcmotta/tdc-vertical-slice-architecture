@@ -18,7 +18,7 @@ public abstract class AggregateRoot<TId> : IEntity<TId>, IAggregateRoot
 {
     private readonly List<INotification> _domainEvents = new();
 
-    public TId Id { get; protected set;  }
+    public TId Id { get; protected set;  } = default!;
 
     public IReadOnlyCollection<INotification> DomainEvents => new ReadOnlyCollection<INotification>(_domainEvents);
 
