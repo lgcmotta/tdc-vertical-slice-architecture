@@ -1,8 +1,4 @@
-﻿using Bogus;
-using Bogus.Extensions.Brazil;
-using System.Collections;
-
-namespace BankingApp.Transactions.UnitTests.Domain;
+﻿namespace BankingApp.Transactions.UnitTests.Domain;
 
 using Currency = Currency;
 

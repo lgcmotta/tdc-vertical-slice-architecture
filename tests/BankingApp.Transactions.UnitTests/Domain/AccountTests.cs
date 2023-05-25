@@ -1,8 +1,4 @@
-﻿using BankingApp.Transactions.Domain.Entities;
-using Bogus;
-using Bogus.Extensions.Brazil;
-
-namespace BankingApp.Transactions.UnitTests.Domain;
+﻿namespace BankingApp.Transactions.UnitTests.Domain;
 
 public class AccountTests : IClassFixture<AccountFixture>
 {
