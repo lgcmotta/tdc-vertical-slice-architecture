@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{43436468-8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Domain.Core", "src\BankingApp.Domain.Core\BankingApp.Domain.Core.csproj", "{093AB3CF-A1F3-47C6-AD87-E1C3D3DAE2A8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounts", "Accounts", "{5FA22814-A2B3-462D-BF18-39E2AA84D100}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transactions", "Transactions", "{5FA22814-A2B3-462D-BF18-39E2AA84D100}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Transactions.Domain", "src\BankingApp.Transactions.Domain\BankingApp.Transactions.Domain.csproj", "{E399EB9A-3F08-4D80-8482-3FBD499AA0AA}"
 EndProject
