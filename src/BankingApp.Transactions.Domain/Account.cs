@@ -15,27 +15,18 @@ public sealed class Account : AggregateRoot<Guid>, IModifiable
     private Account()
     { }
 
-    public Account(
-        string name,
-        string document,
-        string email,
-        string phoneNumber,
-        string token,
-        Currency currency) : this()
+    public Account(string token, Currency currency) : this()
     {
         if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
 
         Token = token;
         Currency = currency ?? throw new ArgumentNullException(nameof(currency));
         Balance = Money.Zero;
-        HolderInfo = new AccountHolderInfo(name, document, email, phoneNumber);
     }
 
     public string Token { get; private set; }
     public Money Balance { get; private set; }
     public Currency Currency { get; private set; }
-    public AccountHolderInfo HolderInfo { get; private set; }
-
     public IEnumerable<Transaction> Transactions => new ReadOnlyCollection<Transaction>(_transactions);
 
     public string GetFormattedCurrentBalance()
