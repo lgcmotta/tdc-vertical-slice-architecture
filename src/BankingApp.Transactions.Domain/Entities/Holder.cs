@@ -2,12 +2,12 @@
 
 namespace BankingApp.Transactions.Domain.Entities;
 
-public sealed class Owner : IModifiable
+public sealed class Holder : IModifiable
 {
-    private Owner()
+    private Holder()
     { }
 
-    public Owner(string name, string document, string token) : this()
+    public Holder(string name, string document, string token) : this()
     {
         Name = name;
         Document = document;

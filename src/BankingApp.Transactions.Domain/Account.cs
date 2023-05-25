@@ -21,12 +21,12 @@ public sealed class Account : AggregateRoot<Guid>, IModifiable
         if (string.IsNullOrWhiteSpace(document)) throw new ArgumentNullException(nameof(document));
         if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
 
-        Owner = new Owner(name, document, token);
+        Holder = new Holder(name, document, token);
         Currency = currency ?? throw new ArgumentNullException(nameof(currency));
         Balance = Money.Zero;
     }
 
-    public Owner Owner { get; private set; }
+    public Holder Holder { get; private set; }
     public Money Balance { get; private set; }
     public Currency Currency { get; private set; }
     public IEnumerable<Transaction> Transactions => new ReadOnlyCollection<Transaction>(_transactions);
