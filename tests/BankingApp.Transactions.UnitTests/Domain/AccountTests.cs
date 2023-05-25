@@ -3,25 +3,12 @@
 public class AccountTests
 {
     [Theory]
-    [InlineData(null, "99999999999", "john.doe@gmail.com", "+555199999999", "99999999999")]
-    [InlineData("", "99999999999", "john.doe@gmail.com", "+555199999999", "99999999999")]
-    [InlineData("John Doe", null, "john.doe@gmail.com", "+555199999999", "99999999999")]
-    [InlineData("John Doe", "", "john.doe@gmail.com", "+555199999999", "99999999999")]
-    [InlineData("John Doe", "99999999999", null, "+555199999999", "99999999999")]
-    [InlineData("John Doe", "99999999999", "", "+555199999999", "99999999999")]
-    [InlineData("John Doe", "99999999999", "john.doe@gmail.com", null, "99999999999")]
-    [InlineData("John Doe", "99999999999", "john.doe@gmail.com", "", "99999999999")]
-    [InlineData("John Doe", "99999999999", "john.doe@gmail.com", "+555199999999", null)]
-    [InlineData("John Doe", "99999999999", "john.doe@gmail.com", "+555199999999", "")]
-    public void Account_WhenConstructorParametersAreNullOrEmpty_ShouldThrowArgumentNullException(
-        string name,
-        string document,
-        string email,
-        string phoneNumber,
-        string token)
+    [InlineData(null)]
+    [InlineData("")]
+    public void Account_WhenTokenIsNullOrEmpty_ShouldThrowArgumentNullException(string token)
     {
         // Arrange
-        Account CreateAccount() => new(name, document, email, phoneNumber, token, Currency.Dollar);
+        Account CreateAccount() => new(token, Currency.Dollar);
 
         // Act & Assert
         Assert.Throws<ArgumentNullException>(CreateAccount);
@@ -31,13 +18,7 @@ public class AccountTests
     public void Account_GetFormattedCurrentBalance_ShouldReturnBalanceCurrencyWithSymbol()
     {
         // Arrange
-        var account = new Account("John Doe",
-            "99999999999",
-            "john.doe@gmail.com",
-            "+555199999999",
-            "99999999999",
-            Currency.Dollar
-        );
+        var account = new Account("99999999999", Currency.Dollar);
 
         // Act
         var balance = account.GetFormattedCurrentBalance();
@@ -50,13 +31,7 @@ public class AccountTests
     public void Account_GetCurrentBalance_ShouldReturnBalanceAsDecimal()
     {
         // Arrange
-        var account = new Account("John Doe",
-            "99999999999",
-            "john.doe@gmail.com",
-            "+555199999999",
-            "99999999999",
-            Currency.Dollar
-        );
+        var account = new Account("99999999999", Currency.Dollar);
 
         // Act
         var balance = account.GetCurrentBalance();
@@ -71,13 +46,7 @@ public class AccountTests
     public void Account_DepositWhenAmountIsLessThanOrEqualToZero_ShouldThrowInvalidTransactionValueException(decimal amount)
     {
         // Arrange
-        var account = new Account("John Doe",
-            "99999999999",
-            "john.doe@gmail.com",
-            "+555199999999",
-            "99999999999",
-            Currency.Dollar
-        );
+        var account = new Account("99999999999", Currency.Dollar);
 
         // Act & Assert
         Assert.Throws<InvalidTransactionValueException>(() => account.Deposit(amount, Currency.Euro, DateTime.Now));
@@ -89,13 +58,7 @@ public class AccountTests
     public void Account_WithdrawWhenAmountIsLessThanOrEqualToZero_ShouldThrowInvalidTransactionValueException(decimal amount)
     {
         // Arrange
-        var account = new Account("John Doe",
-            "99999999999",
-            "john.doe@gmail.com",
-            "+555199999999",
-            "99999999999",
-            Currency.Dollar
-        );
+        var account = new Account("99999999999", Currency.Dollar);
 
         // Act & Assert
         Assert.Throws<InvalidTransactionValueException>(() => account.Withdraw(amount, DateTime.Now));
@@ -107,13 +70,7 @@ public class AccountTests
     public void Account_TransferWhenAmountIsLessThanOrEqualToZero_ShouldThrowInvalidTransactionValueException(decimal amount)
     {
         // Arrange
-        var account = new Account("John Doe",
-            "99999999999",
-            "john.doe@gmail.com",
-            "+555199999999",
-            "99999999999",
-            Currency.Dollar
-        );
+        var account = new Account("99999999999", Currency.Dollar);
 
         // Act & Assert
         Assert.Throws<InvalidTransactionValueException>(() => account.Transfer(amount, DateTime.Now));
@@ -125,13 +82,7 @@ public class AccountTests
     public void Account_ApplyEarningsWhenValueIsLessThanOrEqualToZero_ShouldThrowInvalidTransactionValueException(decimal earnings)
     {
         // Arrange
-        var account = new Account("John Doe",
-            "99999999999",
-            "john.doe@gmail.com",
-            "+555199999999",
-            "99999999999",
-            Currency.Dollar
-        );
+        var account = new Account("99999999999", Currency.Dollar);
 
         // Act & Assert
         Assert.Throws<InvalidTransactionValueException>(() => account.ApplyEarnings(earnings, DateTime.Now));
@@ -142,13 +93,7 @@ public class AccountTests
     {
         // Arrange
         var depositAmount = new Money(1000.00m);
-        var account = new Account("John Doe",
-            "99999999999",
-            "john.doe@gmail.com",
-            "+555199999999",
-            "99999999999",
-            Currency.Dollar
-        );
+        var account = new Account("99999999999", Currency.Dollar);
 
         // Act
         account.Deposit(depositAmount, Currency.Euro, DateTime.Now);
@@ -164,13 +109,7 @@ public class AccountTests
         // Arrange
         var depositAmount = new Money(1000.00m);
         var withdrawAmount = new Money(500.00m);
-        var account = new Account("John Doe",
-            "99999999999",
-            "john.doe@gmail.com",
-            "+555199999999",
-            "99999999999",
-            Currency.Dollar
-        );
+        var account = new Account("99999999999", Currency.Dollar);
 
         // Act
         account.Deposit(depositAmount, Currency.BrazilianReal, DateTime.Now);
@@ -189,13 +128,7 @@ public class AccountTests
         // Arrange
         var depositAmount = new Money(1000.00m);
         var transferAmount = new Money(500.00m);
-        var account = new Account("John Doe",
-            "99999999999",
-            "john.doe@gmail.com",
-            "+555199999999",
-            "99999999999",
-            Currency.Dollar
-        );
+        var account = new Account("99999999999", Currency.Dollar);
 
         // Act
         account.Deposit(depositAmount, Currency.UruguayanPeso, DateTime.Now);
@@ -214,13 +147,7 @@ public class AccountTests
         // Arrange
         var depositAmount = new Money(1000.00m);
         var earnings = new Money(1.01m);
-        var account = new Account("John Doe",
-            "99999999999",
-            "john.doe@gmail.com",
-            "+555199999999",
-            "99999999999",
-            Currency.Dollar
-        );
+        var account = new Account("99999999999", Currency.Dollar);
 
         // Act
         account.Deposit(depositAmount, Currency.BritishPound, DateTime.Now);
@@ -239,13 +166,7 @@ public class AccountTests
         // Arrange
         var start = new DateTime(2023, 5, 20);
         var end = new DateTime(2023, 5, 25);
-        var account = new Account("John Doe",
-            "99999999999",
-            "john.doe@gmail.com",
-            "+555199999999",
-            "99999999999",
-            Currency.Dollar
-        );
+        var account = new Account("99999999999", Currency.Dollar);
         account.Deposit(1000.00m, Currency.Dollar, new DateTime(2023, 5, 20, 11, 0, 0));
         account.Deposit(500.00m, Currency.Dollar, new DateTime(2023, 5, 23, 14, 12, 0));
         account.Deposit(2000.00m, Currency.Dollar, new DateTime(2023, 5, 25, 14, 54, 0));
@@ -262,13 +183,7 @@ public class AccountTests
     public void Account_ChangeCurrency_ShouldChangeTheDefaultAccountCurrency()
     {
         // Arrange
-        var account = new Account("John Doe",
-            "99999999999",
-            "john.doe@gmail.com",
-            "+555199999999",
-            "99999999999",
-            Currency.Dollar
-        );
+        var account = new Account("99999999999", Currency.Dollar);
         var oldCurrency = account.Currency;
 
         // Act
