@@ -29,7 +29,7 @@ public sealed class Money : IFormattable
     {
         const int precision = 2;
 
-        var roundValue = Math.Round(value * rate, precision);
+        var roundValue = Math.Round(value / rate, precision);
 
         return _value switch
         {
