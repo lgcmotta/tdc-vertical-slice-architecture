@@ -141,9 +141,9 @@ public sealed class Account : AggregateRoot<Guid>, IModifiable
 
     private void ReceiveTransfer(Money amount, Account sender, DateTime transactionDateTime)
     {
-        Credit(amount, sender.Currency);
+        var usd = Credit(amount, sender.Currency);
 
-        _transactions.Add(new Transaction(amount, Balance, TransactionType.TransferIn, sender.Id,  Id, transactionDateTime));
+        _transactions.Add(new Transaction(usd, Balance, TransactionType.TransferIn, sender.Id,  Id, transactionDateTime));
     }
 
     private Money Debit(Money amount, Currency currency)
