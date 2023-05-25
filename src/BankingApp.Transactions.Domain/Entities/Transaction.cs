@@ -11,18 +11,27 @@ public sealed class Transaction : IEntity<Guid>
     private Transaction()
     { }
 
-    public Transaction(Money value, Money balanceSnapShot, TransactionType type, DateTime occurence) : this()
+    public Transaction(
+        Money value,
+        Money balanceSnapShot,
+        TransactionType type,
+        Guid sender,
+        Guid receiver,
+        DateTime occurence) : this()
     {
         _value = value;
         _balanceSnapShot = balanceSnapShot;
         Type = type;
+        Sender = sender;
+        Receiver = receiver;
         Occurence = occurence;
     }
 
     public Guid Id { get; private set; }
+    public Guid Sender { get; private set; }
+    public Guid Receiver { get; private set; }
     public TransactionType Type { get; private set; }
     public DateTime Occurence { get; private set; }
-
     internal Money Value => IsCreditTransaction()
         ? _value
         : _value.Negative();
