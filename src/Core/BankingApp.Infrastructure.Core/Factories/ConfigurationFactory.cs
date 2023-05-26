@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using BankingApp.Infrastructure.Core.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace BankingApp.Infrastructure.Core.Factories;
 
@@ -10,9 +11,8 @@ public static class ConfigurationFactory
 
         configurationBuilder.AddJsonFile("appsettings.json");
 
-        var aspNetCoreEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-        var dotnetCoreEnvironment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
+        var aspNetCoreEnvironment = HostingEnvironmentVariables.GetAspNetCoreEnvironment();
+        var dotnetCoreEnvironment = HostingEnvironmentVariables.GetDotNetEnvironment();
 
         if (!string.IsNullOrWhiteSpace(aspNetCoreEnvironment))
         {
