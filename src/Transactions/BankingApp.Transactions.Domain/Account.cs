@@ -7,10 +7,11 @@ using System.Collections.ObjectModel;
 
 namespace BankingApp.Transactions.Domain;
 
-public sealed class Account : AggregateRoot<Guid>, IModifiable
+public sealed class Account : AggregateRoot<Guid>, ICreatable, IModifiable
 {
-    private List<Transaction> _transactions = new();
-    private DateTime _modifiedAt;
+    private List<Transaction> _transactions;
+    private DateTime? _modifiedAt;
+    private DateTime _createdAt;
 
     private Account()
     { }
@@ -21,6 +22,8 @@ public sealed class Account : AggregateRoot<Guid>, IModifiable
         if (string.IsNullOrWhiteSpace(document)) throw new ArgumentNullException(nameof(document));
         if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
 
+        _modifiedAt = null;
+        _transactions = new List<Transaction>();
         Holder = new Holder(name, document, token);
         Currency = currency ?? throw new ArgumentNullException(nameof(currency));
         Balance = Money.Zero;
@@ -29,6 +32,8 @@ public sealed class Account : AggregateRoot<Guid>, IModifiable
     public Holder Holder { get; private set; }
     public Money Balance { get; private set; }
     public Currency Currency { get; private set; }
+    public DateTime CreatedAt => _createdAt;
+    public DateTime? ModifiedAt => _modifiedAt;
     public IEnumerable<Transaction> Transactions => new ReadOnlyCollection<Transaction>(_transactions);
 
     public string GetFormattedCurrentBalance()
@@ -123,6 +128,11 @@ public sealed class Account : AggregateRoot<Guid>, IModifiable
     public void SetModificationDateTime(DateTime modifiedAt)
     {
         _modifiedAt = modifiedAt;
+    }
+
+    public void SetCreationDateTime(DateTime createdAt)
+    {
+        _createdAt = createdAt;
     }
 
     private void AddBalanceChangedDomainEvent(DateTime transactionDateTime)
