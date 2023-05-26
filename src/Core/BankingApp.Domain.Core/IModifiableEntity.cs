@@ -1,6 +1,6 @@
 ﻿namespace BankingApp.Domain.Core;
 
-public interface IModifiable
+public interface IModifiableEntity
 {
     void SetModificationDateTime(DateTime modifiedAt);
 }

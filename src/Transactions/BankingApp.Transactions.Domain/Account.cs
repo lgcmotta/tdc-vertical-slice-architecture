@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace BankingApp.Transactions.Domain;
 
-public sealed class Account : AggregateRoot<Guid>, ICreatable, IModifiable
+public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiableEntity
 {
     private List<Transaction> _transactions;
     private DateTime? _modifiedAt;

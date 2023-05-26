@@ -1,6 +1,6 @@
 ﻿namespace BankingApp.Domain.Core;
 
-public interface ICreatable
+public interface ICreatableEntity
 {
     void SetCreationDateTime(DateTime createdAt);
 }

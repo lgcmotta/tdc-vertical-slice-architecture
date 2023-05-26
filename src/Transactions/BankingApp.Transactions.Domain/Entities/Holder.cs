@@ -2,7 +2,7 @@
 
 namespace BankingApp.Transactions.Domain.Entities;
 
-public sealed class Holder : IEntity<Guid>, ICreatable, IModifiable
+public sealed class Holder : IEntity<Guid>, ICreatableEntity, IModifiableEntity
 {
     private Holder()
     { }
