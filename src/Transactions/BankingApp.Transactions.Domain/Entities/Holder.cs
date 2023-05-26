@@ -31,4 +31,25 @@ public sealed class Holder : ICreatableEntity, IModifiableEntity
     {
         ModifiedAt = modifiedAt;
     }
+
+    public void ChangeName(string name)
+    {
+        if (Name == name) return;
+
+        Name = name;
+    }
+
+    public void ChangeDocument(string document)
+    {
+        if (Document == document) return;
+
+        Document = document;
+    }
+
+    public void UpdateToken(string token)
+    {
+        if (Token == token) return;
+
+        Token = token;
+    }
 }

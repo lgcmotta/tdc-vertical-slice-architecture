@@ -125,6 +125,27 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
         }
     }
 
+    public void ChangeHolderName(string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return;
+
+        Holder.ChangeName(name);
+    }
+
+    public void ChangeHolderDocument(string? document)
+    {
+        if (string.IsNullOrWhiteSpace(document)) return;
+
+        Holder.ChangeDocument(document);
+    }
+
+    public void UpdateHolderToken(string? token)
+    {
+        if (string.IsNullOrWhiteSpace(token)) return;
+
+        Holder.UpdateToken(token);
+    }
+
     public void SetModificationDateTime(DateTime modifiedAt)
     {
         _modifiedAt = modifiedAt;
