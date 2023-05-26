@@ -35,8 +35,22 @@ public abstract class ValueObject<TKey, TValue> : IComparable
     public static TValueObject ParseByValue<TValueObject>(TValue value)
         where TValueObject : ValueObject<TKey, TValue> => Convert<TValueObject, TValue>(value, nameof(value), item => item.Value.Equals(value));
 
+    public static bool TryParseByValue<TValueObject>(TValue value, out TValueObject? valueObject)
+        where TValueObject : ValueObject<TKey, TValue>
+    {
+        valueObject = TryConvert<TValueObject>(item => item.Value.Equals(value));
+        return valueObject is not null;
+    }
+
     public static TValueObject ParseByKey<TValueObject>(TKey id)
         where TValueObject : ValueObject<TKey, TValue> => Convert<TValueObject, TKey>(id, nameof(id), item => item.Key.Equals(id));
+
+    public static bool TryParseByKey<TValueObject>(TKey key, out TValueObject? valueObject)
+        where TValueObject : ValueObject<TKey, TValue>
+    {
+        valueObject = TryConvert<TValueObject>(item => item.Key.Equals(key));
+        return valueObject is not null;
+    }
 
     public override bool Equals(object? obj)
     {
@@ -67,11 +81,19 @@ public abstract class ValueObject<TKey, TValue> : IComparable
     private static TValueObject Convert<TValueObject, T>(T value, string name, Func<TValueObject, bool> function)
         where TValueObject : ValueObject<TKey, TValue>
     {
-        var item = Enumerate<TValueObject>().FirstOrDefault(function);
+        var item = TryConvert(function);
 
         if (item is null)
             throw new ArgumentOutOfRangeException(nameof(value), $"{value} is not a valid {name} for type {typeof(TValueObject)}");
 
         return item;
     }
+
+    private static TValueObject? TryConvert<TValueObject>(Func<TValueObject, bool> function)
+        where TValueObject : ValueObject<TKey, TValue>
+    {
+        return Enumerate<TValueObject>().FirstOrDefault(function);
+    }
+
+
 }
