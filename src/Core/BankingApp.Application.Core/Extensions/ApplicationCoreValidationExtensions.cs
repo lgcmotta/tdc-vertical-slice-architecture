@@ -5,7 +5,7 @@ namespace BankingApp.Application.Core.Extensions;
 
 public static class ApplicationCoreValidationExtensions
 {
-    public static IRuleBuilder<T, TProperty> OneOf<T, TProperty>(this IRuleBuilder<T, TProperty> ruleBuilder, IEnumerable<TProperty> values)
+    public static IRuleBuilder<T, TProperty> MustBeOneOf<T, TProperty>(this IRuleBuilder<T, TProperty> ruleBuilder, IEnumerable<TProperty> values)
     {
         if (values is null || !values.Any())
         {
