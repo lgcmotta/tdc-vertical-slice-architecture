@@ -7,12 +7,12 @@ services:
     ports:
       - '3306:3306'
     environment:
-      - MYSQL_DATABASE=BankingApp
       - MYSQL_USER=user
       - MYSQL_PASSWORD=123456
       - MYSQL_ROOT_PASSWORD=123456
     volumes:
       - mysql-data:/var/lib/mysql
+
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3.10.7-management
