@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Transactions\BankingApp.Transactions.Domain\BankingApp.Transactions.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
     </ItemGroup>
 
