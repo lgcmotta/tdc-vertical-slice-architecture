@@ -13,11 +13,10 @@ public static class InfrastructureServiceCollectionExtensions
     public static IServiceCollection AddMySqlDbContext<TDbContext>(
         this IServiceCollection services,
         IConfiguration configuration,
+        string? connectionString,
         ServiceLifetime? serviceLifetime,
         params Assembly[] interceptorsAssemblies) where TDbContext : DbContext
     {
-        var connectionString = configuration.GetConnectionString(nameof(TDbContext));
-
         if (string.IsNullOrWhiteSpace(connectionString))
         {
             throw new InvalidOperationException($"Connection string for {nameof(TDbContext)} was not found.");
