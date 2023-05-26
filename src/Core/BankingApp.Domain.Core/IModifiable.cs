@@ -2,5 +2,5 @@
 
 public interface IModifiable
 {
-    void LastModifiedAt(DateTime modifiedAt);
+    void SetModificationDateTime(DateTime modifiedAt);
 }

@@ -120,7 +120,7 @@ public sealed class Account : AggregateRoot<Guid>, IModifiable
         }
     }
 
-    public void LastModifiedAt(DateTime modifiedAt)
+    public void SetModificationDateTime(DateTime modifiedAt)
     {
         _modifiedAt = modifiedAt;
     }

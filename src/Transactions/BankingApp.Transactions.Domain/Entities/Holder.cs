@@ -22,7 +22,7 @@ public sealed class Holder : IModifiable
 
     public DateTime ModifiedAt { get; private set; }
 
-    public void LastModifiedAt(DateTime modifiedAt)
+    public void SetModificationDateTime(DateTime modifiedAt)
     {
         ModifiedAt = modifiedAt;
     }
