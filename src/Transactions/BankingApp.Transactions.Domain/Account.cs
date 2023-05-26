@@ -16,7 +16,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
     private Account()
     { }
 
-    public Account(string name, string document, string token, Currency currency) : this()
+    public Account(Guid holderId, string name, string document, string token, Currency currency) : this()
     {
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
         if (string.IsNullOrWhiteSpace(document)) throw new ArgumentNullException(nameof(document));
@@ -24,7 +24,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         _modifiedAt = null;
         _transactions = new List<Transaction>();
-        Holder = new Holder(name, document, token);
+        Holder = new Holder(holderId, name, document, token);
         Currency = currency ?? throw new ArgumentNullException(nameof(currency));
         Balance = Money.Zero;
     }
