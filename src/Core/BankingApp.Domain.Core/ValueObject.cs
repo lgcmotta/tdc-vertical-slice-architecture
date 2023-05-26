@@ -1,10 +1,9 @@
-﻿using System.Numerics;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace BankingApp.Domain.Core;
 
 public abstract class ValueObject<TKey, TValue> : IComparable
-    where TKey : INumber<TKey>
+    where TKey : IComparable
     where TValue : IComparable
 {
     protected ValueObject(TKey key, TValue value)
