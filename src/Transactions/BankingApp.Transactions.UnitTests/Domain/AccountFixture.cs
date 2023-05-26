@@ -67,7 +67,7 @@ public class AccountFixture
 
     public class InvalidAccountConstructorParams : IEnumerable<object[]>
     {
-        private readonly IEnumerable<object[]> _values = new object[][]
+        private readonly IEnumerable<object[]> _values = new[]
         {
             new object[] { null!, "99999999999", "0000000000000" },
             new object[] { "", "99999999999", "0000000000000" },
@@ -84,7 +84,7 @@ public class AccountFixture
 
     public class InvalidTransactionAmounts : IEnumerable<object[]>
     {
-        private readonly IEnumerable<object[]> _values = new []
+        private readonly IEnumerable<object[]> _values = new[]
         {
             new [] { Money.Zero },
             new [] { new Money(-1000.00m) }
