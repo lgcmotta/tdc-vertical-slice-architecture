@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-// ReSharper disable ClassNeverInstantiated.Global
 namespace BankingApp.Transactions.API.Features.Deposits;
 
 public static class CreateDepositEndpoint
