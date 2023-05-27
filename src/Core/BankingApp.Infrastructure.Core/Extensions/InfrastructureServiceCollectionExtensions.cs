@@ -1,8 +1,10 @@
-﻿using EFCoreSecondLevelCacheInterceptor;
+﻿using BankingApp.Infrastructure.Core.Persistence;
+using EFCoreSecondLevelCacheInterceptor;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 
 // ReSharper disable PossibleMultipleEnumeration
@@ -51,8 +53,17 @@ public static class InfrastructureServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddUnitOfWork<TDbContext>(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        where TDbContext : DbContext
+    {
+        services.TryAdd(new ServiceDescriptor(typeof(IUnitOfWork), typeof(UnitOfWork<TDbContext>), serviceLifetime));
+
+        return services;
+    }
+
     public static IServiceCollection AddRabbitMqMessaging(this IServiceCollection services,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        params Assembly[] consumerAssemblies)
     {
         var host = configuration.GetValue<string>("RabbitMQ:Host");
         var virtualHost = configuration.GetValue<string>("RabbitMQ:VirtualHost") ?? "/";
@@ -66,6 +77,11 @@ public static class InfrastructureServiceCollectionExtensions
 
         services.AddMassTransit(configurator =>
         {
+            if (consumerAssemblies.Any())
+            {
+                configurator.AddConsumers(consumerAssemblies);
+            }
+
             configurator.SetKebabCaseEndpointNameFormatter();
             configurator.UsingRabbitMq((context, rabbitmq) =>
             {
@@ -76,6 +92,7 @@ public static class InfrastructureServiceCollectionExtensions
                 });
                 rabbitmq.ConfigureEndpoints(context);
             });
+
         });
 
         return services;
