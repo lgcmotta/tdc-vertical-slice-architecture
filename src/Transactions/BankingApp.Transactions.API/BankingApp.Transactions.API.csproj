@@ -33,7 +33,6 @@
     <ItemGroup>
       <Folder Include="Features\PeriodStatement\" />
       <Folder Include="Features\Statements\" />
-      <Folder Include="Features\Transfers\" />
       <Folder Include="Migrations\" />
     </ItemGroup>
 
