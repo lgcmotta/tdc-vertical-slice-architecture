@@ -4,10 +4,7 @@ using BankingApp.Transactions.Domain.ValueObjects;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-// ReSharper disable once ClassNeverInstantiated.Global
 namespace BankingApp.Transactions.API.Features.AccountUpdated;
-
-public record UpdateAccountCommand(Guid HolderId, string? Name, string? Document, string? Token, string? Currency) : IRequest;
 
 public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommand>
 {

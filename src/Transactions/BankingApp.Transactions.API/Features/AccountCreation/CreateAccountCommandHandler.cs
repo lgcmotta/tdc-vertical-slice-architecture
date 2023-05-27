@@ -5,10 +5,7 @@ using BankingApp.Transactions.Domain.ValueObjects;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-// ReSharper disable once ClassNeverInstantiated.Global
 namespace BankingApp.Transactions.API.Features.AccountCreation;
-
-public record CreateAccountCommand(Guid HolderId, string Name, string Document, string Token, string Currency) : IRequest;
 
 public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand>
 {
