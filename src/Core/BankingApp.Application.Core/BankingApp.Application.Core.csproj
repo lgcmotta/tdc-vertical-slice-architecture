@@ -11,4 +11,8 @@
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\BankingApp.Infrastructure.Core\BankingApp.Infrastructure.Core.csproj" />
+    </ItemGroup>
+
 </Project>
