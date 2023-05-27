@@ -11,7 +11,7 @@ public class AccountTests : IClassFixture<AccountFixture>
 
     [Theory]
     [ClassData(typeof(AccountFixture.InvalidAccountConstructorParams))]
-    public void Account_WhenTokenIsNullOrEmpty_ShouldThrowArgumentNullException(Guid holderId, string name, string document, string token)
+    public void Account_WhenConstructorStringArgumentsAreNullEmptyOrWhiteSpace_ShouldThrowArgumentNullException(Guid holderId, string name, string document, string token)
     {
         // Arrange
         Account CreateAccount() => new(holderId, name, document, token, Currency.Dollar);
