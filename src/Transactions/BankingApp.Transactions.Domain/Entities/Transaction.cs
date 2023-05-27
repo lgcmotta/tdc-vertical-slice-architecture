@@ -19,8 +19,10 @@ public sealed class Transaction : IEntity<Guid>
         Guid receiver,
         DateTime occurence) : this()
     {
+
         _value = value;
         _balanceSnapShot = balanceSnapShot;
+        Id = Guid.NewGuid();
         Type = type;
         Sender = sender;
         Receiver = receiver;
@@ -35,6 +37,8 @@ public sealed class Transaction : IEntity<Guid>
     internal Money Value => IsCreditTransaction()
         ? _value
         : _value.Negative();
+
+    internal Money ValueModulus => _value;
 
     private bool IsCreditTransaction() => Type == TransactionType.Deposit || Type == TransactionType.Earnings;
 
