@@ -15,23 +15,22 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Core\BankingApp.Application.Core\BankingApp.Application.Core.csproj" />
-      <ProjectReference Include="..\..\Core\BankingApp.Infrastructure.Core\BankingApp.Infrastructure.Core.csproj" />
       <ProjectReference Include="..\..\Core\BankingApp.Messaging.Contracts\BankingApp.Messaging.Contracts.csproj" />
       <ProjectReference Include="..\BankingApp.Transactions.Domain\BankingApp.Transactions.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.5" />
-      <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\PeriodStatement\" />
       <Folder Include="Features\Statements\" />
       <Folder Include="Migrations\" />
     </ItemGroup>
