@@ -71,11 +71,14 @@ public class AccountFixture
         private readonly IEnumerable<object[]> _values = new[]
         {
             new object[] { Guid.NewGuid(), null!, "99999999999", "0000000000000" },
-            new object[] { Guid.NewGuid(),"", "99999999999", "0000000000000" },
+            new object[] { Guid.NewGuid(), "", "99999999999", "0000000000000" },
+            new object[] { Guid.NewGuid(), " ", "99999999999", "0000000000000" },
             new object[] { Guid.NewGuid(),"Jane Doe", null!, "0000000000000" },
             new object[] { Guid.NewGuid(),"Jane Doe", "", "0000000000000" },
+            new object[] { Guid.NewGuid(),"Jane Doe", " ", "0000000000000" },
             new object[] { Guid.NewGuid(),"Jane Doe", "99999999999", null! },
             new object[] { Guid.NewGuid(),"Jane Doe", "99999999999", "" },
+            new object[] { Guid.NewGuid(),"Jane Doe", "99999999999", " " },
         };
 
         public IEnumerator<object[]> GetEnumerator() => _values.GetEnumerator();
