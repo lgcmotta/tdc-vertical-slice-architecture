@@ -11,3 +11,6 @@ public record AccountUpdatedIntegrationEvent(Guid HolderId, string? Name, string
 
 [MessageUrn("account-balance-changed")]
 public record AccountBalanceChangedIntegrationEvent(Guid HolderId, decimal Balance, DateTime TransactionTimeStamp);
+
+[MessageUrn("apply-earnings")]
+public record AccountEarningsIntegrationEvent(Guid HolderId, decimal Earnings);
