@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BankingApp.Transactions.API.Infrastructure.Mappings;
+namespace BankingApp.Infrastructure.Core.Mappings;
 
 public class AggregateRootEntityTypeConfiguration<TId> : IEntityTypeConfiguration<AggregateRoot<TId>>
 {
