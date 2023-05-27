@@ -31,7 +31,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Earnings\" />
       <Folder Include="Features\PeriodStatement\" />
       <Folder Include="Features\Statements\" />
       <Folder Include="Features\Transfers\" />
