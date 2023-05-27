@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankingApp.Transactions.API.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
-    [Migration("20230526193602_InitialStructure")]
+    [Migration("20230527015606_InitialStructure")]
     partial class InitialStructure
     {
         /// <inheritdoc />
@@ -83,7 +83,6 @@ namespace BankingApp.Transactions.API.Migrations
             modelBuilder.Entity("BankingApp.Transactions.Domain.Entities.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<Guid?>("AccountId")

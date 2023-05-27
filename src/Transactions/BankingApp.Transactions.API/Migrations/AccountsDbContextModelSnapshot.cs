@@ -80,7 +80,6 @@ namespace BankingApp.Transactions.API.Migrations
             modelBuilder.Entity("BankingApp.Transactions.Domain.Entities.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<Guid?>("AccountId")
