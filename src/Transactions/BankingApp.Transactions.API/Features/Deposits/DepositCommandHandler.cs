@@ -6,16 +6,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankingApp.Transactions.API.Features.Deposits;
 
-public class CreateDepositCommandHandler : IRequestHandler<CreateDepositCommand, DepositTransactionResponse>
+public class DepositCommandHandler : IRequestHandler<DepositCommand, DepositTransactionResponse>
 {
     private readonly AccountsDbContext _context;
 
-    public CreateDepositCommandHandler(AccountsDbContext context)
+    public DepositCommandHandler(AccountsDbContext context)
     {
         _context = context;
     }
 
-    public async Task<DepositTransactionResponse> Handle(CreateDepositCommand request, CancellationToken cancellationToken)
+    public async Task<DepositTransactionResponse> Handle(DepositCommand request, CancellationToken cancellationToken)
     {
         var account = await _context.Accounts
             .FirstOrDefaultAsync(account => account.Holder.Token == request.Token, cancellationToken)

@@ -4,9 +4,9 @@ using FluentValidation;
 
 namespace BankingApp.Transactions.API.Features.Deposits;
 
-public class CreateDepositCommandValidator : AbstractValidator<CreateDepositCommand>
+public class DepositCommandValidator : AbstractValidator<DepositCommand>
 {
-    public CreateDepositCommandValidator()
+    public DepositCommandValidator()
     {
         RuleFor(command => command.Token)
             .NotNull()

@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankingApp.Transactions.API.Features.Deposits;
 
-public static class CreateDepositEndpoint
+public static class DepositEndpoint
 {
     public static async Task<IResult> PostAsync(
         [FromServices] IMediator mediator,
-        [FromBody] CreateDepositRequest request,
+        [FromBody] DepositRequest request,
         CancellationToken cancellationToken = default)
     {
-        var command = new CreateDepositCommand(request.Token, request.Currency, request.Amount);
+        var command = new DepositCommand(request.Token, request.Currency, request.Amount);
 
         var response = await mediator.Send(command, cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);

@@ -2,9 +2,9 @@
 
 namespace BankingApp.Transactions.API.Features.Withdraws;
 
-public class CreateWithdrawCommandValidator : AbstractValidator<CreateWithdrawCommand>
+public class WithdrawCommandValidator : AbstractValidator<WithdrawCommand>
 {
-    public CreateWithdrawCommandValidator()
+    public WithdrawCommandValidator()
     {
         RuleFor(command => command.Token)
             .NotNull()

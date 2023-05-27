@@ -5,16 +5,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankingApp.Transactions.API.Features.Withdraws;
 
-public class CreateWithdrawCommandHandler : IRequestHandler<CreateWithdrawCommand, WithdrawTransactionResponse>
+public class WithdrawCommandHandler : IRequestHandler<WithdrawCommand, WithdrawTransactionResponse>
 {
     private readonly AccountsDbContext _context;
 
-    public CreateWithdrawCommandHandler(AccountsDbContext context)
+    public WithdrawCommandHandler(AccountsDbContext context)
     {
         _context = context;
     }
 
-    public async Task<WithdrawTransactionResponse> Handle(CreateWithdrawCommand request, CancellationToken cancellationToken)
+    public async Task<WithdrawTransactionResponse> Handle(WithdrawCommand request, CancellationToken cancellationToken)
     {
         var account = await _context.Accounts
             .FirstOrDefaultAsync(account => account.Holder.Token == request.Token, cancellationToken)
