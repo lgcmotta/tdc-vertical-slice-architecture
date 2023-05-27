@@ -24,7 +24,8 @@ public class UpdateAccountConsumer : IConsumer<AccountUpdatedIntegrationEvent>
             message.Token,
             message.Currency
         );
-        
-        await _mediator.Send(command, context.CancellationToken);
+
+        await _mediator.Send(command, context.CancellationToken)
+            .ConfigureAwait(continueOnCapturedContext: false);
     }
 }

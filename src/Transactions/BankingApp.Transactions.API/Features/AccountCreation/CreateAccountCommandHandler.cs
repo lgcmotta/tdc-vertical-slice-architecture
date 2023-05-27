@@ -33,6 +33,7 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand>
 
         var account = new Account(request.HolderId, request.Name, request.Document, request.Token, currency);
 
-        await _context.Accounts.AddAsync(account, cancellationToken);
+        await _context.Accounts.AddAsync(account, cancellationToken)
+            .ConfigureAwait(continueOnCapturedContext: false);
     }
 }

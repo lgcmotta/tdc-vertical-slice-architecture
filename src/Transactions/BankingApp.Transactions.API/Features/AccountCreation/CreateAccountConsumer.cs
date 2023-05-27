@@ -25,6 +25,7 @@ public class CreateAccountConsumer : IConsumer<AccountCreatedIntegrationEvent>
             message.Currency
         );
 
-        await _mediator.Send(command, context.CancellationToken);
+        await _mediator.Send(command, context.CancellationToken)
+            .ConfigureAwait(continueOnCapturedContext: false);
     }
 }
