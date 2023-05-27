@@ -9,6 +9,10 @@ public class TransactionEntityTypeConfiguration : IEntityTypeConfiguration<Trans
 {
     public void Configure(EntityTypeBuilder<Transaction> builder)
     {
+        builder.Property(transaction => transaction.Id)
+            .ValueGeneratedNever()
+            .IsRequired();
+
         builder.Property(transaction => transaction.Sender)
             .IsRequired();
 

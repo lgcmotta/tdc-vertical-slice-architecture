@@ -10,8 +10,5 @@ public class EntitiesTypeConfiguration<TEntity, TId> : IEntityTypeConfiguration<
     public void Configure(EntityTypeBuilder<TEntity> builder)
     {
         builder.HasKey(entity => entity.Id);
-
-        builder.Property(entity => entity.Id)
-            .ValueGeneratedOnAdd();
     }
 }

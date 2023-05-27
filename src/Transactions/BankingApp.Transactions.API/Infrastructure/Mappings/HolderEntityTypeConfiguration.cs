@@ -8,8 +8,6 @@ public class HolderEntityTypeConfiguration : IEntityTypeConfiguration<Holder>
 {
     public void Configure(EntityTypeBuilder<Holder> builder)
     {
-        builder.HasKey(holder => holder.Id);
-
         builder.Property(holder => holder.Id)
             .ValueGeneratedNever()
             .IsRequired();

@@ -10,6 +10,10 @@ public class AccountEntityTypeConfiguration : IEntityTypeConfiguration<Account>
 {
     public void Configure(EntityTypeBuilder<Account> builder)
     {
+        builder.Property(account => account.Id)
+            .ValueGeneratedOnAdd()
+            .IsRequired();
+
         builder.Property(account => account.Currency)
             .HasConversion(
                 currency => currency.Key,
