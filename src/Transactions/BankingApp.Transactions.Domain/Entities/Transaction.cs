@@ -34,7 +34,8 @@ public sealed class Transaction : IEntity<Guid>
     public Guid Receiver { get; private set; }
     public TransactionType Type { get; private set; }
     public DateTime Occurence { get; private set; }
-    internal Money Value => IsCreditTransaction()
+
+    public Money Value => IsCreditTransaction()
         ? _value
         : _value.Negative();
 

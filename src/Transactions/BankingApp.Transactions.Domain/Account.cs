@@ -9,7 +9,7 @@ namespace BankingApp.Transactions.Domain;
 
 public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiableEntity
 {
-    private List<Transaction> _transactions;
+    private List<Transaction> _transactions = new();
     private DateTime? _modifiedAt;
     private DateTime _createdAt;
 
@@ -65,7 +65,9 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         var currentBalance = Balance;
 
-        var usd = Credit(amount, currency);
+        var usd = ConvertToUSD(amount, currency);
+
+        Credit(usd);
 
         var transaction = new Transaction(usd, currentBalance, TransactionType.Deposit, Id, Id, transactionDateTime);
 
@@ -85,9 +87,9 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         var currentBalance = Balance;
 
-        var usd = Debit(amount, Currency);
+        Debit(amount);
 
-        var transaction = new Transaction(usd, currentBalance, TransactionType.Withdraw, Id, Id, transactionDateTime);
+        var transaction = new Transaction(amount, currentBalance, TransactionType.Withdraw, Id, Id, transactionDateTime);
 
         _transactions.Add(transaction);
 
@@ -96,14 +98,16 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
         return transaction;
     }
 
-    public Transaction Transfer(Money amount, Account receiver, DateTime transactionDateTime)
+    public Transaction Transfer(Money amount, Currency currency, Account receiver, DateTime transactionDateTime)
     {
         if (amount <= Money.Zero)
         {
             throw new InvalidTransactionValueException("Transfer amount must be greater than zero.");
         }
 
-        var sendTransaction = SendTransfer(amount, receiver, transactionDateTime);
+        var usd = ConvertToUSD(amount, currency);
+
+        var sendTransaction = SendTransfer(usd, receiver, transactionDateTime);
 
         receiver.ReceiveTransfer(sendTransaction.ValueModulus , this, transactionDateTime);
 
@@ -166,6 +170,16 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
         _createdAt = createdAt;
     }
 
+    public Money ConvertToUSD(Money money, Currency currency)
+    {
+        return money / currency.DollarExchangeRate;
+    }
+
+    public Money ConvertFromUSD(Money money)
+    {
+        return money * Currency.DollarExchangeRate;
+    }
+
     private void AddBalanceChangedDomainEvent(DateTime transactionDateTime)
     {
         AddDomainEvent(new AccountBalanceChangedDomainEvent(Balance, transactionDateTime));
@@ -173,9 +187,9 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
     private Transaction SendTransfer(Money amount, Account receiver, DateTime transactionDateTime)
     {
-        var usd = Debit(amount, Currency);
+        Debit(amount);
 
-        var transaction = new Transaction(usd, Balance, TransactionType.TransferOut, Id,  receiver.Id, transactionDateTime);
+        var transaction = new Transaction(amount, Balance, TransactionType.TransferOut, Id,  receiver.Id, transactionDateTime);
 
         _transactions.Add(transaction);
 
@@ -184,34 +198,26 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
     private void ReceiveTransfer(Money amount, Account sender, DateTime transactionDateTime)
     {
-        var usd = Credit(amount, sender.Currency);
+        Credit(amount);
 
-        var transaction = new Transaction(usd, Balance, TransactionType.TransferIn, sender.Id,  Id, transactionDateTime);
+        var transaction = new Transaction(amount, Balance, TransactionType.TransferIn, sender.Id,  Id, transactionDateTime);
 
         _transactions.Add(transaction);
     }
 
-    private Money Debit(Money amount, Currency currency)
+    private void Debit(Money amount)
     {
-        var usd = amount * currency.DollarRate;
-
-        Balance = new Money(Balance - usd);
-
-        return usd;
+        Balance = new Money(Balance - amount);
     }
 
-    private Money Credit(Money amount, Currency currency)
+    private void Credit(Money amount)
     {
-        var usd = amount / currency.DollarRate;
-
-        Balance = new Money(Balance + usd);
-
-        return usd;
+        Balance = new Money(Balance + amount);
     }
 
     private Money Earn(Money amount)
     {
-        var usd = amount * Currency.Dollar.DollarRate;
+        var usd = ConvertToUSD(amount, Currency);
 
         Balance = new Money(Balance + usd);
 
