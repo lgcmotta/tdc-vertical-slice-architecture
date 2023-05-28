@@ -31,7 +31,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Statements\" />
       <Folder Include="Migrations\" />
     </ItemGroup>
 
