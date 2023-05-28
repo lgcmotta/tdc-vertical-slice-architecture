@@ -105,7 +105,6 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
     public Transaction Transfer(Money amount, Currency currency, Account receiver, DateTime transactionDateTime)
     {
-        // TODO: fix transfer In & Out
         if (amount <= Money.Zero)
         {
             throw new InvalidTransactionValueException("Transfer amount must be greater than zero.");
