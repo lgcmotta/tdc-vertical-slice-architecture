@@ -39,7 +39,7 @@ if (app.Environment.IsDevelopment())
 app.MapPost("/api/transactions/{token}/deposit", DepositEndpoint.PostAsync).WithOpenApi();
 app.MapPost("/api/transactions/{token}/withdraw", WithdrawEndpoint.PostAsync).WithOpenApi();
 app.MapPost("/api/transactions/{token}/transfer", TransferEndpoint.PostAsync).WithOpenApi();
-app.MapGet("/api/transactions/accounts/{token}/statements/period", PeriodStatementEndpoint.GetAsync).WithOpenApi();
+app.MapGet("/api/transactions/{token}/statements", PeriodStatementEndpoint.GetAsync).WithOpenApi();
 
 await app.Services.ApplyMigrationsAsync<AccountsDbContext>();
 
