@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		.dockerignore = .dockerignore
 		.gitignore = .gitignore
+		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EE4D2B3F-9808-4BD8-AFF6-2906C4E1EFA3}"
@@ -27,13 +28,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.UnitTests", "tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{43436468-887C-4040-8F70-C734F09B3A5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Domain.Core", "src\BankingApp.Domain.Core\BankingApp.Domain.Core.csproj", "{093AB3CF-A1F3-47C6-AD87-E1C3D3DAE2A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Domain.Core", "src\Core\BankingApp.Domain.Core\BankingApp.Domain.Core.csproj", "{093AB3CF-A1F3-47C6-AD87-E1C3D3DAE2A8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transactions", "Transactions", "{5FA22814-A2B3-462D-BF18-39E2AA84D100}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Transactions.Domain", "src\BankingApp.Transactions.Domain\BankingApp.Transactions.Domain.csproj", "{E399EB9A-3F08-4D80-8482-3FBD499AA0AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Transactions.Domain", "src\Transactions\BankingApp.Transactions.Domain\BankingApp.Transactions.Domain.csproj", "{E399EB9A-3F08-4D80-8482-3FBD499AA0AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Transactions.UnitTests", "tests\BankingApp.Transactions.UnitTests\BankingApp.Transactions.UnitTests.csproj", "{311CEE69-3AAD-496D-BC88-C33D5AB156B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Transactions.UnitTests", "src\Transactions\BankingApp.Transactions.UnitTests\BankingApp.Transactions.UnitTests.csproj", "{311CEE69-3AAD-496D-BC88-C33D5AB156B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Transactions.API", "src\Transactions\BankingApp.Transactions.API\BankingApp.Transactions.API.csproj", "{A20B46A5-985F-46A0-BD01-CADDB28A14A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Application.Core", "src\Core\BankingApp.Application.Core\BankingApp.Application.Core.csproj", "{1B3A7311-D2E6-48CE-8636-2C53E9ED4B1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Infrastructure.Core", "src\Core\BankingApp.Infrastructure.Core\BankingApp.Infrastructure.Core.csproj", "{9E3D800E-BBA2-45F3-9E14-336B26B97F8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Messaging.Contracts", "src\Core\BankingApp.Messaging.Contracts\BankingApp.Messaging.Contracts.csproj", "{67298C33-C9A3-4427-8124-8C66CCE59481}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +63,10 @@ Global
 		{5FA22814-A2B3-462D-BF18-39E2AA84D100} = {68EDF19A-B410-4AEC-AFE8-6974CE3F8100}
 		{E399EB9A-3F08-4D80-8482-3FBD499AA0AA} = {5FA22814-A2B3-462D-BF18-39E2AA84D100}
 		{311CEE69-3AAD-496D-BC88-C33D5AB156B8} = {5FA22814-A2B3-462D-BF18-39E2AA84D100}
+		{A20B46A5-985F-46A0-BD01-CADDB28A14A4} = {5FA22814-A2B3-462D-BF18-39E2AA84D100}
+		{1B3A7311-D2E6-48CE-8636-2C53E9ED4B1A} = {43436468-887C-4040-8F70-C734F09B3A5B}
+		{9E3D800E-BBA2-45F3-9E14-336B26B97F8A} = {43436468-887C-4040-8F70-C734F09B3A5B}
+		{67298C33-C9A3-4427-8124-8C66CCE59481} = {43436468-887C-4040-8F70-C734F09B3A5B}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5730F974-36A8-47E3-930F-B88FD817AE77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -88,5 +101,21 @@ Global
 		{311CEE69-3AAD-496D-BC88-C33D5AB156B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{311CEE69-3AAD-496D-BC88-C33D5AB156B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{311CEE69-3AAD-496D-BC88-C33D5AB156B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A20B46A5-985F-46A0-BD01-CADDB28A14A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A20B46A5-985F-46A0-BD01-CADDB28A14A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A20B46A5-985F-46A0-BD01-CADDB28A14A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A20B46A5-985F-46A0-BD01-CADDB28A14A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B3A7311-D2E6-48CE-8636-2C53E9ED4B1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B3A7311-D2E6-48CE-8636-2C53E9ED4B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B3A7311-D2E6-48CE-8636-2C53E9ED4B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B3A7311-D2E6-48CE-8636-2C53E9ED4B1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E3D800E-BBA2-45F3-9E14-336B26B97F8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E3D800E-BBA2-45F3-9E14-336B26B97F8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E3D800E-BBA2-45F3-9E14-336B26B97F8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E3D800E-BBA2-45F3-9E14-336B26B97F8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67298C33-C9A3-4427-8124-8C66CCE59481}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67298C33-C9A3-4427-8124-8C66CCE59481}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67298C33-C9A3-4427-8124-8C66CCE59481}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67298C33-C9A3-4427-8124-8C66CCE59481}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

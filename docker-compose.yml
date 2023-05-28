@@ -7,24 +7,37 @@ services:
     ports:
       - '3306:3306'
     environment:
-      - MYSQL_DATABASE=BankingApp
       - MYSQL_USER=user
       - MYSQL_PASSWORD=123456
       - MYSQL_ROOT_PASSWORD=123456
     volumes:
       - mysql-data:/var/lib/mysql
 
-  redis:
-    container_name: redis
-    image: redis
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.10.7-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
     ports:
-      - '6379:6379'
-    command: redis-server --requirepass RedisPassword
+      - "5672:5672"
+      - "15672:15672"
     volumes:
-      - redis-data:/data
+      - rabbitmq-data:/var/lib/rabbitmq/
+    restart: always
+#  redis:
+#    container_name: redis
+#    image: redis
+#    ports:
+#      - '6379:6379'
+#    command: redis-server --requirepass RedisPassword
+#    volumes:
+#      - redis-data:/data
 
 volumes:
   mysql-data:
     external: false
-  redis-data:
+  rabbitmq-data:
     external: false
+#  redis-data:
+#    external: false
