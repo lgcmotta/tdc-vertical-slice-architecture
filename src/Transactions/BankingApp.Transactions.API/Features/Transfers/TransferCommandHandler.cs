@@ -1,5 +1,6 @@
 ﻿using BankingApp.Transactions.API.Infrastructure;
 using BankingApp.Transactions.Domain.Exceptions;
+using BankingApp.Transactions.Domain.ValueObjects;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,7 +35,9 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, TransferT
             throw new AccountNotFoundException($"Receiver account not found for token {request.SenderToken}");
         }
 
-        var transaction = sender.Transfer(request.Amount, receiver, DateTime.UtcNow);
+        var currency = Currency.ParseByValue<Currency>(request.Currency);
+
+        var transaction = sender.Transfer(request.Amount, currency, receiver, DateTime.UtcNow);
 
         return new TransferTransactionResponse(transaction.Id, transaction.Type.Value);
     }

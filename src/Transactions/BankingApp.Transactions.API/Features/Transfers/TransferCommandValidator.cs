@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using BankingApp.Application.Core.Extensions;
+using BankingApp.Transactions.Domain.ValueObjects;
+using FluentValidation;
 
 namespace BankingApp.Transactions.API.Features.Transfers;
 
@@ -16,5 +18,10 @@ public class TransferCommandValidator : AbstractValidator<TransferCommand>
         RuleFor(command => command.ReceiverToken)
             .NotNull()
             .NotEmpty();
+
+        RuleFor(command => command.Currency)
+            .NotNull()
+            .NotEmpty()
+            .MustBeOneOf(Currency.Enumerate<Currency>().Select(currency => currency.Value));
     }
 }
