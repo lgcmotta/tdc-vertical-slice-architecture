@@ -57,9 +57,9 @@ public class PeriodStatementQueryHandler : IRequestHandler<PeriodStatementQuery,
                 FormattedPreviousBalance = previousBalance.Format(account.DisplayCurrency),
                 Type = transaction.Type.Value,
                 SenderToken = sender!.SenderToken,
-                SenderName = sender!.SenderName,
+                SenderName = sender.SenderName,
                 ReceiverToken = receiver!.ReceiverToken,
-                ReceiverName = receiver!.ReceiverName,
+                ReceiverName = receiver.ReceiverName,
                 Occurrence = transaction.Occurence
             };
         });

@@ -12,12 +12,11 @@ public static class PeriodStatementEndpoint
         [FromQuery] DateOnly? end = null,
         CancellationToken cancellationToken = default)
     {
-
         var query = new PeriodStatementQuery(token, start, end);
 
         var response = await mediator.Send(query, cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 
-        return response.Any() ? Results.Ok(response) : Results.NotFound();
+        return Results.Ok(response);
     }
 }

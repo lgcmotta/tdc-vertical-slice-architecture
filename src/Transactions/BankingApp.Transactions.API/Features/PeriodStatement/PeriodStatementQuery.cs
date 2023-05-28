@@ -1,5 +1,6 @@
-﻿using MediatR;
+﻿using BankingApp.Domain.Core;
+using MediatR;
 
 namespace BankingApp.Transactions.API.Features.PeriodStatement;
 
-public record PeriodStatementQuery(string Token, DateOnly? Start, DateOnly? End) : IRequest<IEnumerable<PeriodStatementModel>>;
+public record PeriodStatementQuery(string Token, DateOnly? Start, DateOnly? End) : IRequest<IEnumerable<PeriodStatementModel>>, IQuery;
