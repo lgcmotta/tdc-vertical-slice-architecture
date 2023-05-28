@@ -15,10 +15,10 @@ public class TransactionEntityTypeConfiguration : IEntityTypeConfiguration<Trans
             .ValueGeneratedNever()
             .IsRequired();
 
-        builder.Property(transaction => transaction.Sender)
+        builder.Property(transaction => transaction.SenderId)
             .IsRequired();
 
-        builder.Property(transaction => transaction.Receiver)
+        builder.Property(transaction => transaction.ReceiverId)
             .IsRequired();
 
         builder.Property(transaction => transaction.Type)

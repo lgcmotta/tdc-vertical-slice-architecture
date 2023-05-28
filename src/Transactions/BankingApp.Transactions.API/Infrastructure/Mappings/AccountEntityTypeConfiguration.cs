@@ -11,7 +11,13 @@ public class AccountEntityTypeConfiguration : IEntityTypeConfiguration<Account>
     public void Configure(EntityTypeBuilder<Account> builder)
     {
         builder.Property(account => account.Id)
-            .ValueGeneratedOnAdd()
+            .ValueGeneratedNever()
+            .IsRequired();
+
+        builder.Property(holder => holder.Name)
+            .IsRequired();
+
+        builder.Property(holder => holder.Token)
             .IsRequired();
 
         builder.Property(account => account.DisplayCurrency)
@@ -44,10 +50,5 @@ public class AccountEntityTypeConfiguration : IEntityTypeConfiguration<Account>
 
         builder.Metadata.FindNavigation("Transactions")
             ?.SetPropertyAccessMode(PropertyAccessMode.Field);
-
-        builder.HasOne(account => account.Holder)
-            .WithOne()
-            .HasForeignKey(typeof(Holder), "AccountId")
-            .OnDelete(DeleteBehavior.NoAction);
     }
 }
