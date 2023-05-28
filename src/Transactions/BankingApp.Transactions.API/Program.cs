@@ -36,12 +36,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.MapPost("/transactions/deposit", DepositEndpoint.PostAsync).WithOpenApi();
-app.MapPost("/transactions/withdraw", WithdrawEndpoint.PostAsync).WithOpenApi();
-app.MapPost("/transactions/transfer", TransferEndpoint.PostAsync).WithOpenApi();
-app.MapGet("/accounts/{token}/statements/period", PeriodStatementEndpoint.GetAsync).WithOpenApi();
+app.MapPost("/api/transactions/{token}/deposit", DepositEndpoint.PostAsync).WithOpenApi();
+app.MapPost("/api/transactions/{token}/withdraw", WithdrawEndpoint.PostAsync).WithOpenApi();
+app.MapPost("/api/transactions/{token}/transfer", TransferEndpoint.PostAsync).WithOpenApi();
+app.MapGet("/api/transactions/accounts/{token}/statements/period", PeriodStatementEndpoint.GetAsync).WithOpenApi();
 
 await app.Services.ApplyMigrationsAsync<AccountsDbContext>();
 
