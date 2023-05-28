@@ -69,22 +69,22 @@ public class PeriodStatementQueryHandler : IRequestHandler<PeriodStatementQuery,
 
     private static (DateTime Start, DateTime End) GetStatementPeriod(DateOnly? requestStart, DateOnly? requestEnd)
     {
-        var start = requestStart?.ToDateTime(new TimeOnly(0, 0, 0, 0, 0)) ?? GetStartOfMonth();
+        var start = requestStart?.ToDateTime(new TimeOnly(0, 0, 0, 0, 0)) ?? GetStartOfDay();
 
         var end = requestEnd?.ToDateTime(new TimeOnly(23, 59, 59, 999, 999)) ?? (requestStart is null
-            ? GetEndOfMonth(start)
-            : GetEndOfMonth(GetStartOfMonth()));
+            ? GetEndOfDay(start)
+            : GetEndOfDay(GetStartOfDay()));
 
         return (start, end);
     }
 
-    private static DateTime GetStartOfMonth()
+    private static DateTime GetStartOfDay()
     {
         var utcNow = DateTime.UtcNow;
-        return new DateTime(utcNow.Year, utcNow.Month, 1, 0, 0, 0, 0);
+        return new DateTime(utcNow.Year, utcNow.Month, utcNow.Day, 0, 0, 0, 0);
     }
 
-    private static DateTime GetEndOfMonth(DateTime startOfMonth)
+    private static DateTime GetEndOfDay(DateTime startOfMonth)
     {
         return startOfMonth.AddMonths(1).AddDays(-1);
     }
