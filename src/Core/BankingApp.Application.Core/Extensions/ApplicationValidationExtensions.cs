@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace BankingApp.Application.Core.Extensions;
 
-public static class ApplicationCoreValidationExtensions
+public static class ApplicationValidationExtensions
 {
     public static IRuleBuilder<T, TProperty> MustBeOneOf<T, TProperty>(this IRuleBuilder<T, TProperty> ruleBuilder, IEnumerable<TProperty> values)
     {
