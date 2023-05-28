@@ -39,7 +39,12 @@ public sealed class Money : IFormattable
         };
     }
 
-    public string Format(Currency currency) => $"{currency.Symbol}{TruncateValue(_value, currency.DollarExchangeRate):F}";
+    public string Format(Currency currency)
+    {
+        return _value < decimal.Zero
+            ? $"-{currency.Symbol}{TruncateValue(_value * -1, currency.DollarExchangeRate)}"
+            : $"{currency.Symbol}{TruncateValue(_value, currency.DollarExchangeRate):F}";
+    }
 
     public static implicit operator decimal(Money money) => money._value;
     public static implicit operator Money(decimal value) => new(value);
