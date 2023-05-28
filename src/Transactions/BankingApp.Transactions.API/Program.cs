@@ -4,9 +4,11 @@ using BankingApp.Application.Core.Middlewares;
 using BankingApp.Infrastructure.Core.Extensions;
 using BankingApp.Infrastructure.Core.Handlers;
 using BankingApp.Transactions.API.Features.Deposits;
+using BankingApp.Transactions.API.Features.MonthlyStatement;
 using BankingApp.Transactions.API.Features.PeriodStatement;
 using BankingApp.Transactions.API.Features.Transfers;
 using BankingApp.Transactions.API.Features.Withdraws;
+using BankingApp.Transactions.API.Features.YearlyStatement;
 using BankingApp.Transactions.API.Infrastructure;
 using BankingApp.Transactions.API.Infrastructure.Handlers;
 using MediatR.NotificationPublishers;
@@ -50,7 +52,9 @@ app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.MapPost("/api/transactions/{token}/deposit", DepositEndpoint.PostAsync).WithOpenApi();
 app.MapPost("/api/transactions/{token}/withdraw", WithdrawEndpoint.PostAsync).WithOpenApi();
 app.MapPost("/api/transactions/{token}/transfer", TransferEndpoint.PostAsync).WithOpenApi();
-app.MapGet("/api/transactions/{token}/statements", PeriodStatementEndpoint.GetAsync).WithOpenApi();
+app.MapGet("/api/statements/{token}", PeriodStatementEndpoint.GetAsync).WithOpenApi();
+app.MapGet("/api/statements/{token}/years/{year:int}", YearlyStatementEndpoint.GetAsync).WithOpenApi();
+app.MapGet("/api/statements/{token}/years/{year:int}/months/{month:int}", MonthlyStatementEndpoint.GetAsync).WithOpenApi();
 
 await app.Services.ApplyMigrationsAsync<AccountsDbContext>();
 
