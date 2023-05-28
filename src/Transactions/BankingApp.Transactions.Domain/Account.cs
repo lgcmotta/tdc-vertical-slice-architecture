@@ -87,9 +87,11 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         var currentBalance = Balance;
 
-        Debit(amount);
+        var usd = ConvertToUSD(amount, Currency);
 
-        var transaction = new Transaction(amount, currentBalance, TransactionType.Withdraw, Id, Id, transactionDateTime);
+        Debit(usd);
+
+        var transaction = new Transaction(usd, currentBalance, TransactionType.Withdraw, Id, Id, transactionDateTime);
 
         _transactions.Add(transaction);
 
