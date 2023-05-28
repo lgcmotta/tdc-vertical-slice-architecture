@@ -175,9 +175,11 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
     private Transaction SendTransfer(Money amount, Account receiver, DateTime transactionDateTime)
     {
+        var balanceSnapShot = BalanceInUSD;
+
         Debit(amount);
 
-        var transaction = new Transaction(amount, BalanceInUSD, TransactionType.TransferOut, Id,  receiver.Id, transactionDateTime);
+        var transaction = new Transaction(amount, balanceSnapShot, TransactionType.TransferOut, Id,  receiver.Id, transactionDateTime);
 
         _transactions.Add(transaction);
 
@@ -186,9 +188,11 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
     private void ReceiveTransfer(Money amount, Account sender, DateTime transactionDateTime)
     {
+        var balanceSnapShot = BalanceInUSD;
+
         Credit(amount);
 
-        var transaction = new Transaction(amount, BalanceInUSD, TransactionType.TransferIn, sender.Id,  Id, transactionDateTime);
+        var transaction = new Transaction(amount, balanceSnapShot, TransactionType.TransferIn, sender.Id,  Id, transactionDateTime);
 
         _transactions.Add(transaction);
     }
