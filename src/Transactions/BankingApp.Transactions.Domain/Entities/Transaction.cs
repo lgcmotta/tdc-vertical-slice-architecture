@@ -15,8 +15,8 @@ public sealed class Transaction : IEntity<Guid>
         Money usdValue,
         Money balanceInUSDSnapShot,
         TransactionType type,
-        Guid sender,
-        Guid receiver,
+        Guid senderId,
+        Guid receiverId,
         DateTime occurence) : this()
     {
 
@@ -24,14 +24,14 @@ public sealed class Transaction : IEntity<Guid>
         _balanceInUSDSnapShot = balanceInUSDSnapShot;
         Id = Guid.NewGuid();
         Type = type;
-        Sender = sender;
-        Receiver = receiver;
+        SenderId = senderId;
+        ReceiverId = receiverId;
         Occurence = occurence;
     }
 
     public Guid Id { get; private set; }
-    public Guid Sender { get; private set; }
-    public Guid Receiver { get; private set; }
+    public Guid SenderId { get; private set; }
+    public Guid ReceiverId { get; private set; }
     public TransactionType Type { get; private set; }
     public DateTime Occurence { get; private set; }
 
@@ -46,5 +46,6 @@ public sealed class Transaction : IEntity<Guid>
     private bool IsCreditTransaction() => Type == TransactionType.Deposit ||
                                           Type == TransactionType.Earnings ||
                                           Type == TransactionType.TransferIn;
-    internal Money GetBalanceBeforeTransaction() => _balanceInUSDSnapShot;
+
+    public Money GetBalanceBeforeTransaction() => _balanceInUSDSnapShot;
 }

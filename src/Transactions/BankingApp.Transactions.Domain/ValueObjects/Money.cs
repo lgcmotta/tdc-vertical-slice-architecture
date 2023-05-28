@@ -22,14 +22,29 @@ public sealed class Money : IFormattable
 
     public Money Negative()
     {
-        return _value * -1.0m;
+        return TruncateValue(_value * -1.0m);
+    }
+
+    public static Money ConvertToUSD(Money money, Currency currency)
+    {
+        return money / currency.DollarExchangeRate;
+    }
+
+    public static Money ConvertFromUSD(Money money, Currency currency)
+    {
+        return money * currency.DollarExchangeRate;
     }
 
     private Money TruncateValue(decimal value, decimal rate)
     {
+        return TruncateValue(value / rate);
+    }
+
+    private Money TruncateValue(decimal value)
+    {
         const int precision = 2;
 
-        var roundValue = Math.Round(value / rate, precision);
+        var roundValue = Math.Round(value, precision);
 
         return _value switch
         {
@@ -42,7 +57,7 @@ public sealed class Money : IFormattable
     public string Format(Currency currency)
     {
         return _value < decimal.Zero
-            ? $"-{currency.Symbol}{TruncateValue(_value * -1, currency.DollarExchangeRate)}"
+            ? $"-{currency.Symbol}{TruncateValue(_value * -1, currency.DollarExchangeRate):F}"
             : $"{currency.Symbol}{TruncateValue(_value, currency.DollarExchangeRate):F}";
     }
 

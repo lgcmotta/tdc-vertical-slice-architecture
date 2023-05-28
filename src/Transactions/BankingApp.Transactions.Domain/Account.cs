@@ -24,12 +24,15 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         _modifiedAt = null;
         _transactions = new List<Transaction>();
-        Holder = new Holder(holderId, name, document, token);
+        Id = holderId;
+        Name = name;
+        Token = token;
         DisplayCurrency = currency ?? throw new ArgumentNullException(nameof(currency));
         BalanceInUSD = Money.Zero;
     }
 
-    public Holder Holder { get; private set; }
+    public string Name { get; private set; }
+    public string Token { get; private set; }
     public Money BalanceInUSD { get; private set; }
     public Currency DisplayCurrency { get; private set; }
     public DateTime CreatedAt => _createdAt;
@@ -65,7 +68,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         var currentBalance = BalanceInUSD;
 
-        var usd = ConvertToUSD(amount, currency);
+        var usd = Money.ConvertToUSD(amount, currency);
 
         Credit(usd);
 
@@ -87,7 +90,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         var currentBalance = BalanceInUSD;
 
-        var usd = ConvertToUSD(amount, DisplayCurrency);
+        var usd = Money.ConvertToUSD(amount, DisplayCurrency);
 
         Debit(usd);
 
@@ -102,12 +105,13 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
     public Transaction Transfer(Money amount, Currency currency, Account receiver, DateTime transactionDateTime)
     {
+        // TODO: fix transfer In & Out
         if (amount <= Money.Zero)
         {
             throw new InvalidTransactionValueException("Transfer amount must be greater than zero.");
         }
 
-        var usd = ConvertToUSD(amount, currency);
+        var usd = Money.ConvertToUSD(amount, currency);
 
         var sendTransaction = SendTransfer(usd, receiver, transactionDateTime);
 
@@ -143,23 +147,16 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
     public void ChangeHolderName(string? name)
     {
-        if (string.IsNullOrWhiteSpace(name)) return;
+        if (string.IsNullOrWhiteSpace(name) || Name == name) return;
 
-        Holder.ChangeName(name);
-    }
-
-    public void ChangeHolderDocument(string? document)
-    {
-        if (string.IsNullOrWhiteSpace(document)) return;
-
-        Holder.ChangeDocument(document);
+        Name = name;
     }
 
     public void UpdateHolderToken(string? token)
     {
-        if (string.IsNullOrWhiteSpace(token)) return;
+        if (string.IsNullOrWhiteSpace(token) || Token == token) return;
 
-        Holder.UpdateToken(token);
+        Token = token;
     }
 
     public void SetModificationDateTime(DateTime modifiedAt)
@@ -170,16 +167,6 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
     public void SetCreationDateTime(DateTime createdAt)
     {
         _createdAt = createdAt;
-    }
-
-    public Money ConvertToUSD(Money money, Currency currency)
-    {
-        return money / currency.DollarExchangeRate;
-    }
-
-    public Money ConvertFromUSD(Money money)
-    {
-        return money * DisplayCurrency.DollarExchangeRate;
     }
 
     private void AddBalanceChangedDomainEvent(DateTime transactionDateTime)
@@ -219,7 +206,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
     private Money Earn(Money amount)
     {
-        var usd = ConvertToUSD(amount, DisplayCurrency);
+        var usd = Money.ConvertToUSD(amount, DisplayCurrency);
 
         BalanceInUSD = new Money(BalanceInUSD + usd);
 
