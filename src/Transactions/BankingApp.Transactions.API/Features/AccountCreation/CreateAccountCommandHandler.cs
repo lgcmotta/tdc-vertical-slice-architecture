@@ -18,7 +18,7 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand>
 
     public async Task Handle(CreateAccountCommand request, CancellationToken cancellationToken)
     {
-        var exists = await _context.Accounts.AnyAsync(account => account.Holder.Id == request.HolderId, cancellationToken)
+        var exists = await _context.Accounts.AnyAsync(account => account.Id == request.HolderId, cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 
         if (exists)

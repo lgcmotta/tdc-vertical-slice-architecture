@@ -18,7 +18,7 @@ public class DepositCommandHandler : IRequestHandler<DepositCommand, DepositTran
     public async Task<DepositTransactionResponse> Handle(DepositCommand request, CancellationToken cancellationToken)
     {
         var account = await _context.Accounts
-            .FirstOrDefaultAsync(account => account.Holder.Token == request.Token, cancellationToken)
+            .FirstOrDefaultAsync(account => account.Token == request.Token, cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 
         if (account is null)

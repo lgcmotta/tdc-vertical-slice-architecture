@@ -20,7 +20,6 @@ public class UpdateAccountConsumer : IConsumer<AccountUpdatedIntegrationEvent>
         var command = new UpdateAccountCommand(
             message.HolderId,
             message.Name,
-            message.Document,
             message.Token,
             message.Currency
         );

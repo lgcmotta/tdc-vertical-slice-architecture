@@ -17,7 +17,7 @@ public class ApplyEarningsCommandHandler : IRequestHandler<ApplyEarningsCommand>
     public async Task Handle(ApplyEarningsCommand request, CancellationToken cancellationToken)
     {
         var account = await _context.Accounts
-            .FirstOrDefaultAsync(account => account.Holder.Id == request.HolderId, cancellationToken)
+            .FirstOrDefaultAsync(account => account.Id == request.HolderId, cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 
         if (account is null)

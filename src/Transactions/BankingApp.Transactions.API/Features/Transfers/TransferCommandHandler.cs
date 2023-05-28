@@ -18,11 +18,11 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, TransferT
     public async Task<TransferTransactionResponse> Handle(TransferCommand request, CancellationToken cancellationToken)
     {
         var sender = await _context.Accounts
-            .FirstOrDefaultAsync(account => account.Holder.Token == request.SenderToken, cancellationToken)
+            .FirstOrDefaultAsync(account => account.Token == request.SenderToken, cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 
         var receiver = await _context.Accounts
-            .FirstOrDefaultAsync(account => account.Holder.Token == request.ReceiverToken, cancellationToken)
+            .FirstOrDefaultAsync(account => account.Token == request.ReceiverToken, cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 
         if (sender is null)

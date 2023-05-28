@@ -17,7 +17,7 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommand>
 
     public async Task Handle(UpdateAccountCommand request, CancellationToken cancellationToken)
     {
-        var account = await _context.Accounts.FirstOrDefaultAsync(account => account.Holder.Id == request.HolderId, cancellationToken)
+        var account = await _context.Accounts.FirstOrDefaultAsync(account => account.Id == request.HolderId, cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 
         if (account is null)
@@ -26,7 +26,6 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommand>
         }
 
         account.ChangeHolderName(request.Name);
-        account.ChangeHolderDocument(request.Document);
         account.UpdateHolderToken(request.Token);
 
         if (!string.IsNullOrWhiteSpace(request.Currency) && Currency.TryParseByValue<Currency>(request.Currency, out var currency))

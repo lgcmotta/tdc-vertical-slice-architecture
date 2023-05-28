@@ -1,5 +1,6 @@
 ﻿using BankingApp.Transactions.API.Infrastructure;
 using BankingApp.Transactions.Domain.Exceptions;
+using BankingApp.Transactions.Domain.ValueObjects;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,7 @@ public class WithdrawCommandHandler : IRequestHandler<WithdrawCommand, WithdrawT
     public async Task<WithdrawTransactionResponse> Handle(WithdrawCommand request, CancellationToken cancellationToken)
     {
         var account = await _context.Accounts
-            .FirstOrDefaultAsync(account => account.Holder.Token == request.Token, cancellationToken)
+            .FirstOrDefaultAsync(account => account.Token == request.Token, cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 
         if (account is null)
@@ -27,7 +28,7 @@ public class WithdrawCommandHandler : IRequestHandler<WithdrawCommand, WithdrawT
 
         var transaction = account.Withdraw(request.Amount, DateTime.UtcNow);
 
-        var amount = account.ConvertFromUSD(transaction.USDValue);
+        var amount = Money.ConvertFromUSD(transaction.USDValue, account.DisplayCurrency);
 
         var formattedAmount = amount.Format(account.DisplayCurrency);
 
