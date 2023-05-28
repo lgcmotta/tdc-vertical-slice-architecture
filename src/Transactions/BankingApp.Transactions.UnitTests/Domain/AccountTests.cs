@@ -170,7 +170,7 @@ public class AccountTests : IClassFixture<AccountFixture>
         var balance = account.GetCurrentBalance();
 
         // Assert
-        var expected = account.ConvertToUSD(depositAmount, currency) + earnings;
+        var expected = depositAmount / currency.DollarExchangeRate + earnings;
         balance.Should().Be(expected.Value);
     }
 
