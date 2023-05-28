@@ -25,25 +25,25 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
         _modifiedAt = null;
         _transactions = new List<Transaction>();
         Holder = new Holder(holderId, name, document, token);
-        Currency = currency ?? throw new ArgumentNullException(nameof(currency));
-        Balance = Money.Zero;
+        DisplayCurrency = currency ?? throw new ArgumentNullException(nameof(currency));
+        BalanceInUSD = Money.Zero;
     }
 
     public Holder Holder { get; private set; }
-    public Money Balance { get; private set; }
-    public Currency Currency { get; private set; }
+    public Money BalanceInUSD { get; private set; }
+    public Currency DisplayCurrency { get; private set; }
     public DateTime CreatedAt => _createdAt;
     public DateTime? ModifiedAt => _modifiedAt;
     public IEnumerable<Transaction> Transactions => new ReadOnlyCollection<Transaction>(_transactions);
 
     public string GetFormattedCurrentBalance()
     {
-        return Balance.Format(Currency);
+        return BalanceInUSD.Format(DisplayCurrency);
     }
 
     public decimal GetCurrentBalance()
     {
-        return Balance.Value;
+        return BalanceInUSD.Value;
     }
 
     public IEnumerable<Transaction> GetBalanceStatementByPeriod(DateTime start, DateTime end)
@@ -63,7 +63,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
             throw new InvalidTransactionValueException("Deposit amount must be greater than zero.");
         }
 
-        var currentBalance = Balance;
+        var currentBalance = BalanceInUSD;
 
         var usd = ConvertToUSD(amount, currency);
 
@@ -85,9 +85,9 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
             throw new InvalidTransactionValueException("Withdraw amount must be greater than zero.");
         }
 
-        var currentBalance = Balance;
+        var currentBalance = BalanceInUSD;
 
-        var usd = ConvertToUSD(amount, Currency);
+        var usd = ConvertToUSD(amount, DisplayCurrency);
 
         Debit(usd);
 
@@ -111,7 +111,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         var sendTransaction = SendTransfer(usd, receiver, transactionDateTime);
 
-        receiver.ReceiveTransfer(sendTransaction.ValueModulus , this, transactionDateTime);
+        receiver.ReceiveTransfer(sendTransaction.PureUSDValue , this, transactionDateTime);
 
         AddBalanceChangedDomainEvent(transactionDateTime);
         receiver.AddBalanceChangedDomainEvent(transactionDateTime);
@@ -126,7 +126,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
             throw new InvalidTransactionValueException("Earnings must be greater than zero.");
         }
 
-        var currentBalance = Balance;
+        var currentBalance = BalanceInUSD;
 
         var usd = Earn(earnings);
 
@@ -135,9 +135,9 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
     public void ChangeCurrency(Currency currency)
     {
-        if (currency != Currency)
+        if (currency != DisplayCurrency)
         {
-            Currency = currency;
+            DisplayCurrency = currency;
         }
     }
 
@@ -179,19 +179,19 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
     public Money ConvertFromUSD(Money money)
     {
-        return money * Currency.DollarExchangeRate;
+        return money * DisplayCurrency.DollarExchangeRate;
     }
 
     private void AddBalanceChangedDomainEvent(DateTime transactionDateTime)
     {
-        AddDomainEvent(new AccountBalanceChangedDomainEvent(Balance, transactionDateTime));
+        AddDomainEvent(new AccountBalanceChangedDomainEvent(BalanceInUSD, transactionDateTime));
     }
 
     private Transaction SendTransfer(Money amount, Account receiver, DateTime transactionDateTime)
     {
         Debit(amount);
 
-        var transaction = new Transaction(amount, Balance, TransactionType.TransferOut, Id,  receiver.Id, transactionDateTime);
+        var transaction = new Transaction(amount, BalanceInUSD, TransactionType.TransferOut, Id,  receiver.Id, transactionDateTime);
 
         _transactions.Add(transaction);
 
@@ -202,26 +202,26 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
     {
         Credit(amount);
 
-        var transaction = new Transaction(amount, Balance, TransactionType.TransferIn, sender.Id,  Id, transactionDateTime);
+        var transaction = new Transaction(amount, BalanceInUSD, TransactionType.TransferIn, sender.Id,  Id, transactionDateTime);
 
         _transactions.Add(transaction);
     }
 
     private void Debit(Money amount)
     {
-        Balance = new Money(Balance - amount);
+        BalanceInUSD = new Money(BalanceInUSD - amount);
     }
 
     private void Credit(Money amount)
     {
-        Balance = new Money(Balance + amount);
+        BalanceInUSD = new Money(BalanceInUSD + amount);
     }
 
     private Money Earn(Money amount)
     {
-        var usd = ConvertToUSD(amount, Currency);
+        var usd = ConvertToUSD(amount, DisplayCurrency);
 
-        Balance = new Money(Balance + usd);
+        BalanceInUSD = new Money(BalanceInUSD + usd);
 
         return usd;
     }

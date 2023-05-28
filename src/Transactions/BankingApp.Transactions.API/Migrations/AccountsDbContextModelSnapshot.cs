@@ -25,14 +25,14 @@ namespace BankingApp.Transactions.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<decimal>("Balance")
+                    b.Property<decimal>("BalanceInUSD")
                         .HasPrecision(19, 4)
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("Currency")
+                    b.Property<int>("DisplayCurrency")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -74,7 +74,7 @@ namespace BankingApp.Transactions.API.Migrations
                     b.HasIndex("AccountId")
                         .IsUnique();
 
-                    b.ToTable("Holder");
+                    b.ToTable("Holders", (string)null);
                 });
 
             modelBuilder.Entity("BankingApp.Transactions.Domain.Entities.Transaction", b =>
@@ -97,21 +97,21 @@ namespace BankingApp.Transactions.API.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("_balanceSnapShot")
+                    b.Property<decimal>("_balanceInUSDSnapShot")
                         .HasPrecision(19, 4)
                         .HasColumnType("decimal(19,4)")
-                        .HasColumnName("BalanceSnapShot");
+                        .HasColumnName("BalanceInUSDSnapShot");
 
-                    b.Property<decimal>("_value")
+                    b.Property<decimal>("_usdValue")
                         .HasPrecision(19, 4)
                         .HasColumnType("decimal(19,4)")
-                        .HasColumnName("Value");
+                        .HasColumnName("ValueInUSD");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Transaction");
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("BankingApp.Transactions.Domain.Entities.Holder", b =>

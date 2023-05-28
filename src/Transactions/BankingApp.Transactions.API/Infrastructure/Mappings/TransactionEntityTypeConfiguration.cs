@@ -9,6 +9,8 @@ public class TransactionEntityTypeConfiguration : IEntityTypeConfiguration<Trans
 {
     public void Configure(EntityTypeBuilder<Transaction> builder)
     {
+        builder.ToTable("Transactions");
+
         builder.Property(transaction => transaction.Id)
             .ValueGeneratedNever()
             .IsRequired();
@@ -29,21 +31,21 @@ public class TransactionEntityTypeConfiguration : IEntityTypeConfiguration<Trans
         builder.Property(transaction => transaction.Occurence)
             .IsRequired();
 
-        builder.Property<Money>("_value")
+        builder.Property<Money>("_usdValue")
             .HasConversion(
                 value => value.Value,
                 value => new Money(value)
             )
-            .HasColumnName("Value")
+            .HasColumnName("ValueInUSD")
             .HasPrecision(19, 4)
             .IsRequired();
 
-        builder.Property<Money>("_balanceSnapShot")
+        builder.Property<Money>("_balanceInUSDSnapShot")
             .HasConversion(
                 balance => balance.Value,
                 balance => new Money(balance)
             )
-            .HasColumnName("BalanceSnapShot")
+            .HasColumnName("BalanceInUSDSnapShot")
             .HasPrecision(19, 4)
             .IsRequired();
     }

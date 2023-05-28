@@ -14,14 +14,14 @@ public class AccountEntityTypeConfiguration : IEntityTypeConfiguration<Account>
             .ValueGeneratedOnAdd()
             .IsRequired();
 
-        builder.Property(account => account.Currency)
+        builder.Property(account => account.DisplayCurrency)
             .HasConversion(
                 currency => currency.Key,
                 key => Currency.ParseByKey<Currency>(key)
             )
             .IsRequired();
 
-        builder.Property(account => account.Balance)
+        builder.Property(account => account.BalanceInUSD)
             .HasConversion(
                 balance => balance.Value,
                 balance => new Money(balance)

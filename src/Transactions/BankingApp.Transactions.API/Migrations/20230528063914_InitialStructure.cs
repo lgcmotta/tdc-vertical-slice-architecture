@@ -19,8 +19,8 @@ namespace BankingApp.Transactions.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Balance = table.Column<decimal>(type: "decimal(19,4)", precision: 19, scale: 4, nullable: false),
-                    Currency = table.Column<int>(type: "int", nullable: false),
+                    BalanceInUSD = table.Column<decimal>(type: "decimal(19,4)", precision: 19, scale: 4, nullable: false),
+                    DisplayCurrency = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
@@ -31,7 +31,7 @@ namespace BankingApp.Transactions.API.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Holder",
+                name: "Holders",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -47,9 +47,9 @@ namespace BankingApp.Transactions.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Holder", x => x.Id);
+                    table.PrimaryKey("PK_Holders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Holder_Accounts_AccountId",
+                        name: "FK_Holders_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Accounts",
                         principalColumn: "Id");
@@ -57,7 +57,7 @@ namespace BankingApp.Transactions.API.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Transaction",
+                name: "Transactions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -66,14 +66,14 @@ namespace BankingApp.Transactions.API.Migrations
                     Type = table.Column<int>(type: "int", nullable: false),
                     Occurence = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     AccountId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    BalanceSnapShot = table.Column<decimal>(type: "decimal(19,4)", precision: 19, scale: 4, nullable: false),
-                    Value = table.Column<decimal>(type: "decimal(19,4)", precision: 19, scale: 4, nullable: false)
+                    BalanceInUSDSnapShot = table.Column<decimal>(type: "decimal(19,4)", precision: 19, scale: 4, nullable: false),
+                    ValueInUSD = table.Column<decimal>(type: "decimal(19,4)", precision: 19, scale: 4, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transaction", x => x.Id);
+                    table.PrimaryKey("PK_Transactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Transaction_Accounts_AccountId",
+                        name: "FK_Transactions_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Accounts",
                         principalColumn: "Id");
@@ -81,14 +81,14 @@ namespace BankingApp.Transactions.API.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Holder_AccountId",
-                table: "Holder",
+                name: "IX_Holders_AccountId",
+                table: "Holders",
                 column: "AccountId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transaction_AccountId",
-                table: "Transaction",
+                name: "IX_Transactions_AccountId",
+                table: "Transactions",
                 column: "AccountId");
         }
 
@@ -96,10 +96,10 @@ namespace BankingApp.Transactions.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Holder");
+                name: "Holders");
 
             migrationBuilder.DropTable(
-                name: "Transaction");
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "Accounts");

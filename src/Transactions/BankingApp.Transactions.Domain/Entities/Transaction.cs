@@ -5,23 +5,23 @@ namespace BankingApp.Transactions.Domain.Entities;
 
 public sealed class Transaction : IEntity<Guid>
 {
-    private readonly Money _value;
-    private readonly Money _balanceSnapShot;
+    private readonly Money _usdValue;
+    private readonly Money _balanceInUSDSnapShot;
 
     private Transaction()
     { }
 
     public Transaction(
-        Money value,
-        Money balanceSnapShot,
+        Money usdValue,
+        Money balanceInUSDSnapShot,
         TransactionType type,
         Guid sender,
         Guid receiver,
         DateTime occurence) : this()
     {
 
-        _value = value;
-        _balanceSnapShot = balanceSnapShot;
+        _usdValue = usdValue;
+        _balanceInUSDSnapShot = balanceInUSDSnapShot;
         Id = Guid.NewGuid();
         Type = type;
         Sender = sender;
@@ -35,13 +35,16 @@ public sealed class Transaction : IEntity<Guid>
     public TransactionType Type { get; private set; }
     public DateTime Occurence { get; private set; }
 
-    public Money Value => IsCreditTransaction()
-        ? _value
-        : _value.Negative();
+    public Money USDValue => IsCreditTransaction()
+        ? _usdValue
+        : _usdValue.Negative();
 
-    internal Money ValueModulus => _value;
 
-    private bool IsCreditTransaction() => Type == TransactionType.Deposit || Type == TransactionType.Earnings;
+    // ReSharper disable once ConvertToAutoPropertyWhenPossible
+    internal Money PureUSDValue => _usdValue;
 
-    internal Money GetBalanceBeforeTransaction() => _balanceSnapShot;
+    private bool IsCreditTransaction() => Type == TransactionType.Deposit ||
+                                          Type == TransactionType.Earnings ||
+                                          Type == TransactionType.TransferIn;
+    internal Money GetBalanceBeforeTransaction() => _balanceInUSDSnapShot;
 }

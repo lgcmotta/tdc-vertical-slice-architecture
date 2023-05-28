@@ -8,6 +8,8 @@ public class HolderEntityTypeConfiguration : IEntityTypeConfiguration<Holder>
 {
     public void Configure(EntityTypeBuilder<Holder> builder)
     {
+        builder.ToTable("Holders");
+
         builder.Property(holder => holder.Id)
             .ValueGeneratedNever()
             .IsRequired();

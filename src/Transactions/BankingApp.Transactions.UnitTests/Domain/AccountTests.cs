@@ -204,13 +204,13 @@ public class AccountTests : IClassFixture<AccountFixture>
     {
         // Arrange
         var account = _fixture.GenerateStandardAccount();
-        var oldCurrency = account.Currency;
+        var oldCurrency = account.DisplayCurrency;
 
         // Act
         account.ChangeCurrency(Currency.PoundSterling);
 
         // Assert
         oldCurrency.Should().Be(Currency.Dollar);
-        account.Currency.Should().Be(Currency.PoundSterling);
+        account.DisplayCurrency.Should().Be(Currency.PoundSterling);
     }
 }
