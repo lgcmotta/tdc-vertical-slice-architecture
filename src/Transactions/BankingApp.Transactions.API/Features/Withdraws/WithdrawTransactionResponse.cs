@@ -1,3 +1,5 @@
-﻿namespace BankingApp.Transactions.API.Features.Withdraws;
+﻿using BankingApp.Transactions.Domain.ValueObjects;
 
-public record WithdrawTransactionResponse(Guid TransactionId, string Type);
+namespace BankingApp.Transactions.API.Features.Withdraws;
+
+public record WithdrawTransactionResponse(Guid TransactionId, string Type, string Currency, string FormattedAmount, decimal Amount);

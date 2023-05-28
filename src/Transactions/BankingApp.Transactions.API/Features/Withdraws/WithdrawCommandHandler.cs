@@ -27,6 +27,10 @@ public class WithdrawCommandHandler : IRequestHandler<WithdrawCommand, WithdrawT
 
         var transaction = account.Withdraw(request.Amount, DateTime.UtcNow);
 
-        return new WithdrawTransactionResponse(transaction.Id, transaction.Type.Value);
+        var amount = account.ConvertFromUSD(transaction.Value);
+
+        var formattedAmount = amount.Format(account.Currency);
+
+        return new WithdrawTransactionResponse(transaction.Id, transaction.Type.Value, account.Currency.Value, formattedAmount, amount);
     }
 }
