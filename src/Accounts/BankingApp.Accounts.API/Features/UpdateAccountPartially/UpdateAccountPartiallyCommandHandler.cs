@@ -48,6 +48,6 @@ public class UpdateAccountPartiallyCommandHandler : IRequestHandler<UpdateAccoun
             account.ChangeCurrency(currency!);
         }
 
-        account.AddAccountPatchedDomainEvent();
+        account.AddAccountPartiallyUpdatedDomainEvent();
     }
 }

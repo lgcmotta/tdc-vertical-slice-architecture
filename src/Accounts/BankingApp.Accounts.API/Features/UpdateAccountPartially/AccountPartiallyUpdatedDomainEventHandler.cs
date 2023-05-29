@@ -5,7 +5,7 @@ using MediatR;
 
 namespace BankingApp.Accounts.API.Features.UpdateAccountPartially;
 
-public class AccountPartiallyUpdatedDomainEventHandler : INotificationHandler<AccountPatchedDomainEvent>
+public class AccountPartiallyUpdatedDomainEventHandler : INotificationHandler<AccountPartiallyUpdatedDomainEvent>
 {
     private readonly IPublishEndpoint _publishEndpoint;
 
@@ -14,7 +14,7 @@ public class AccountPartiallyUpdatedDomainEventHandler : INotificationHandler<Ac
         _publishEndpoint = publishEndpoint;
     }
 
-    public async Task Handle(AccountPatchedDomainEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(AccountPartiallyUpdatedDomainEvent notification, CancellationToken cancellationToken)
     {
         var integrationEvent = new AccountUpdatedIntegrationEvent(
             notification.HolderId,
