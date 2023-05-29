@@ -44,9 +44,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Gateway", "src\G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Accounts.UnitTests", "src\Accounts\BankingApp.Accounts.UnitTests\BankingApp.Accounts.UnitTests.csproj", "{8435A667-A725-44F7-9C93-36635FDD1CF9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Taxes", "Taxes", "{E4BF7339-8762-4282-B962-3A98C2A70296}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fees", "Fees", "{E4BF7339-8762-4282-B962-3A98C2A70296}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Taxes.Domain", "src\Taxes\BankingApp.Taxes.Domain\BankingApp.Taxes.Domain.csproj", "{D707B6AC-B490-4B99-A73A-17D747719530}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Fees.Domain", "src\Fees\BankingApp.Fees.Domain\BankingApp.Fees.Domain.csproj", "{D707B6AC-B490-4B99-A73A-17D747719530}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
