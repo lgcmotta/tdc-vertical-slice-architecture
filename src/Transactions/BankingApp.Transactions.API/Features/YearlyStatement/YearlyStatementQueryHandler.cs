@@ -1,5 +1,4 @@
 ﻿using BankingApp.Transactions.API.Infrastructure;
-using BankingApp.Transactions.Domain.Entities;
 using BankingApp.Transactions.Domain.Exceptions;
 using BankingApp.Transactions.Domain.ValueObjects;
 using MediatR;

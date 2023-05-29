@@ -3,13 +3,12 @@ using BankingApp.Accounts.Domain.Events;
 using BankingApp.Accounts.Domain.Exceptions;
 using BankingApp.Accounts.Domain.ValueObjects;
 using BankingApp.Domain.Core;
-using System.Collections.ObjectModel;
 
 namespace BankingApp.Accounts.Domain;
 
 public class AccountHolder : AggregateRoot<Guid>, ICreatableEntity, IModifiableEntity
 {
-    private List<AccountToken> _tokens = new();
+    private readonly List<AccountToken> _tokens = new();
 
     private AccountHolder()
     { }
@@ -35,7 +34,7 @@ public class AccountHolder : AggregateRoot<Guid>, ICreatableEntity, IModifiableE
     public string LastName { get; private set; }
     public string Document { get; private set; }
     public Currency Currency { get; private set; }
-    public IEnumerable<AccountToken> Tokens => new ReadOnlyCollection<AccountToken>(_tokens);
+    public IEnumerable<AccountToken> Tokens => _tokens.AsReadOnly();
     public DateTime CreatedAt { get; private set; }
     public DateTime? ModifiedAt { get; private set; }
 

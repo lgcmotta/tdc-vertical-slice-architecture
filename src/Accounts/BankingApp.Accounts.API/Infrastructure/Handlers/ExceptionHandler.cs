@@ -22,11 +22,7 @@ public class ExceptionHandler : IExceptionHandler
                 return;
             default:
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                await context.Response.WriteAsJsonAsync(
-                    new
-                    {
-                        Error = "Unexpected error. Please contact the support."
-                    });
+                await context.Response.WriteAsJsonAsync(new { Error = "Unexpected error. Please contact the support." });
                 return;
         }
     }

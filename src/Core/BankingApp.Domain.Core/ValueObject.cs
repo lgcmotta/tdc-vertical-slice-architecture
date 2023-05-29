@@ -56,7 +56,7 @@ public abstract class ValueObject<TKey, TValue> : IComparable
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        return obj.GetType() == GetType() && Equals((ValueObject<TKey, TValue>) obj);
+        return obj.GetType() == GetType() && Equals((ValueObject<TKey, TValue>)obj);
     }
 
     public int CompareTo(object? obj)
@@ -94,6 +94,4 @@ public abstract class ValueObject<TKey, TValue> : IComparable
     {
         return Enumerate<TValueObject>().FirstOrDefault(function);
     }
-
-
 }

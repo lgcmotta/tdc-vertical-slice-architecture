@@ -8,7 +8,7 @@ namespace BankingApp.Infrastructure.Core.Interceptors;
 public class CreatableEntitySaveChangesInterceptor : SaveChangesInterceptor
 {
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = default)
     {
         if (eventData is null)
         {
@@ -28,6 +28,6 @@ public class CreatableEntitySaveChangesInterceptor : SaveChangesInterceptor
         }
 
         return await base.SavingChangesAsync(eventData, result, cancellationToken)
-            .ConfigureAwait(continueOnCapturedContext: false);;
+            .ConfigureAwait(continueOnCapturedContext: false);
     }
 }
