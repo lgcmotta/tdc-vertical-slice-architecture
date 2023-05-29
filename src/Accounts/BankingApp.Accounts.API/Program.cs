@@ -1,10 +1,10 @@
 using BankingApp.Accounts.API.Application;
-using BankingApp.Accounts.API.Features.AccountDetails;
 using BankingApp.Accounts.API.Features.ChangeToken;
 using BankingApp.Accounts.API.Features.CreateAccount;
-using BankingApp.Accounts.API.Features.PatchAccount;
-using BankingApp.Accounts.API.Features.TokenHistory;
+using BankingApp.Accounts.API.Features.RetrieveAccountDetails;
+using BankingApp.Accounts.API.Features.RetrieveTokenHistory;
 using BankingApp.Accounts.API.Features.UpdateAccount;
+using BankingApp.Accounts.API.Features.UpdateAccountPartially;
 using BankingApp.Accounts.API.Infrastructure;
 using BankingApp.Accounts.API.Infrastructure.Handlers;
 using BankingApp.Accounts.Domain;
@@ -52,10 +52,10 @@ app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.MapPost("/api/accounts", CreateAccountEndpoint.PostAsync).WithOpenApi();
 app.MapPut("/api/accounts/{token}/", UpdateAccountEndpoint.PutAsync).WithOpenApi();
-app.MapPatch("/api/accounts/{token}/", PatchAccountEndpoint.PatchAsync).WithOpenApi();
+app.MapPatch("/api/accounts/{token}/", UpdateAccountPartiallyEndpoint.PatchAsync).WithOpenApi();
 app.MapPost("/api/accounts/{token}/tokens", ChangeTokenEndpoint.PostAsync).WithOpenApi();
-app.MapGet("/api/accounts/{token}/tokens", TokenHistoryQueryEndpoint.GetAsync).WithOpenApi();
-app.MapGet("/api/accounts/{token}", AccountDetailsEndpoint.GetAsync).WithOpenApi();
+app.MapGet("/api/accounts/{token}/tokens", RetrieveTokenHistoryQueryEndpoint.GetAsync).WithOpenApi();
+app.MapGet("/api/accounts/{token}", RetrieveAccountDetailsEndpoint.GetAsync).WithOpenApi();
 
 await app.Services.ApplyMigrationsAsync<AccountHoldersDbContext>();
 

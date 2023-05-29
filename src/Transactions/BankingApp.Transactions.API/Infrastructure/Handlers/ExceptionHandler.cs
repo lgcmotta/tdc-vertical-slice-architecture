@@ -11,7 +11,8 @@ public class ExceptionHandler : IExceptionHandler
     {
         switch (exception)
         {
-            case InvalidTransactionValueException _ or AccountNotFoundException _
+            case InvalidTransactionValueException _
+                or AccountNotFoundException _
                 or AccountHolderConflictException _:
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 await context.Response.WriteAsJsonAsync(new { Error = exception.Message });
