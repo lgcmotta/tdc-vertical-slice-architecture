@@ -11,7 +11,8 @@ public class ExceptionHandler : IExceptionHandler
     {
         switch (exception)
         {
-            case AccountNotFoundException _ or AccountHolderCurrentTokenNotFound:
+            case AccountNotFoundException or
+                AccountHolderCurrentTokenNotFound:
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 await context.Response.WriteAsJsonAsync(new { Error = exception.Message });
                 return;

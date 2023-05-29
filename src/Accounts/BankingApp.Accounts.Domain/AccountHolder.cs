@@ -126,4 +126,11 @@ public class AccountHolder : AggregateRoot<Guid>, ICreatableEntity, IModifiableE
 
         AddDomainEvent(new AccountPatchedDomainEvent(Id, name, currentToken, Currency.Value));
     }
+
+    public void AddAccountTokenChangedDomainEvent()
+    {
+        var currentToken = GetCurrentToken();
+
+        AddDomainEvent(new AccountTokenChangedDomainEvent(Id, currentToken));
+    }
 }
