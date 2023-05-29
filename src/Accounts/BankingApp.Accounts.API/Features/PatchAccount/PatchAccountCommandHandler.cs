@@ -19,13 +19,13 @@ public class PatchAccountCommandHandler : IRequestHandler<PatchAccountCommand>
     public async Task Handle(PatchAccountCommand request, CancellationToken cancellationToken)
     {
         var account = await _context.Accounts
-            .Include(account => Enumerable.Where<AccountToken>(account.Tokens, token => token.Enabled))
-            .FirstOrDefaultAsync(account => account.Tokens.Any(token => token.Value == request.Token), cancellationToken)
+            .Include(account => account.Tokens.Where(token => token.Enabled))
+            .FirstOrDefaultAsync(account => account.Tokens.Any(token => token.Value == request.Token && token.Enabled), cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 
         if (account is null)
         {
-            throw new AccountNotFoundException($"Account not found for token {request.Token}");
+            throw new AccountNotFoundException($"Account not found for token {request.Token}. Token might be disabled.");
         }
 
         if (!string.IsNullOrWhiteSpace(request.FirstName))

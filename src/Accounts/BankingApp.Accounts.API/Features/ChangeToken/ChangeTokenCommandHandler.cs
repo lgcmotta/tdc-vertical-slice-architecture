@@ -21,12 +21,12 @@ public class ChangeTokenCommandHandler : IRequestHandler<ChangeTokenCommand, Cha
     {
         var account = await _context.Accounts
             .Include(account => account.Tokens.Where(token => token.Enabled))
-            .FirstOrDefaultAsync(account => account.Tokens.Any(token => token.Value == request.Token), cancellationToken)
+            .FirstOrDefaultAsync(account => account.Tokens.Any(token => token.Value == request.Token && token.Enabled), cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 
         if (account is null)
         {
-            throw new AccountNotFoundException($"Account not found for token {request.Token}");
+            throw new AccountNotFoundException($"Account not found for token {request.Token}. Token might be disabled.");
         }
 
         var newToken = _tokenGenerator.Generate();
