@@ -1,0 +1,55 @@
+﻿{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/accounts-api/api/{everything}",
+      "UpstreamHttpMethod": ["POST", "PUT", "GET", "PATCH", "DELETE"],
+      "SwaggerKey": "accounts"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ],
+      "UpstreamPathTemplate": "/transactions-api/api/{everything}",
+      "UpstreamHttpMethod": ["POST", "GET"],
+      "SwaggerKey": "transactions"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key":"accounts",
+      "Config": [
+        {
+          "Name": "Accounts API",
+          "Version": "v1",
+          "Url": "http://localhost:5002/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key":"transactions",
+      "Config": [
+        {
+          "Name": "Transactions API",
+          "Version": "v1",
+          "Url": "http://localhost:5004/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost"
+  }
+}
