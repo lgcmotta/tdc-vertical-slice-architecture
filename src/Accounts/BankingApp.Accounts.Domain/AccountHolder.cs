@@ -1,5 +1,6 @@
 ﻿using BankingApp.Accounts.Domain.Entities;
 using BankingApp.Accounts.Domain.Events;
+using BankingApp.Accounts.Domain.Exceptions;
 using BankingApp.Accounts.Domain.ValueObjects;
 using BankingApp.Domain.Core;
 using System.Collections.ObjectModel;
@@ -59,29 +60,61 @@ public class AccountHolder : AggregateRoot<Guid>, ICreatableEntity, IModifiableE
         _tokens.Add(token);
     }
 
-    public void AddAccountCreatedDomainEvent()
-    {
-        var name = $"{FirstName} {LastName}";
-
-        var currentToken = Tokens.SingleOrDefault(token => token.Enabled);
-
-        if (currentToken is null)
-        {
-            throw new Exception();
-        }
-
-        AddDomainEvent(new AccountCreatedDomainEvent(Id, name, Document, currentToken.Value, Currency.Value));
-    }
-
     public string GetCurrentToken()
     {
         var token = _tokens.SingleOrDefault(token => token.Enabled);
 
         if (token is null)
         {
-            throw new Exception();
+            throw new AccountHolderCurrentTokenNotFound("Current token not found");
         }
 
         return token.Value;
+    }
+
+    public void CorrectFirstName(string firstName)
+    {
+        if (FirstName == firstName) return;
+
+        FirstName = firstName;
+    }
+
+    public void CorrectLastName(string lastName)
+    {
+        if (LastName == lastName) return;
+
+        LastName = lastName;
+    }
+
+    public void ChangeDocument(string document)
+    {
+        if (Document == document) return;
+
+        Document = document;
+    }
+
+    public void ChangeCurrency(Currency currency)
+    {
+        if (Currency == currency) return;
+
+        Currency = currency;
+    }
+
+    public void AddAccountCreatedDomainEvent()
+    {
+        var name = $"{FirstName} {LastName}";
+
+        var currentToken = GetCurrentToken();
+
+        AddDomainEvent(new AccountCreatedDomainEvent(Id, name, Document, currentToken, Currency.Value));
+    }
+
+    public void AddAccountUpdatedDomainEvent()
+    {
+        var name = $"{FirstName} {LastName}";
+
+        var currentToken = GetCurrentToken();
+
+        AddDomainEvent(new AccountUpdatedDomainEvent(Id, name, currentToken, Currency.Value));
     }
 }
