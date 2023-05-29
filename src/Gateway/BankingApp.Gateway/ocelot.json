@@ -25,6 +25,19 @@
       "UpstreamPathTemplate": "/transactions-api/api/{everything}",
       "UpstreamHttpMethod": ["POST", "GET"],
       "SwaggerKey": "transactions"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5006
+        }
+      ],
+      "UpstreamPathTemplate": "/fees-api/api/{everything}",
+      "UpstreamHttpMethod": ["GET"],
+      "SwaggerKey": "fees"
     }
   ],
   "SwaggerEndPoints": [
@@ -45,6 +58,16 @@
           "Name": "Transactions API",
           "Version": "v1",
           "Url": "http://localhost:5004/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key":"fees",
+      "Config": [
+        {
+          "Name": "Fees API",
+          "Version": "v1",
+          "Url": "http://localhost:5006/swagger/v1/swagger.json"
         }
       ]
     }
