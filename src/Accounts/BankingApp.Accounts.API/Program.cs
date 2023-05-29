@@ -1,9 +1,14 @@
 using BankingApp.Accounts.API.Application;
 using BankingApp.Accounts.API.Features.CreateAccount;
+using BankingApp.Accounts.API.Features.UpdateAccount;
 using BankingApp.Accounts.API.Infrastructure;
+using BankingApp.Accounts.API.Infrastructure.Handlers;
 using BankingApp.Accounts.Domain;
 using BankingApp.Application.Core.Behaviors;
+using BankingApp.Application.Core.Extensions;
+using BankingApp.Application.Core.Middlewares;
 using BankingApp.Infrastructure.Core.Extensions;
+using BankingApp.Infrastructure.Core.Handlers;
 using MediatR.NotificationPublishers;
 using System.Reflection;
 
@@ -21,9 +26,12 @@ builder.Services
     .AddMediatR(configuration =>
     {
         configuration.RegisterServicesFromAssemblyContaining<Program>();
+        configuration.AddOpenBehavior(typeof(ValidationBehavior<,>));
         configuration.AddOpenBehavior(typeof(ResilientTransactionBehavior<,>));
         configuration.NotificationPublisherType = typeof(TaskWhenAllPublisher);
     })
+    .AddValidators(typeof(Program).Assembly)
+    .AddSingleton<IExceptionHandler, ExceptionHandler>()
     .AddScoped<IAccountTokenGenerator, AccountTokenGenerator>()
     .AddUnitOfWork<AccountHoldersDbContext>()
     .AddRabbitMqMessaging(builder.Configuration);
@@ -36,9 +44,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.MapPost("/api/accounts", CreateAccountEndpoint.PostAsync).WithOpenApi();
+app.MapPut("/api/accounts/{token}/", UpdateAccountEndpoint.PutAsync).WithOpenApi();
 
 await app.Services.ApplyMigrationsAsync<AccountHoldersDbContext>();
 
