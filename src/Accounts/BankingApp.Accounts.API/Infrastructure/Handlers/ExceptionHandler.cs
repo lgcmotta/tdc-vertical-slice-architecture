@@ -1,9 +1,9 @@
-﻿using BankingApp.Application.Core.Exceptions;
+﻿using BankingApp.Accounts.Domain.Exceptions;
+using BankingApp.Application.Core.Exceptions;
 using BankingApp.Infrastructure.Core.Handlers;
-using BankingApp.Transactions.Domain.Exceptions;
 using System.Net;
 
-namespace BankingApp.Transactions.API.Infrastructure.Handlers;
+namespace BankingApp.Accounts.API.Infrastructure.Handlers;
 
 public class ExceptionHandler : IExceptionHandler
 {
@@ -11,11 +11,11 @@ public class ExceptionHandler : IExceptionHandler
     {
         switch (exception)
         {
-            case InvalidTransactionValueException _ or AccountNotFoundException _
-                or AccountHolderConflictException _:
+            case AccountNotFoundException or
+                AccountHolderCurrentTokenNotFound:
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                await context.Response.WriteAsJsonAsync(new { Error = exception.Message});
-                break;
+                await context.Response.WriteAsJsonAsync(new { Error = exception.Message });
+                return;
             case ValidationFailedException validationFailedException:
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 await context.Response.WriteAsJsonAsync(validationFailedException.Errors);
