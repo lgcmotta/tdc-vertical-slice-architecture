@@ -75,6 +75,4 @@ public sealed class AccountHolderFixture
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
-
-
 }
