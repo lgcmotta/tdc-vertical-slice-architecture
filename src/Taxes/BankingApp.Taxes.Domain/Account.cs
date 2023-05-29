@@ -8,9 +8,11 @@ public class Account : AggregateRoot<Guid>
 {
     public new Guid Id { get; set; }
 
+    public string Token { get; set; } = string.Empty;
+
     public Money CurrentBalanceInUSD { get; set; } = Money.Zero;
 
     public DateTime LastBalanceChange { get; set; }
 
-    public IEnumerable<TaxHistory> TaxHistory { get; set; } = new List<TaxHistory>();
+    public IEnumerable<FeeHistory> FeeHistory { get; set; } = new List<FeeHistory>();
 }

@@ -1,15 +1,16 @@
 ﻿using BankingApp.Domain.Core;
 using BankingApp.Taxes.Domain.ValueObjects;
 
+// ReSharper disable ClassNeverInstantiated.Global
 namespace BankingApp.Taxes.Domain.Entities;
 
-public class TaxHistory : IEntity<Guid>, ICreatableEntity
+public sealed class FeeHistory : IEntity<Guid>, ICreatableEntity
 {
     public Guid Id { get; set; }
 
-    public Money Amount { get; set; }
+    public Money Amount { get; set; } = Money.Zero;
 
-    public TaxType Type { get; set; }
+    public FeeType Type { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
