@@ -48,6 +48,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fees", "Fees", "{E4BF7339-8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Fees.Domain", "src\Fees\BankingApp.Fees.Domain\BankingApp.Fees.Domain.csproj", "{D707B6AC-B490-4B99-A73A-17D747719530}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Fees.API", "src\Fees\BankingApp.Fees.API\BankingApp.Fees.API.csproj", "{B5EE3526-5834-4D83-8684-F67A135CFBA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,7 @@ Global
 		{8435A667-A725-44F7-9C93-36635FDD1CF9} = {F9AAB87B-1441-447B-BDC2-3864BF804DBC}
 		{E4BF7339-8762-4282-B962-3A98C2A70296} = {68EDF19A-B410-4AEC-AFE8-6974CE3F8100}
 		{D707B6AC-B490-4B99-A73A-17D747719530} = {E4BF7339-8762-4282-B962-3A98C2A70296}
+		{B5EE3526-5834-4D83-8684-F67A135CFBA2} = {E4BF7339-8762-4282-B962-3A98C2A70296}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{093AB3CF-A1F3-47C6-AD87-E1C3D3DAE2A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -124,5 +127,9 @@ Global
 		{D707B6AC-B490-4B99-A73A-17D747719530}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D707B6AC-B490-4B99-A73A-17D747719530}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D707B6AC-B490-4B99-A73A-17D747719530}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5EE3526-5834-4D83-8684-F67A135CFBA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5EE3526-5834-4D83-8684-F67A135CFBA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5EE3526-5834-4D83-8684-F67A135CFBA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5EE3526-5834-4D83-8684-F67A135CFBA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
