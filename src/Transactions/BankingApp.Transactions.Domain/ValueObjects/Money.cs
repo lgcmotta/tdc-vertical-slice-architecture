@@ -11,14 +11,9 @@ public sealed class Money : IFormattable
         _value = value;
     }
 
-    public decimal Value => TruncateValue(_value, Currency.Dollar.DollarExchangeRate);
+    public decimal Value => TruncateValue(_value);
 
     public static Money Zero => new(decimal.Zero);
-
-    public Money Convert(Currency currency)
-    {
-        return TruncateValue(_value, currency.DollarExchangeRate);
-    }
 
     public Money Negative()
     {
@@ -33,11 +28,6 @@ public sealed class Money : IFormattable
     public static Money ConvertFromUSD(Money money, Currency currency)
     {
         return money * currency.DollarExchangeRate;
-    }
-
-    private Money TruncateValue(decimal value, decimal rate)
-    {
-        return TruncateValue(value / rate);
     }
 
     private Money TruncateValue(decimal value)
@@ -57,8 +47,8 @@ public sealed class Money : IFormattable
     public string Format(Currency currency)
     {
         return _value < decimal.Zero
-            ? $"-{currency.Symbol}{TruncateValue(_value * -1, currency.DollarExchangeRate):F}"
-            : $"{currency.Symbol}{TruncateValue(_value, currency.DollarExchangeRate):F}";
+            ? $"-{currency.Symbol}{TruncateValue(_value * -1):F}"
+            : $"{currency.Symbol}{TruncateValue(_value):F}";
     }
 
     public static implicit operator decimal(Money money) => money._value;
