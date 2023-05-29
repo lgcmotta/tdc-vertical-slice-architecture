@@ -2,6 +2,7 @@ using BankingApp.Accounts.API.Application;
 using BankingApp.Accounts.API.Features.ChangeToken;
 using BankingApp.Accounts.API.Features.CreateAccount;
 using BankingApp.Accounts.API.Features.PatchAccount;
+using BankingApp.Accounts.API.Features.TokenHistory;
 using BankingApp.Accounts.API.Features.UpdateAccount;
 using BankingApp.Accounts.API.Infrastructure;
 using BankingApp.Accounts.API.Infrastructure.Handlers;
@@ -52,6 +53,7 @@ app.MapPost("/api/accounts", CreateAccountEndpoint.PostAsync).WithOpenApi();
 app.MapPut("/api/accounts/{token}/", UpdateAccountEndpoint.PutAsync).WithOpenApi();
 app.MapPatch("/api/accounts/{token}/", PatchAccountEndpoint.PatchAsync).WithOpenApi();
 app.MapPost("/api/accounts/{token}/tokens", ChangeTokenEndpoint.PostAsync).WithOpenApi();
+app.MapGet("/api/accounts/{token}/tokens", TokenHistoryQueryEndpoint.GetAsync).WithOpenApi();
 
 await app.Services.ApplyMigrationsAsync<AccountHoldersDbContext>();
 
