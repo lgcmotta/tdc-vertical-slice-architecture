@@ -1,9 +1,4 @@
-﻿using BankingApp.Accounts.Domain;
-using BankingApp.Accounts.Domain.ValueObjects;
-using Bogus;
-using Bogus.Extensions.Brazil;
-using System.Collections;
-
+﻿// ReSharper disable ClassNeverInstantiated.Global
 namespace BankingApp.Accounts.UnitTests.Domain;
 
 public sealed class AccountHolderFixture

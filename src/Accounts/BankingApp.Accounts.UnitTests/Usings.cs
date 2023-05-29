@@ -1,1 +1,10 @@
+global using BankingApp.Accounts.Domain.Entities;
+global using BankingApp.Accounts.Domain.Exceptions;
+global using BankingApp.Accounts.Domain.ValueObjects;
+global using BankingApp.Accounts.Domain;
+global using Bogus.Extensions.Brazil;
+global using Bogus;
+global using FluentAssertions;
+global using System.Collections;
+global using System.Reflection;
 global using Xunit;

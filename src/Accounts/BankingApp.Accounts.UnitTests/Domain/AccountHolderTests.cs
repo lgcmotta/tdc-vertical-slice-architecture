@@ -1,12 +1,4 @@
-﻿using BankingApp.Accounts.Domain;
-using BankingApp.Accounts.Domain.Entities;
-using BankingApp.Accounts.Domain.Exceptions;
-using BankingApp.Accounts.Domain.ValueObjects;
-using FluentAssertions;
-using System.Collections.ObjectModel;
-using System.Reflection;
-
-namespace BankingApp.Accounts.UnitTests.Domain;
+﻿namespace BankingApp.Accounts.UnitTests.Domain;
 
 public class AccountHolderTests : IClassFixture<AccountHolderFixture>
 {
