@@ -1,5 +1,4 @@
 ﻿using BankingApp.Accounts.API.Infrastructure;
-using BankingApp.Accounts.Domain.Entities;
 using BankingApp.Accounts.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +17,7 @@ public class AccountDetailsQueryHandler : IRequestHandler<AccountDetailsQuery, A
     public async Task<AccountDetailsResponse> Handle(AccountDetailsQuery request, CancellationToken cancellationToken)
     {
         var account = await _context.Accounts
-            .Include(account => Enumerable.Where<AccountToken>(account.Tokens, token => token.Enabled))
+            .Include(account => account.Tokens.Where(token => token.Enabled))
             .FirstOrDefaultAsync(account => account.Tokens.Any(token => token.Value == request.Token && token.Enabled), cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 

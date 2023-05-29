@@ -1,5 +1,4 @@
 ﻿using BankingApp.Transactions.Domain;
-using BankingApp.Transactions.Domain.Entities;
 using BankingApp.Transactions.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

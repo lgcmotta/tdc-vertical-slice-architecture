@@ -3,13 +3,12 @@ using BankingApp.Transactions.Domain.Entities;
 using BankingApp.Transactions.Domain.Events;
 using BankingApp.Transactions.Domain.Exceptions;
 using BankingApp.Transactions.Domain.ValueObjects;
-using System.Collections.ObjectModel;
 
 namespace BankingApp.Transactions.Domain;
 
 public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiableEntity
 {
-    private List<Transaction> _transactions = new();
+    private readonly List<Transaction> _transactions = new();
     private DateTime? _modifiedAt;
     private DateTime _createdAt;
 
@@ -37,7 +36,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
     public Currency DisplayCurrency { get; private set; }
     public DateTime CreatedAt => _createdAt;
     public DateTime? ModifiedAt => _modifiedAt;
-    public IEnumerable<Transaction> Transactions => new ReadOnlyCollection<Transaction>(_transactions);
+    public IEnumerable<Transaction> Transactions => _transactions.AsReadOnly();
 
     public string GetFormattedCurrentBalance()
     {
@@ -114,7 +113,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         var sendTransaction = SendTransfer(usd, receiver, transactionDateTime);
 
-        receiver.ReceiveTransfer(sendTransaction.PureUSDValue , this, transactionDateTime);
+        receiver.ReceiveTransfer(sendTransaction.PureUSDValue, this, transactionDateTime);
 
         AddBalanceChangedDomainEvent(transactionDateTime);
         receiver.AddBalanceChangedDomainEvent(transactionDateTime);
@@ -179,7 +178,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         Debit(amount);
 
-        var transaction = new Transaction(amount, balanceSnapShot, TransactionType.TransferOut, Id,  receiver.Id, transactionDateTime);
+        var transaction = new Transaction(amount, balanceSnapShot, TransactionType.TransferOut, Id, receiver.Id, transactionDateTime);
 
         _transactions.Add(transaction);
 
@@ -192,7 +191,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         Credit(amount);
 
-        var transaction = new Transaction(amount, balanceSnapShot, TransactionType.TransferIn, sender.Id,  Id, transactionDateTime);
+        var transaction = new Transaction(amount, balanceSnapShot, TransactionType.TransferIn, sender.Id, Id, transactionDateTime);
 
         _transactions.Add(transaction);
     }

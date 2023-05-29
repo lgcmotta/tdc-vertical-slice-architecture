@@ -14,7 +14,7 @@ public class ExceptionHandler : IExceptionHandler
             case InvalidTransactionValueException _ or AccountNotFoundException _
                 or AccountHolderConflictException _:
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                await context.Response.WriteAsJsonAsync(new { Error = exception.Message});
+                await context.Response.WriteAsJsonAsync(new { Error = exception.Message });
                 break;
             case ValidationFailedException validationFailedException:
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -22,11 +22,7 @@ public class ExceptionHandler : IExceptionHandler
                 return;
             default:
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                await context.Response.WriteAsJsonAsync(
-                    new
-                    {
-                        Error = "Unexpected error. Please contact the support."
-                    });
+                await context.Response.WriteAsJsonAsync(new { Error = "Unexpected error. Please contact the support." });
                 return;
         }
     }
