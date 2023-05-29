@@ -245,7 +245,7 @@ public class AccountHolderTests : IClassFixture<AccountHolderFixture>
         var account = _fixture.GenerateAccountHolder();
 
         // Act
-        account.AddAccountPatchedDomainEvent();
+        account.AddAccountPartiallyUpdatedDomainEvent();
 
         // Assert
         account.DomainEvents.Should().NotBeEmpty().And.HaveCount(1);
