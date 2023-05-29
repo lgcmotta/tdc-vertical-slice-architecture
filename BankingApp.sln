@@ -42,6 +42,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{C7BF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Gateway", "src\Gateway\BankingApp.Gateway\BankingApp.Gateway.csproj", "{7769E2D2-9005-46E1-9CFA-03E0C5772811}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Accounts.UnitTests", "src\Accounts\BankingApp.Accounts.UnitTests\BankingApp.Accounts.UnitTests.csproj", "{A1D620B6-68C5-47F4-AA94-B5A70FB9ED79}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,7 @@ Global
 		{AA05F516-ADE9-4776-89F0-C329A0E17847} = {F9AAB87B-1441-447B-BDC2-3864BF804DBC}
 		{C7BF9041-BD13-4DBE-ACA7-6B3726D41D47} = {68EDF19A-B410-4AEC-AFE8-6974CE3F8100}
 		{7769E2D2-9005-46E1-9CFA-03E0C5772811} = {C7BF9041-BD13-4DBE-ACA7-6B3726D41D47}
+		{A1D620B6-68C5-47F4-AA94-B5A70FB9ED79} = {F9AAB87B-1441-447B-BDC2-3864BF804DBC}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{093AB3CF-A1F3-47C6-AD87-E1C3D3DAE2A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -107,5 +110,9 @@ Global
 		{7769E2D2-9005-46E1-9CFA-03E0C5772811}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7769E2D2-9005-46E1-9CFA-03E0C5772811}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7769E2D2-9005-46E1-9CFA-03E0C5772811}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1D620B6-68C5-47F4-AA94-B5A70FB9ED79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1D620B6-68C5-47F4-AA94-B5A70FB9ED79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1D620B6-68C5-47F4-AA94-B5A70FB9ED79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1D620B6-68C5-47F4-AA94-B5A70FB9ED79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
