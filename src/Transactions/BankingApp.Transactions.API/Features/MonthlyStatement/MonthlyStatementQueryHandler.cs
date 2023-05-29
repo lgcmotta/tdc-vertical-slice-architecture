@@ -21,7 +21,8 @@ public class MonthlyStatementQueryHandler : IRequestHandler<MonthlyStatementQuer
         var (start, end) = GetMonthlyStatementPeriod(request.Year, request.Month);
 
         var account = await _context.Accounts
-            .Include(account => Enumerable.Where<Transaction>(account.Transactions, t => t.Occurence >= start && t.Occurence <= end))
+            .Where(account => account.Token == request.Token)
+            .Include(account => account.Transactions.Where(t => t.Occurence >= start && t.Occurence <= end))
             .FirstOrDefaultAsync(cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 

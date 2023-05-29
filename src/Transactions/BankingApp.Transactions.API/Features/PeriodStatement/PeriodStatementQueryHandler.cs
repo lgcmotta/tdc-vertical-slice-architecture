@@ -20,6 +20,7 @@ public class PeriodStatementQueryHandler : IRequestHandler<PeriodStatementQuery,
         var (start, end) = GetStatementPeriod(request.Start, request.End);
 
         var account = await _context.Accounts
+            .Where(account => account.Token == request.Token)
             .Include(account => account.Transactions.Where(t => t.Occurence >= start && t.Occurence <= end))
             .FirstOrDefaultAsync(cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
