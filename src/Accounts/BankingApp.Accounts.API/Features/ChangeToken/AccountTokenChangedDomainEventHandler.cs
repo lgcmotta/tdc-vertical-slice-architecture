@@ -18,9 +18,9 @@ public class AccountTokenChangedDomainEventHandler : INotificationHandler<Accoun
     {
         var integrationEvent = new AccountUpdatedIntegrationEvent(
             notification.HolderId,
-            null,
+            Name: null,
             notification.Token,
-            null
+            Currency: null
         );
 
         await _publishEndpoint.Publish(integrationEvent, cancellationToken)
