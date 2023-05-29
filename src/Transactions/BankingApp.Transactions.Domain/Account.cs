@@ -75,7 +75,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         _transactions.Add(transaction);
 
-        AddBalanceChangedDomainEvent(transactionDateTime);
+        AddAccountBalanceChangedDomainEvent(transactionDateTime);
 
         return transaction;
     }
@@ -97,7 +97,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         _transactions.Add(transaction);
 
-        AddBalanceChangedDomainEvent(transactionDateTime);
+        AddAccountBalanceChangedDomainEvent(transactionDateTime);
 
         return transaction;
     }
@@ -115,8 +115,9 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         receiver.ReceiveTransfer(sendTransaction.PureUSDValue, this, transactionDateTime);
 
-        AddBalanceChangedDomainEvent(transactionDateTime);
-        receiver.AddBalanceChangedDomainEvent(transactionDateTime);
+        AddAccountBalanceChangedDomainEvent(transactionDateTime);
+
+        receiver.AddAccountBalanceChangedDomainEvent(transactionDateTime);
 
         return sendTransaction;
     }
@@ -167,7 +168,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
         _createdAt = createdAt;
     }
 
-    private void AddBalanceChangedDomainEvent(DateTime transactionDateTime)
+    private void AddAccountBalanceChangedDomainEvent(DateTime transactionDateTime)
     {
         AddDomainEvent(new AccountBalanceChangedDomainEvent(BalanceInUSD, transactionDateTime));
     }
