@@ -7,7 +7,7 @@ namespace BankingApp.Messaging.Contracts;
 public record AccountCreatedIntegrationEvent(Guid HolderId, string Name, string Document, string Token, string Currency);
 
 [MessageUrn("account-updated")]
-public record AccountUpdatedIntegrationEvent(Guid HolderId, string? Name, string? Document, string? Token, string? Currency);
+public record AccountUpdatedIntegrationEvent(Guid HolderId, string? Name, string? Token, string? Currency);
 
 [MessageUrn("account-balance-changed")]
 public record AccountBalanceChangedIntegrationEvent(Guid HolderId, decimal Balance, DateTime TransactionTimeStamp);
