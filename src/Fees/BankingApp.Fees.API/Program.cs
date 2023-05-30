@@ -10,6 +10,8 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var feesAssembly = typeof(Program).Assembly;
+
 builder.Services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen()
@@ -26,10 +28,10 @@ builder.Services
         configuration.AddOpenBehavior(typeof(ResilientTransactionBehavior<,>));
         configuration.NotificationPublisherType = typeof(TaskWhenAllPublisher);
     })
-    .AddValidators(typeof(Program).Assembly)
+    .AddValidators(feesAssembly)
     .AddSingleton<IExceptionHandler, ExceptionHandler>()
     .AddUnitOfWork<AccountFeesDbContext>()
-    .AddRabbitMqMessaging(builder.Configuration);
+    .AddRabbitMqMessaging(builder.Configuration, feesAssembly);
 
 var app = builder.Build();
 
@@ -40,5 +42,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+await app.Services.ApplyMigrationsAsync<AccountFeesDbContext>();
 
 app.Run();
