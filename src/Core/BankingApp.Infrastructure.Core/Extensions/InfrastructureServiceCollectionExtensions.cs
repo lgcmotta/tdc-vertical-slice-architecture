@@ -1,4 +1,5 @@
 ﻿using BankingApp.Infrastructure.Core.Persistence;
+using BankingApp.Infrastructure.Core.Scanners;
 using EFCoreSecondLevelCacheInterceptor;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -63,7 +64,7 @@ public static class InfrastructureServiceCollectionExtensions
 
     public static IServiceCollection AddRabbitMqMessaging(this IServiceCollection services,
         IConfiguration configuration,
-        params Assembly[] consumerAssemblies)
+        params Assembly[] consumerConfigurationAssemblies)
     {
         var host = configuration.GetValue<string>("RabbitMQ:Host");
         var virtualHost = configuration.GetValue<string>("RabbitMQ:VirtualHost") ?? "/";
@@ -75,11 +76,13 @@ public static class InfrastructureServiceCollectionExtensions
             throw new InvalidOperationException("RabbitMQ host was not found on configuration");
         }
 
+        var consumerConfigurations = ConsumerConfigurationAssemblyScanner.Scan(consumerConfigurationAssemblies);
+
         services.AddMassTransit(configurator =>
         {
-            if (consumerAssemblies.Any())
+            foreach (var consumerConfiguration in consumerConfigurations)
             {
-                configurator.AddConsumers(consumerAssemblies);
+                consumerConfiguration.ConfigureMassTransit(configurator);
             }
 
             configurator.SetKebabCaseEndpointNameFormatter();
@@ -90,9 +93,14 @@ public static class InfrastructureServiceCollectionExtensions
                     hostConfigurator.Username(username);
                     hostConfigurator.Password(password);
                 });
+
+                foreach (var consumerConfiguration in consumerConfigurations)
+                {
+                    consumerConfiguration.ConfigureConsumers(rabbitmq, context);
+                }
+
                 rabbitmq.ConfigureEndpoints(context);
             });
-
         });
 
         return services;
