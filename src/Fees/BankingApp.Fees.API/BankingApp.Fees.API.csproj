@@ -14,6 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Core\BankingApp.Messaging.Contracts\BankingApp.Messaging.Contracts.csproj" />
       <ProjectReference Include="..\BankingApp.Fees.Domain\BankingApp.Fees.Domain.csproj" />
       <ProjectReference Include="..\..\Core\BankingApp.Application.Core\BankingApp.Application.Core.csproj" />
     </ItemGroup>
