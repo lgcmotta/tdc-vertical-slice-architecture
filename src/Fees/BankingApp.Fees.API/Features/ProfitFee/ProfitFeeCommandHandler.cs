@@ -31,14 +31,14 @@ public class ProfitFeeCommandHandler : IRequestHandler<ProfitFeeCommand>
         foreach (var account in accounts)
         {
             var feeAmount = account.CurrentBalanceInUSD * request.Rate;
-            account.CurrentBalanceInUSD *= feeAmount;
+            account.CurrentBalanceInUSD += feeAmount;
             account.FeeHistory.Add(new FeeHistory
             {
                 Amount = feeAmount,
                 Type = FeeType.Profit,
                 CreatedAt = DateTime.Now
             });
-            
+
             account.AddDomainEvent(new ProfitFeeSettledDomainEvent(account.Id, feeAmount));
         }
     }

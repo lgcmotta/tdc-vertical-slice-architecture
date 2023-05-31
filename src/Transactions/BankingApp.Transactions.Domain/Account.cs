@@ -69,7 +69,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         var usd = Money.ConvertToUSD(amount, currency);
 
-        Credit(usd);
+        CreditToBalance(usd);
 
         var transaction = new Transaction(usd, currentBalance, TransactionType.Deposit, Id, Id, transactionDateTime);
 
@@ -91,7 +91,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         var usd = Money.ConvertToUSD(amount, DisplayCurrency);
 
-        Debit(usd);
+        DebitFromBalance(usd);
 
         var transaction = new Transaction(usd, currentBalance, TransactionType.Withdraw, Id, Id, transactionDateTime);
 
@@ -113,7 +113,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         var balanceSnapShot = BalanceInUSD;
 
-        Debit(usd);
+        DebitFromBalance(usd);
 
         var transaction = new Transaction(usd, balanceSnapShot, TransactionType.TransferOut, Id, receiverId, transactionDateTime);
 
@@ -135,7 +135,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         var balanceSnapShot = BalanceInUSD;
 
-        Credit(usd);
+        CreditToBalance(usd);
 
         var transaction = new Transaction(usd, balanceSnapShot, TransactionType.TransferIn, senderId, Id, transactionDateTime);
 
@@ -147,7 +147,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
     {
         var balanceSnapShot = BalanceInUSD;
 
-        Debit(overdraftFee);
+        CreditToBalance(overdraftFee);
 
         var transaction = new Transaction(overdraftFee, balanceSnapShot, TransactionType.OverdraftFee, Id, Id, transactionDateTime);
 
@@ -158,7 +158,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
     {
         var currentBalance = BalanceInUSD;
 
-        Credit(profitFee);
+        CreditToBalance(profitFee);
 
         var transaction = new Transaction(profitFee, currentBalance, TransactionType.ProfitFee, Id, Id, transactionDateTime);
 
@@ -197,12 +197,12 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
         _createdAt = createdAt;
     }
 
-    private void Debit(Money amount)
+    private void DebitFromBalance(Money amount)
     {
         BalanceInUSD = new Money(BalanceInUSD - amount);
     }
 
-    private void Credit(Money amount)
+    private void CreditToBalance(Money amount)
     {
         BalanceInUSD = new Money(BalanceInUSD + amount);
     }
