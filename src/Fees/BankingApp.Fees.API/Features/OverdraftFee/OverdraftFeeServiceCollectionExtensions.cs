@@ -2,7 +2,7 @@
 
 public static class OverdraftFeeServiceCollectionExtensions
 {
-    public static IServiceCollection AddOverdraftFeeService(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddOverdraftFeeBackgroundService(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<OverdraftFeeOptions>(configuration.GetSection("BackgroundServices:OverdraftFee"));
 

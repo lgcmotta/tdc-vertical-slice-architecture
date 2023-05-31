@@ -7,6 +7,6 @@ public class OverdraftFeeCommandValidator : AbstractValidator<OverdraftFeeComman
     public OverdraftFeeCommandValidator()
     {
         RuleFor(command => command.Rate)
-            .GreaterThan(0.0m);
+            .GreaterThan(decimal.Zero);
     }
 }

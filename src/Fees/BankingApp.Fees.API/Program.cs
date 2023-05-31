@@ -2,6 +2,7 @@ using BankingApp.Application.Core.Behaviors;
 using BankingApp.Application.Core.Extensions;
 using BankingApp.Application.Core.Middlewares;
 using BankingApp.Fees.API.Features.OverdraftFee;
+using BankingApp.Fees.API.Features.ProfitFee;
 using BankingApp.Fees.API.Infrastructure;
 using BankingApp.Fees.API.Infrastructure.Handlers;
 using BankingApp.Infrastructure.Core.Extensions;
@@ -32,7 +33,8 @@ builder.Services
     .AddValidators(feesAssembly)
     .AddSingleton<IExceptionHandler, ExceptionHandler>()
     .AddUnitOfWork<AccountFeesDbContext>()
-    .AddOverdraftFeeService(builder.Configuration)
+    .AddOverdraftFeeBackgroundService(builder.Configuration)
+    .AddProfitFeeBackgroundService(builder.Configuration)
     .AddRabbitMqMessaging(builder.Configuration, feesAssembly);
 
 var app = builder.Build();
