@@ -18,8 +18,7 @@ public class ProfitFeeCommandHandler : IRequestHandler<ProfitFeeCommand>
 
     public async Task Handle(ProfitFeeCommand request, CancellationToken cancellationToken)
     {
-        var daysToSubtract = -1 * request.BalanceIdleDays;
-        var balanceIdleMinDate = DateTime.UtcNow.AddDays(daysToSubtract);
+        var balanceIdleMinDate = DateTime.UtcNow.AddMinutes(request.BalanceIdleInMinutes);
 
         var accounts = await _context.Accounts
             .Where(account => account.CurrentBalanceInUSD > Money.Zero && account.LastBalanceChange <= balanceIdleMinDate)

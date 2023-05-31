@@ -24,7 +24,7 @@ public class ProfitFeeBackgroundService : BackgroundService
 
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
-            var command = new ProfitFeeCommand(_options.Value.Rate, _options.Value.BalanceIdleDays);
+            var command = new ProfitFeeCommand(_options.Value.Rate, _options.Value.BalanceIdleInMinutes);
 
             await mediator.Send(command, stoppingToken).ConfigureAwait(continueOnCapturedContext: false);
         }

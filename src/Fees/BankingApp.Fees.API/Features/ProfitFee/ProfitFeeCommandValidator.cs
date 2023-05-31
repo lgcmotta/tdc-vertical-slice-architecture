@@ -9,7 +9,5 @@ public class ProfitFeeCommandValidator : AbstractValidator<ProfitFeeCommand>
     {
         RuleFor(command => command.Rate)
             .GreaterThan(decimal.Zero);
-
-        RuleFor(command => command.BalanceIdleDays).MustBeOneOf(Enumerable.Range(1, 31));
     }
 }
