@@ -26,7 +26,7 @@ public class ProfitFeeBackgroundService : BackgroundService
 
             var command = new ProfitFeeCommand(_options.Value.Rate, _options.Value.BalanceIdleDays);
 
-            await mediator.Publish(command, stoppingToken).ConfigureAwait(continueOnCapturedContext: false);
+            await mediator.Send(command, stoppingToken).ConfigureAwait(continueOnCapturedContext: false);
         }
     }
 }
