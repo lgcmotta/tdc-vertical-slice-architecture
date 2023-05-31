@@ -44,7 +44,7 @@ public sealed class Transaction : IEntity<Guid>
     internal Money PureUSDValue => _usdValue;
 
     private bool IsCreditTransaction() => Type == TransactionType.Deposit ||
-                                          Type == TransactionType.Earnings ||
+                                          Type == TransactionType.ProfitFee ||
                                           Type == TransactionType.TransferIn;
 
     public Money GetBalanceBeforeTransaction() => _balanceInUSDSnapShot;

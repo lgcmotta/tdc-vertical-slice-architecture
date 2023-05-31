@@ -154,18 +154,15 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
         _transactions.Add(transaction);
     }
 
-    public void ApplyEarnings(Money earnings, DateTime transactionDateTime)
+    public void ApplyProfitFee(Money profitFee, DateTime transactionDateTime)
     {
-        if (earnings <= Money.Zero)
-        {
-            throw new InvalidTransactionValueException("Earnings must be greater than zero.");
-        }
-
         var currentBalance = BalanceInUSD;
 
-        var usd = Earn(earnings);
+        Credit(profitFee);
 
-        _transactions.Add(new Transaction(usd, currentBalance, TransactionType.Earnings, Id, Id, transactionDateTime));
+        var transaction = new Transaction(profitFee, currentBalance, TransactionType.ProfitFee, Id, Id, transactionDateTime);
+
+        _transactions.Add(transaction);
     }
 
     public void ChangeCurrency(Currency currency)

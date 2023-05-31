@@ -41,11 +41,6 @@ public class AccountFixture
         return _moneyFaker.CustomInstantiator(faker => new Money(faker.Finance.Amount(min, max))).Generate();
     }
 
-    public Money GenerateEarnings()
-    {
-        return _moneyFaker.CustomInstantiator(faker => new Money(faker.Finance.Amount() * faker.Finance.Random.Decimal())).Generate();
-    }
-
     public Currency PickRandomCurrency()
     {
         return _currencyFaker.CustomInstantiator(faker => faker.PickRandom(Currency.Enumerate<Currency>()))
