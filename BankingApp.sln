@@ -57,6 +57,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\push.yml = .github\workflows\push.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Fees.IntegrationTests", "src\Fees\BankingApp.Fees.IntegrationTests\BankingApp.Fees.IntegrationTests.csproj", "{954994DB-FA8D-4CD2-AAF0-82D5D079B597}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,7 @@ Global
 		{B5EE3526-5834-4D83-8684-F67A135CFBA2} = {E4BF7339-8762-4282-B962-3A98C2A70296}
 		{31F0C06D-DE14-4F4B-B811-E1D22A28C921} = {EBAB86B0-18EE-4B7F-9AC4-A3CDCCF14F30}
 		{D932D6B1-EB51-4D57-9F6E-94BCA4FB194D} = {31F0C06D-DE14-4F4B-B811-E1D22A28C921}
+		{954994DB-FA8D-4CD2-AAF0-82D5D079B597} = {E4BF7339-8762-4282-B962-3A98C2A70296}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{093AB3CF-A1F3-47C6-AD87-E1C3D3DAE2A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -140,5 +143,9 @@ Global
 		{B5EE3526-5834-4D83-8684-F67A135CFBA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5EE3526-5834-4D83-8684-F67A135CFBA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5EE3526-5834-4D83-8684-F67A135CFBA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{954994DB-FA8D-4CD2-AAF0-82D5D079B597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{954994DB-FA8D-4CD2-AAF0-82D5D079B597}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{954994DB-FA8D-4CD2-AAF0-82D5D079B597}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{954994DB-FA8D-4CD2-AAF0-82D5D079B597}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
