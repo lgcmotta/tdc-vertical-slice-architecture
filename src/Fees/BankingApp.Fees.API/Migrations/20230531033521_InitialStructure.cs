@@ -21,7 +21,7 @@ namespace BankingApp.Fees.API.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Token = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CurrentBalanceInUSD = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    CurrentBalanceInUSD = table.Column<decimal>(type: "decimal(19,4)", precision: 19, scale: 4, nullable: false),
                     LastBalanceChange = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -35,7 +35,7 @@ namespace BankingApp.Fees.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Amount = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(19,4)", precision: 19, scale: 4, nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     AccountId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")

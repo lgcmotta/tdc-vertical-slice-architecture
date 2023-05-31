@@ -18,6 +18,7 @@ public class FeeHistoryEntityTypeConfiguration : IEntityTypeConfiguration<FeeHis
                 balance => balance.Value,
                 balance => new Money(balance)
             )
+            .HasPrecision(19, 4)
             .IsRequired();
 
         builder.Property(history => history.Type)

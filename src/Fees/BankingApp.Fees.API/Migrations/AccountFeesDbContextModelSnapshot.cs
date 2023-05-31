@@ -25,7 +25,8 @@ namespace BankingApp.Fees.API.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<decimal>("CurrentBalanceInUSD")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(19, 4)
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<DateTime>("LastBalanceChange")
                         .HasColumnType("datetime(6)");
@@ -49,7 +50,8 @@ namespace BankingApp.Fees.API.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(19, 4)
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");

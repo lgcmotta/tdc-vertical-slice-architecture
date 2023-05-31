@@ -21,6 +21,7 @@ public class AccountEntityTypeConfiguration : IEntityTypeConfiguration<Account>
                 balance => balance.Value,
                 balance => new Money(balance)
             )
+            .HasPrecision(19, 4)
             .IsRequired();
 
         builder.Property(account => account.LastBalanceChange)

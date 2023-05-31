@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankingApp.Fees.API.Migrations
 {
     [DbContext(typeof(AccountFeesDbContext))]
-    [Migration("20230530143352_InitialStructure")]
+    [Migration("20230531033521_InitialStructure")]
     partial class InitialStructure
     {
         /// <inheritdoc />
@@ -28,7 +28,8 @@ namespace BankingApp.Fees.API.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<decimal>("CurrentBalanceInUSD")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(19, 4)
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<DateTime>("LastBalanceChange")
                         .HasColumnType("datetime(6)");
@@ -52,7 +53,8 @@ namespace BankingApp.Fees.API.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(19, 4)
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
