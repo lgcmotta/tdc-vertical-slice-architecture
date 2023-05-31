@@ -2,13 +2,13 @@
 using MassTransit;
 using MediatR;
 
-namespace BankingApp.Transactions.API.Features.ApplyEarnings;
+namespace BankingApp.Transactions.API.Features.ApplyProfitFee;
 
-public class ApplyEarningsConsumer : IConsumer<AccountEarningsIntegrationEvent>
+public class ApplyProfitFeeConsumer : IConsumer<AccountEarningsIntegrationEvent>
 {
     private readonly IMediator _mediator;
 
-    public ApplyEarningsConsumer(IMediator mediator)
+    public ApplyProfitFeeConsumer(IMediator mediator)
     {
         _mediator = mediator;
     }
@@ -17,7 +17,7 @@ public class ApplyEarningsConsumer : IConsumer<AccountEarningsIntegrationEvent>
     {
         var message = context.Message;
 
-        var command = new ApplyEarningsCommand(message.HolderId, message.Earnings);
+        var command = new ApplyProfitFeeCommand(message.HolderId, message.Earnings);
 
         await _mediator.Send(command, context.CancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
