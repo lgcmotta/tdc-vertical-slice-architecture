@@ -16,9 +16,7 @@ public class TransferInDomainEventHandler : INotificationHandler<TransferInDomai
 
     public async Task Handle(TransferInDomainEvent notification, CancellationToken cancellationToken)
     {
-        var (holderId, balance) = notification;
-
-        var integrationEvent = new AccountBalanceChangedIntegrationEvent(holderId, balance);
+        var integrationEvent = new AccountBalanceChangedIntegrationEvent(notification.HolderId, notification.Balance);
 
         await _publishEndpoint.Publish(integrationEvent, cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);;
