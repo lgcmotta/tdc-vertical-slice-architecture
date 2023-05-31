@@ -50,6 +50,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Fees.Domain", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Fees.API", "src\Fees\BankingApp.Fees.API\BankingApp.Fees.API.csproj", "{B5EE3526-5834-4D83-8684-F67A135CFBA2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{31F0C06D-DE14-4F4B-B811-E1D22A28C921}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{D932D6B1-EB51-4D57-9F6E-94BCA4FB194D}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\push.yml = .github\workflows\push.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +84,8 @@ Global
 		{E4BF7339-8762-4282-B962-3A98C2A70296} = {68EDF19A-B410-4AEC-AFE8-6974CE3F8100}
 		{D707B6AC-B490-4B99-A73A-17D747719530} = {E4BF7339-8762-4282-B962-3A98C2A70296}
 		{B5EE3526-5834-4D83-8684-F67A135CFBA2} = {E4BF7339-8762-4282-B962-3A98C2A70296}
+		{31F0C06D-DE14-4F4B-B811-E1D22A28C921} = {EBAB86B0-18EE-4B7F-9AC4-A3CDCCF14F30}
+		{D932D6B1-EB51-4D57-9F6E-94BCA4FB194D} = {31F0C06D-DE14-4F4B-B811-E1D22A28C921}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{093AB3CF-A1F3-47C6-AD87-E1C3D3DAE2A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
