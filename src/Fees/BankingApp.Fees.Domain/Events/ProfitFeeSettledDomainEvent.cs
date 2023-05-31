@@ -1,3 +1,3 @@
 ﻿namespace BankingApp.Taxes.Domain.Events;
 
-public record ProfitFeeSettledDomainEvent(Guid HolderId, decimal IncomeAmount);
+public record ProfitFeeSettledDomainEvent(Guid HolderId, decimal FeeAmount);
