@@ -7,4 +7,8 @@ public record AccountUpdatedIntegrationEvent(Guid HolderId, string? Name, string
 
 public record AccountBalanceChangedIntegrationEvent(Guid HolderId, decimal Balance);
 
+public record AccountOverdraftSettledIntegrationEvent(Guid HolderId, decimal OverdraftFee);
+
+public record AccountProfitFeeSettledIntegrationEvent(Guid HolderId, decimal OverdraftFee);
+
 public record AccountEarningsIntegrationEvent(Guid HolderId, decimal Earnings);
