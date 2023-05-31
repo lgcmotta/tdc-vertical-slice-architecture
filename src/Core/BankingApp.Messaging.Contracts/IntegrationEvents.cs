@@ -10,5 +10,3 @@ public record AccountBalanceChangedIntegrationEvent(Guid HolderId, decimal Balan
 public record AccountOverdraftSettledIntegrationEvent(Guid HolderId, decimal OverdraftFee);
 
 public record AccountProfitFeeSettledIntegrationEvent(Guid HolderId, decimal ProfitFee);
-
-public record AccountEarningsIntegrationEvent(Guid HolderId, decimal Earnings);
