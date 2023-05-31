@@ -70,7 +70,7 @@ public class AccountTests : IClassFixture<AccountFixture>
 
     [Theory]
     [ClassData(typeof(AccountFixture.InvalidTransactionAmounts))]
-    public void Account_TransferWhenAmountIsLessThanOrEqualToZero_ShouldThrowInvalidTransactionValueException(Money amount)
+    public void Account_TransferOutWhenAmountIsLessThanOrEqualToZero_ShouldThrowInvalidTransactionValueException(Money amount)
     {
         // Arrange
         var sender = _fixture.GenerateStandardAccount();
@@ -79,7 +79,21 @@ public class AccountTests : IClassFixture<AccountFixture>
         var currency = _fixture.PickRandomCurrency();
 
         // Act & Assert
-        Assert.Throws<InvalidTransactionValueException>(() => sender.Transfer(amount, currency, receiver, DateTime.Now));
+        Assert.Throws<InvalidTransactionValueException>(() => sender.TransferOut(receiver.Id, amount, currency, DateTime.Now));
+    }
+
+    [Theory]
+    [ClassData(typeof(AccountFixture.InvalidTransactionAmounts))]
+    public void Account_TransferInWhenAmountIsLessThanOrEqualToZero_ShouldThrowInvalidTransactionValueException(Money amount)
+    {
+        // Arrange
+        var sender = _fixture.GenerateStandardAccount();
+        var receiver = _fixture.GenerateStandardAccount();
+
+        var currency = _fixture.PickRandomCurrency();
+
+        // Act & Assert
+        Assert.Throws<InvalidTransactionValueException>(() => receiver.TransferIn(sender.Id, amount, currency, DateTime.Now));
     }
 
     [Theory]
@@ -144,10 +158,11 @@ public class AccountTests : IClassFixture<AccountFixture>
         receiver.Deposit(receiverDeposit, currency, DateTime.Now);
 
         // Act
-        sender.Transfer(transferAmount, currency, receiver, DateTime.Now);
+        sender.TransferOut(receiver.Id, transferAmount, currency, DateTime.Now);
+        receiver.TransferIn(sender.Id, transferAmount, currency, DateTime.Now);
 
-        var senderExpectedBalance = (senderDeposit - transferAmount) / currency.DollarExchangeRate;
-        var receiverExpectedBalance = (receiverDeposit + transferAmount) / currency.DollarExchangeRate;
+        var senderExpectedBalance = Money.ConvertToUSD(senderDeposit, currency) - Money.ConvertToUSD(transferAmount, currency);
+        var receiverExpectedBalance = Money.ConvertToUSD(receiverDeposit, currency) + Money.ConvertToUSD(transferAmount, currency);
 
         // Assert
         sender.GetCurrentBalance().Should().Be(senderExpectedBalance.Value);

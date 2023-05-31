@@ -37,7 +37,8 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, TransferT
 
         var currency = Currency.ParseByValue<Currency>(request.Currency);
 
-        var transaction = sender.Transfer(request.Amount, currency, receiver, DateTime.UtcNow);
+        var transaction = sender.TransferOut(receiver.Id, request.Amount, currency, DateTime.UtcNow);
+        receiver.TransferIn(sender.Id, request.Amount, currency, DateTime.UtcNow);
 
         return new TransferTransactionResponse(transaction.Id, transaction.Type.Value);
     }

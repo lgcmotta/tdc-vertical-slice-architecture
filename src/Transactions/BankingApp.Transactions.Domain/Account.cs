@@ -75,7 +75,7 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         _transactions.Add(transaction);
 
-        AddAccountBalanceChangedDomainEvent(transactionDateTime);
+        AddDomainEvent(new DepositDomainEvent(Id, BalanceInUSD));
 
         return transaction;
     }
@@ -97,12 +97,12 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         _transactions.Add(transaction);
 
-        AddAccountBalanceChangedDomainEvent(transactionDateTime);
+        AddDomainEvent(new WithdrawDomainEvent(Id, BalanceInUSD));
 
         return transaction;
     }
 
-    public Transaction Transfer(Money amount, Currency currency, Account receiver, DateTime transactionDateTime)
+    public Transaction TransferOut(Guid receiverId, Money amount, Currency currency, DateTime transactionDateTime)
     {
         if (amount <= Money.Zero)
         {
@@ -111,15 +111,37 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         var usd = Money.ConvertToUSD(amount, currency);
 
-        var sendTransaction = SendTransfer(usd, receiver, transactionDateTime);
+        var balanceSnapShot = BalanceInUSD;
 
-        receiver.ReceiveTransfer(sendTransaction.PureUSDValue, this, transactionDateTime);
+        Debit(usd);
 
-        AddAccountBalanceChangedDomainEvent(transactionDateTime);
+        var transaction = new Transaction(usd, balanceSnapShot, TransactionType.TransferOut, Id, receiverId, transactionDateTime);
 
-        receiver.AddAccountBalanceChangedDomainEvent(transactionDateTime);
+        _transactions.Add(transaction);
 
-        return sendTransaction;
+        AddDomainEvent(new TransferOutDomainEvent(Id, BalanceInUSD));
+
+        return transaction;
+    }
+
+    public void TransferIn(Guid senderId, Money amount, Currency currency, DateTime transactionDateTime)
+    {
+        if (amount <= Money.Zero)
+        {
+            throw new InvalidTransactionValueException("Transfer amount must be greater than zero.");
+        }
+
+        var usd = Money.ConvertToUSD(amount, currency);
+
+        var balanceSnapShot = BalanceInUSD;
+
+        Credit(usd);
+
+        var transaction = new Transaction(usd, balanceSnapShot, TransactionType.TransferIn, senderId, Id, transactionDateTime);
+
+        _transactions.Add(transaction);
+
+        AddDomainEvent(new TransferInDomainEvent(Id, BalanceInUSD));
     }
 
     public void ApplyEarnings(Money earnings, DateTime transactionDateTime)
@@ -166,35 +188,6 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
     public void SetCreationDateTime(DateTime createdAt)
     {
         _createdAt = createdAt;
-    }
-
-    private void AddAccountBalanceChangedDomainEvent(DateTime transactionDateTime)
-    {
-        AddDomainEvent(new AccountBalanceChangedDomainEvent(BalanceInUSD, transactionDateTime));
-    }
-
-    private Transaction SendTransfer(Money amount, Account receiver, DateTime transactionDateTime)
-    {
-        var balanceSnapShot = BalanceInUSD;
-
-        Debit(amount);
-
-        var transaction = new Transaction(amount, balanceSnapShot, TransactionType.TransferOut, Id, receiver.Id, transactionDateTime);
-
-        _transactions.Add(transaction);
-
-        return transaction;
-    }
-
-    private void ReceiveTransfer(Money amount, Account sender, DateTime transactionDateTime)
-    {
-        var balanceSnapShot = BalanceInUSD;
-
-        Credit(amount);
-
-        var transaction = new Transaction(amount, balanceSnapShot, TransactionType.TransferIn, sender.Id, Id, transactionDateTime);
-
-        _transactions.Add(transaction);
     }
 
     private void Debit(Money amount)
