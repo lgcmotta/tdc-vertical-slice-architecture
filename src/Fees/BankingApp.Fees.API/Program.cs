@@ -15,8 +15,6 @@ var builder = WebApplication.CreateBuilder(args);
 var feesAssembly = typeof(Program).Assembly;
 
 builder.Services
-    .AddEndpointsApiExplorer()
-    .AddSwaggerGen()
     .AddMySqlDbContext<AccountFeesDbContext>(
         builder.Configuration,
         builder.Configuration.GetConnectionString(nameof(AccountFeesDbContext)),
@@ -38,12 +36,6 @@ builder.Services
     .AddRabbitMqMessaging(builder.Configuration, feesAssembly);
 
 var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
