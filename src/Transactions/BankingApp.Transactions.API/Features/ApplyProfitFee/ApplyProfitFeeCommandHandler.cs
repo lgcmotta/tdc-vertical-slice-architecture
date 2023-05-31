@@ -3,18 +3,18 @@ using BankingApp.Transactions.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankingApp.Transactions.API.Features.ApplyEarnings;
+namespace BankingApp.Transactions.API.Features.ApplyProfitFee;
 
-public class ApplyEarningsCommandHandler : IRequestHandler<ApplyEarningsCommand>
+public class ApplyProfitFeeCommandHandler : IRequestHandler<ApplyProfitFeeCommand>
 {
     private readonly AccountsDbContext _context;
 
-    public ApplyEarningsCommandHandler(AccountsDbContext context)
+    public ApplyProfitFeeCommandHandler(AccountsDbContext context)
     {
         _context = context;
     }
 
-    public async Task Handle(ApplyEarningsCommand request, CancellationToken cancellationToken)
+    public async Task Handle(ApplyProfitFeeCommand request, CancellationToken cancellationToken)
     {
         var account = await _context.Accounts
             .FirstOrDefaultAsync(account => account.Id == request.HolderId, cancellationToken)
@@ -25,6 +25,6 @@ public class ApplyEarningsCommandHandler : IRequestHandler<ApplyEarningsCommand>
             throw new AccountNotFoundException($"Account not found for account holder {request.HolderId}");
         }
 
-        account.ApplyEarnings(request.Earnings, DateTime.UtcNow);
+        account.ApplyProfitFee(request.ProfitFee, DateTime.UtcNow);
     }
 }

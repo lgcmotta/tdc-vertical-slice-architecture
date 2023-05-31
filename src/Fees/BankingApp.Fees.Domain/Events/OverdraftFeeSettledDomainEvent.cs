@@ -1,3 +1,5 @@
-﻿namespace BankingApp.Taxes.Domain.Events;
+﻿using MediatR;
 
-public record OverdraftFeeSettledDomainEvent(Guid HolderId, decimal FeeAmount);
+namespace BankingApp.Taxes.Domain.Events;
+
+public record OverdraftFeeSettledDomainEvent(Guid HolderId, decimal FeeAmount) : INotification;

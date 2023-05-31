@@ -1,16 +1,12 @@
-﻿using MassTransit;
-
-// ReSharper disable ClassNeverInstantiated.Global
+﻿// ReSharper disable ClassNeverInstantiated.Global
 namespace BankingApp.Messaging.Contracts;
 
-[MessageUrn("account-created")]
 public record AccountCreatedIntegrationEvent(Guid HolderId, string Name, string Document, string Token, string Currency);
 
-[MessageUrn("account-updated")]
 public record AccountUpdatedIntegrationEvent(Guid HolderId, string? Name, string? Token, string? Currency);
 
-[MessageUrn("account-balance-changed")]
-public record AccountBalanceChangedIntegrationEvent(Guid HolderId, decimal Balance, DateTime TransactionTimeStamp);
+public record AccountBalanceChangedIntegrationEvent(Guid HolderId, decimal Balance);
 
-[MessageUrn("apply-earnings")]
-public record AccountEarningsIntegrationEvent(Guid HolderId, decimal Earnings);
+public record AccountOverdraftSettledIntegrationEvent(Guid HolderId, decimal OverdraftFee);
+
+public record AccountProfitFeeSettledIntegrationEvent(Guid HolderId, decimal ProfitFee);

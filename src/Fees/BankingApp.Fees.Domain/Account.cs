@@ -14,5 +14,5 @@ public class Account : AggregateRoot<Guid>
 
     public DateTime LastBalanceChange { get; set; }
 
-    public IEnumerable<FeeHistory> FeeHistory { get; set; } = new List<FeeHistory>();
+    public List<FeeHistory> FeeHistory { get; set; } = new();
 }

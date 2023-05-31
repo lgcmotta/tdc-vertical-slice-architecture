@@ -1,3 +1,5 @@
-﻿namespace BankingApp.Taxes.Domain.Events;
+﻿using MediatR;
 
-public record ProfitFeeSettledDomainEvent(Guid HolderId, decimal IncomeAmount);
+namespace BankingApp.Taxes.Domain.Events;
+
+public record ProfitFeeSettledDomainEvent(Guid HolderId, decimal FeeAmount) : INotification;

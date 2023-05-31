@@ -70,7 +70,7 @@ public class AccountTests : IClassFixture<AccountFixture>
 
     [Theory]
     [ClassData(typeof(AccountFixture.InvalidTransactionAmounts))]
-    public void Account_TransferWhenAmountIsLessThanOrEqualToZero_ShouldThrowInvalidTransactionValueException(Money amount)
+    public void Account_TransferOutWhenAmountIsLessThanOrEqualToZero_ShouldThrowInvalidTransactionValueException(Money amount)
     {
         // Arrange
         var sender = _fixture.GenerateStandardAccount();
@@ -79,18 +79,21 @@ public class AccountTests : IClassFixture<AccountFixture>
         var currency = _fixture.PickRandomCurrency();
 
         // Act & Assert
-        Assert.Throws<InvalidTransactionValueException>(() => sender.Transfer(amount, currency, receiver, DateTime.Now));
+        Assert.Throws<InvalidTransactionValueException>(() => sender.TransferOut(receiver.Id, amount, currency, DateTime.Now));
     }
 
     [Theory]
     [ClassData(typeof(AccountFixture.InvalidTransactionAmounts))]
-    public void Account_ApplyEarningsWhenValueIsLessThanOrEqualToZero_ShouldThrowInvalidTransactionValueException(Money earnings)
+    public void Account_TransferInWhenAmountIsLessThanOrEqualToZero_ShouldThrowInvalidTransactionValueException(Money amount)
     {
         // Arrange
-        var account = _fixture.GenerateStandardAccount();
+        var sender = _fixture.GenerateStandardAccount();
+        var receiver = _fixture.GenerateStandardAccount();
+
+        var currency = _fixture.PickRandomCurrency();
 
         // Act & Assert
-        Assert.Throws<InvalidTransactionValueException>(() => account.ApplyEarnings(earnings, DateTime.Now));
+        Assert.Throws<InvalidTransactionValueException>(() => receiver.TransferIn(sender.Id, amount, currency, DateTime.Now));
     }
 
     [Fact]
@@ -144,10 +147,11 @@ public class AccountTests : IClassFixture<AccountFixture>
         receiver.Deposit(receiverDeposit, currency, DateTime.Now);
 
         // Act
-        sender.Transfer(transferAmount, currency, receiver, DateTime.Now);
+        sender.TransferOut(receiver.Id, transferAmount, currency, DateTime.Now);
+        receiver.TransferIn(sender.Id, transferAmount, currency, DateTime.Now);
 
-        var senderExpectedBalance = (senderDeposit - transferAmount) / currency.DollarExchangeRate;
-        var receiverExpectedBalance = (receiverDeposit + transferAmount) / currency.DollarExchangeRate;
+        var senderExpectedBalance = Money.ConvertToUSD(senderDeposit, currency) - Money.ConvertToUSD(transferAmount, currency);
+        var receiverExpectedBalance = Money.ConvertToUSD(receiverDeposit, currency) + Money.ConvertToUSD(transferAmount, currency);
 
         // Assert
         sender.GetCurrentBalance().Should().Be(senderExpectedBalance.Value);
@@ -155,22 +159,37 @@ public class AccountTests : IClassFixture<AccountFixture>
     }
 
     [Fact]
-    public void Account_ApplyEarningsWhenAmountIsValid_ShouldDecreaseBalance()
+    public void Account_ApplyProfitFee_ShouldIncreaseBalance()
     {
         // Arrange
-        var depositAmount = _fixture.GenerateMoney();
-        var earnings = _fixture.GenerateEarnings();
-        var currency = _fixture.PickRandomCurrency();
         var account = _fixture.GenerateStandardAccount();
 
         // Act
-        account.Deposit(depositAmount, currency, DateTime.Now);
-        account.ApplyEarnings(earnings, DateTime.Now);
+        account.Deposit(new Money(100.00m), Currency.Dollar, DateTime.Now);
+        account.ApplyProfitFee(new Money(1.0m), DateTime.Now);
 
         var balance = account.GetCurrentBalance();
 
         // Assert
-        var expected = depositAmount / currency.DollarExchangeRate + earnings;
+        var expected = new Money(101.00m);
+        balance.Should().Be(expected.Value);
+    }
+
+    [Fact]
+    public void Account_ApplyOverdraftFee_ShouldDecreaseBalance()
+    {
+        // Arrange
+        var account = _fixture.GenerateStandardAccount();
+
+        // Act
+        account.Deposit(new Money(100.00m), Currency.Dollar, DateTime.Now);
+        account.Withdraw(new Money(200.00m), DateTime.Now);
+        account.ApplyProfitFee(new Money(-10.00m), DateTime.Now);
+
+        var balance = account.GetCurrentBalance();
+
+        // Assert
+        var expected = new Money(-110.00m);
         balance.Should().Be(expected.Value);
     }
 
