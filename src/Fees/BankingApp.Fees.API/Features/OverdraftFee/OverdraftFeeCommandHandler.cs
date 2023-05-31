@@ -23,8 +23,6 @@ public class OverdraftFeeCommandHandler : IRequestHandler<OverdraftFeeCommand>
             .ToListAsync(cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 
-        if (!accounts.Any()) return;
-
         foreach (var account in accounts)
         {
             var feeAmount = account.CurrentBalanceInUSD * request.Rate;
@@ -35,7 +33,7 @@ public class OverdraftFeeCommandHandler : IRequestHandler<OverdraftFeeCommand>
                 Type = FeeType.Overdraft,
                 CreatedAt = DateTime.UtcNow
             });
-            
+
             account.AddDomainEvent(new OverdraftFeeSettledDomainEvent(account.Id, feeAmount));
         }
     }

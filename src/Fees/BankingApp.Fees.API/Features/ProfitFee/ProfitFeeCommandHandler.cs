@@ -25,8 +25,6 @@ public class ProfitFeeCommandHandler : IRequestHandler<ProfitFeeCommand>
             .ToListAsync(cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 
-        if (!accounts.Any()) return;
-
         foreach (var account in accounts)
         {
             var feeAmount = account.CurrentBalanceInUSD * request.Rate;
