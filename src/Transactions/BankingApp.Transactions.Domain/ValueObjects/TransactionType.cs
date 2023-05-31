@@ -12,5 +12,6 @@ public sealed class TransactionType : ValueObject<int, string>
     public static TransactionType Payment => new(2, nameof(Payment));
     public static TransactionType TransferIn => new(3, nameof(TransferIn));
     public static TransactionType TransferOut => new(4, nameof(TransferOut));
+    public static TransactionType OverdraftFee => new(5, nameof(OverdraftFee));
     public static TransactionType Earnings => new(5, nameof(Earnings));
 }

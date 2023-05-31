@@ -143,6 +143,16 @@ public sealed class Account : AggregateRoot<Guid>, ICreatableEntity, IModifiable
 
         AddDomainEvent(new TransferInDomainEvent(Id, BalanceInUSD));
     }
+    public void ApplyOverdraftFee(Money overdraftFee, DateTime transactionDateTime)
+    {
+        var balanceSnapShot = BalanceInUSD;
+
+        Debit(overdraftFee);
+
+        var transaction = new Transaction(overdraftFee, balanceSnapShot, TransactionType.OverdraftFee, Id, Id, transactionDateTime);
+
+        _transactions.Add(transaction);
+    }
 
     public void ApplyEarnings(Money earnings, DateTime transactionDateTime)
     {
