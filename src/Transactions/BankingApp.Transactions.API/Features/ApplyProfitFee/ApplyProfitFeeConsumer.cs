@@ -4,7 +4,7 @@ using MediatR;
 
 namespace BankingApp.Transactions.API.Features.ApplyProfitFee;
 
-public class ApplyProfitFeeConsumer : IConsumer<AccountEarningsIntegrationEvent>
+public class ApplyProfitFeeConsumer : IConsumer<AccountProfitFeeSettledIntegrationEvent>
 {
     private readonly IMediator _mediator;
 
@@ -13,11 +13,11 @@ public class ApplyProfitFeeConsumer : IConsumer<AccountEarningsIntegrationEvent>
         _mediator = mediator;
     }
 
-    public async Task Consume(ConsumeContext<AccountEarningsIntegrationEvent> context)
+    public async Task Consume(ConsumeContext<AccountProfitFeeSettledIntegrationEvent> context)
     {
         var message = context.Message;
 
-        var command = new ApplyProfitFeeCommand(message.HolderId, message.Earnings);
+        var command = new ApplyProfitFeeCommand(message.HolderId, message.ProfitFee);
 
         await _mediator.Send(command, context.CancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);

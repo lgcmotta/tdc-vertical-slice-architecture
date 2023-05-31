@@ -25,6 +25,6 @@ public class ApplyProfitFeeCommandHandler : IRequestHandler<ApplyProfitFeeComman
             throw new AccountNotFoundException($"Account not found for account holder {request.HolderId}");
         }
 
-        account.ApplyProfitFee(request.Earnings, DateTime.UtcNow);
+        account.ApplyProfitFee(request.ProfitFee, DateTime.UtcNow);
     }
 }
