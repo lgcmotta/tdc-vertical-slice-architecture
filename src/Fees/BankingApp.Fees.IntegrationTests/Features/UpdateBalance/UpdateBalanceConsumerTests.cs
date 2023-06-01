@@ -68,7 +68,6 @@ public class UpdateBalanceConsumerTests : IClassFixture<UpdateBalanceConsumerFix
 
         // Act
         await consumer.Consume(_fixture.ConsumeContext);
-        await context.SaveChangesAsync().ConfigureAwait(continueOnCapturedContext: false);
 
         // Assert
         account.CurrentBalanceInUSD.Should().Be(new Money(integrationEvent.Balance));
