@@ -1,0 +1,78 @@
+name: SonarCloud Analysis on Push
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonar:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+
+      - name: Install SonarCloud
+        shell: bash
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: Begin SonarCloud Analysis
+        shell: bash
+        env:
+          SONAR_HOST_URL: https://sonarcloud.io
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+          PR_NUMBER: ${{ inputs.pull-request-number }}
+          PR_BASE: ${{ inputs.pull-request-base }}
+          PR_HEAD: ${{ inputs.pull-request-head }}
+          QUALITY_GATE_WAIT: true
+          COVERAGE_REPORTS_DIR: ${{ github.workspace }}/reports
+        run: |
+          dotnet-sonarscanner begin \
+          /k:"$SONAR_PROJECT_KEY" \
+          /o:"$SONAR_ORGANIZATION" \
+          /d:sonar.login="$SONAR_TOKEN" \
+          /d:sonar.host.url="$SONAR_HOST_URL" \
+          /d:sonar.pullrequest.key="$PR_NUMBER" \
+          /d:sonar.pullrequest.branch="$PR_HEAD" \
+          /d:sonar.pullrequest.base="$PR_BASE" \
+          /d:sonar.qualitygate.wait=$QUALITY_GATE_WAIT \
+          /d:sonar.cs.opencover.reportsPaths="$COVERAGE_REPORTS_DIR/**/*.opencover.xml"
+
+      - name: Run .NET Restore
+        shell: bash
+        run: dotnet restore
+
+      - name: Run .NET Build
+        shell: bash
+        run: dotnet build --no-restore
+
+      - name: Run .NET Tests
+        shell: bash
+        env:
+          COVERAGE_REPORTS_DIR: ${{ github.workspace }}/reports
+        run: | 
+          dotnet test BankingApp.sln \
+          --collect:"XPlat Code Coverage" \
+          --results-directory:"$COVERAGE_REPORTS_DIR/" \
+          --no-build --no-restore \
+          --logger "GitHubActions;report-warnings=false" \
+          --verbosity m \
+          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover \
+          DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.ExcludeByAttribute=CompilerGeneratedAttribute
+
+      - name: End SonarCloud Analysis
+        shell: bash
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: | 
+          dotnet-sonarscanner end \
+          /d:sonar.login="$SONAR_TOKEN"

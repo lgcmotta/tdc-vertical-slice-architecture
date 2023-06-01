@@ -55,6 +55,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{D932D6B1-EB51-4D57-9F6E-94BCA4FB194D}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\push.yml = .github\workflows\push.yml
+		.github\workflows\pull_request.yml = .github\workflows\pull_request.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingApp.Fees.IntegrationTests", "src\Fees\BankingApp.Fees.IntegrationTests\BankingApp.Fees.IntegrationTests.csproj", "{954994DB-FA8D-4CD2-AAF0-82D5D079B597}"
