@@ -48,7 +48,6 @@ public class UpdateAccountCommandHandlerTests : IClassFixture<UpdateAccountComma
         await context.SaveChangesAsync().ConfigureAwait(continueOnCapturedContext: false);
 
         // Assert
-        account.Should().NotBeNull();
         account.Token.Should().Be(command.Token);
     }
 }

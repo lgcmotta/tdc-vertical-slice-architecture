@@ -70,7 +70,6 @@ public class UpdateAccountConsumerTests : IClassFixture<UpdateAccountConsumerFix
         await consumer.Consume(_fixture.ConsumeContext);
 
         // Assert
-        account.Should().NotBeNull();
         account.Token.Should().Be(integrationEvent.Token);
     }
 }
