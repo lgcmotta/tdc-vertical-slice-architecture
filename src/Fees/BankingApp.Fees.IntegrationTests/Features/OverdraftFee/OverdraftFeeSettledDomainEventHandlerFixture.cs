@@ -12,30 +12,30 @@ public class OverdraftFeeSettledDomainEventHandlerFixture
         _eventFaker = new Faker<OverdraftFeeSettledDomainEvent>();
     }
 
-    public OverdraftFeeSettledDomainEvent GetDomainEvent()
+    public OverdraftFeeSettledDomainEvent CreateDomainEvent()
     {
         return _eventFaker
             .CustomInstantiator(faker => new OverdraftFeeSettledDomainEvent(faker.Random.Guid(), faker.Finance.Amount()))
             .Generate();
     }
 
-    public class OverdraftConsumer : IConsumer<AccountOverdraftSettledIntegrationEvent>
+    public class OverdraftFeeConsumer : IConsumer<AccountOverdraftSettledIntegrationEvent>
     {
         public Task Consume(ConsumeContext<AccountOverdraftSettledIntegrationEvent> context) => Task.CompletedTask;
     }
 
-    public class OverdraftConsumerOptions : IConsumerConfiguration
+    public class OverdraftFeeConsumerConfiguration : IConsumerConfiguration
     {
         public void ConfigureMassTransit(IBusRegistrationConfigurator configurator)
         {
-            configurator.AddConsumer<OverdraftConsumer>();
+            configurator.AddConsumer<OverdraftFeeConsumer>();
         }
 
         public void ConfigureConsumers(IRabbitMqBusFactoryConfigurator rabbitmq, IBusRegistrationContext context)
         {
             rabbitmq.ReceiveEndpoint("transactions-overdraft-fee", configurator =>
             {
-                configurator.ConfigureConsumer<OverdraftConsumer>(context);
+                configurator.ConfigureConsumer<OverdraftFeeConsumer>(context);
             });
         }
     }

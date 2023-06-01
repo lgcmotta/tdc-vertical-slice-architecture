@@ -18,11 +18,11 @@ public class OverdraftFeeSettledDomainEventHandlerTests : IClassFixture<Overdraf
         // Arrange
         var harness = _factory.Services.GetTestHarness();
 
-        var domainEvent = _fixture.GetDomainEvent();
+        var domainEvent = _fixture.CreateDomainEvent();
 
         var handler = new OverdraftFeeSettledDomainEventHandler(harness.Bus);
 
-        var consumerHarness = harness.GetConsumerHarness<OverdraftFeeSettledDomainEventHandlerFixture.OverdraftConsumer>();
+        var consumerHarness = harness.GetConsumerHarness<OverdraftFeeSettledDomainEventHandlerFixture.OverdraftFeeConsumer>();
 
         // Act
         await handler.Handle(domainEvent, CancellationToken.None).ConfigureAwait(continueOnCapturedContext: false);
