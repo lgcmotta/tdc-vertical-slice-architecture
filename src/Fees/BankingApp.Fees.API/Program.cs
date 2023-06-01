@@ -42,3 +42,5 @@ app.UseMiddleware<ExceptionHandlerMiddleware>();
 await app.Services.ApplyMigrationsAsync<AccountFeesDbContext>();
 
 app.Run();
+
+public partial class Program { }

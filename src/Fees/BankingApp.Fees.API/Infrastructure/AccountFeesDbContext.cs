@@ -1,4 +1,4 @@
-﻿using BankingApp.Taxes.Domain;
+﻿using BankingApp.Fees.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 

@@ -1,5 +1,5 @@
-﻿using BankingApp.Messaging.Contracts;
-using BankingApp.Taxes.Domain.Events;
+﻿using BankingApp.Fees.Domain.Events;
+using BankingApp.Messaging.Contracts;
 using MassTransit;
 using MediatR;
 

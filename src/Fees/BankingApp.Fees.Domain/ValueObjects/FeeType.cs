@@ -1,6 +1,6 @@
 ﻿using BankingApp.Domain.Core;
 
-namespace BankingApp.Taxes.Domain.ValueObjects;
+namespace BankingApp.Fees.Domain.ValueObjects;
 
 public class FeeType : ValueObject<int, string>
 {

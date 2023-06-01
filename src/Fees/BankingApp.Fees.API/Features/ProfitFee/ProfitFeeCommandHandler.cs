@@ -1,7 +1,7 @@
 ﻿using BankingApp.Fees.API.Infrastructure;
-using BankingApp.Taxes.Domain.Entities;
-using BankingApp.Taxes.Domain.Events;
-using BankingApp.Taxes.Domain.ValueObjects;
+using BankingApp.Fees.Domain.Entities;
+using BankingApp.Fees.Domain.Events;
+using BankingApp.Fees.Domain.ValueObjects;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,4 @@
-﻿namespace BankingApp.Taxes.Domain.ValueObjects;
+﻿namespace BankingApp.Fees.Domain.ValueObjects;
 
 public sealed class Money : IFormattable
 {
