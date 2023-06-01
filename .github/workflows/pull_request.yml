@@ -1,10 +1,8 @@
 name: SonarCloud Analysis on Push
 
 on:
-  push:
-    branches:
-      - main
-
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   sonar:
@@ -36,7 +34,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
           SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
-          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_BASE: ${{ github.event.pull_request.base.ref }}
+          PR_HEAD: ${{ github.event.pull_request.head.ref }}
           QUALITY_GATE_WAIT: true
           COVERAGE_REPORTS_DIR: ${{ github.workspace }}/reports
         run: |
@@ -45,7 +45,9 @@ jobs:
           /o:"$SONAR_ORGANIZATION" \
           /d:sonar.login="$SONAR_TOKEN" \
           /d:sonar.host.url="$SONAR_HOST_URL" \
-          /d:sonar.branch.name="$BRANCH_NAME" \
+          /d:sonar.pullrequest.key="$PR_NUMBER" \
+          /d:sonar.pullrequest.branch="$PR_HEAD" \
+          /d:sonar.pullrequest.base="$PR_BASE" \
           /d:sonar.qualitygate.wait=$QUALITY_GATE_WAIT \
           /d:sonar.cs.opencover.reportsPaths="$COVERAGE_REPORTS_DIR/**/*.opencover.xml"
 

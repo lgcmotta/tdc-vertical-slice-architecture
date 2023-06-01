@@ -1,4 +1,4 @@
-﻿namespace BankingApp.Taxes.Domain.Exceptions;
+﻿namespace BankingApp.Fees.Domain.Exceptions;
 
 public class AccountHolderConflictException : Exception
 {

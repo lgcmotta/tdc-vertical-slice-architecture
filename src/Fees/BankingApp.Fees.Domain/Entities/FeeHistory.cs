@@ -1,8 +1,8 @@
 ﻿using BankingApp.Domain.Core;
-using BankingApp.Taxes.Domain.ValueObjects;
+using BankingApp.Fees.Domain.ValueObjects;
 
 // ReSharper disable ClassNeverInstantiated.Global
-namespace BankingApp.Taxes.Domain.Entities;
+namespace BankingApp.Fees.Domain.Entities;
 
 public sealed class FeeHistory : IEntity<Guid>, ICreatableEntity
 {

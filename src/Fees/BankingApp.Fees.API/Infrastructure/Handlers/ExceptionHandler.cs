@@ -1,6 +1,6 @@
 ﻿using BankingApp.Application.Core.Exceptions;
+using BankingApp.Fees.Domain.Exceptions;
 using BankingApp.Infrastructure.Core.Handlers;
-using BankingApp.Taxes.Domain.Exceptions;
 using System.Net;
 
 namespace BankingApp.Fees.API.Infrastructure.Handlers;

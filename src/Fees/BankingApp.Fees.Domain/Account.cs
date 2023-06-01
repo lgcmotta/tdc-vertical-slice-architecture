@@ -1,8 +1,8 @@
 ﻿using BankingApp.Domain.Core;
-using BankingApp.Taxes.Domain.Entities;
-using BankingApp.Taxes.Domain.ValueObjects;
+using BankingApp.Fees.Domain.Entities;
+using BankingApp.Fees.Domain.ValueObjects;
 
-namespace BankingApp.Taxes.Domain;
+namespace BankingApp.Fees.Domain;
 
 public class Account : AggregateRoot<Guid>
 {

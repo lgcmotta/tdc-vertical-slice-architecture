@@ -1,5 +1,5 @@
-﻿using BankingApp.Taxes.Domain;
-using BankingApp.Taxes.Domain.ValueObjects;
+﻿using BankingApp.Fees.Domain;
+using BankingApp.Fees.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
