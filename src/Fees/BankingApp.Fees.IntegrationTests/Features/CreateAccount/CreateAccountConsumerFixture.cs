@@ -1,7 +1,7 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
 namespace BankingApp.Fees.IntegrationTests.Features.CreateAccount;
 
-public class CreateAccountConsumerFixture : FeesWebApplicationFactory
+public class CreateAccountConsumerFixture
 {
     private readonly Mock<ConsumeContext<AccountCreatedIntegrationEvent>> _consumeContextMock;
     private readonly Faker<AccountCreatedIntegrationEvent> _eventFaker;

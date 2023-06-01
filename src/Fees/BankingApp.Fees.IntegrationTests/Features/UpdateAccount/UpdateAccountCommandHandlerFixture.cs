@@ -1,7 +1,7 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
 namespace BankingApp.Fees.IntegrationTests.Features.UpdateAccount;
 
-public class UpdateAccountCommandHandlerFixture : FeesWebApplicationFactory
+public class UpdateAccountCommandHandlerFixture
 {
     private readonly Faker<UpdateAccountCommand> _commandFaker;
     private readonly Faker<Account> _accountFaker;

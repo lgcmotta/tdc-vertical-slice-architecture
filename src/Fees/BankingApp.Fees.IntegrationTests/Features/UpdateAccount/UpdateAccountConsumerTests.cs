@@ -1,12 +1,15 @@
 ﻿namespace BankingApp.Fees.IntegrationTests.Features.UpdateAccount;
 
+[Collection("FeesWebApplicationFactory")]
 public class UpdateAccountConsumerTests : IClassFixture<UpdateAccountConsumerFixture>
 {
     private readonly UpdateAccountConsumerFixture _fixture;
+    private readonly FeesWebApplicationFactory _factory;
 
-    public UpdateAccountConsumerTests(UpdateAccountConsumerFixture fixture)
+    public UpdateAccountConsumerTests(UpdateAccountConsumerFixture fixture, FeesWebApplicationFactory factory)
     {
         _fixture = fixture;
+        _factory = factory;
     }
 
     [Theory]
@@ -14,7 +17,7 @@ public class UpdateAccountConsumerTests : IClassFixture<UpdateAccountConsumerFix
     public async Task UpdateAccountConsumer_WhenIntegrationEventIsInvalid_ShouldThrowValidationFailedException(AccountUpdatedIntegrationEvent integrationEvent)
     {
         // Arrange
-        using var scope = _fixture.Services.CreateScope();
+        using var scope = _factory.Services.CreateScope();
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
         _fixture.SetupConsumeContext(integrationEvent);
@@ -30,7 +33,7 @@ public class UpdateAccountConsumerTests : IClassFixture<UpdateAccountConsumerFix
     public async Task UpdateAccountConsumer_WhenAccountDontExists_ShouldThrowAccountNotFoundException()
     {
         // Arrange
-        using var scope = _fixture.Services.CreateScope();
+        using var scope = _factory.Services.CreateScope();
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
         var integrationEvent = _fixture.CreateIntegrationEvent(Guid.NewGuid());
@@ -48,7 +51,7 @@ public class UpdateAccountConsumerTests : IClassFixture<UpdateAccountConsumerFix
     public async Task UpdateAccountConsumer_WhenMessageIsReceived_ShouldUpdateAccount()
     {
         // Arrange
-        using var scope = _fixture.Services.CreateScope();
+        using var scope = _factory.Services.CreateScope();
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
         var context = scope.ServiceProvider.GetRequiredService<AccountFeesDbContext>();
 

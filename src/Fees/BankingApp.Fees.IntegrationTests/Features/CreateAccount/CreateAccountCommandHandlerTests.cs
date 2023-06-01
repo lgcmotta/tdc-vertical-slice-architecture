@@ -1,21 +1,22 @@
-﻿using BankingApp.Fees.Domain.Exceptions;
+﻿namespace BankingApp.Fees.IntegrationTests.Features.CreateAccount;
 
-namespace BankingApp.Fees.IntegrationTests.Features.CreateAccount;
-
+[Collection("FeesWebApplicationFactory")]
 public class CreateAccountCommandHandlerTests : IClassFixture<CreateAccountCommandHandlerFixture>
 {
     private readonly CreateAccountCommandHandlerFixture _fixture;
+    private readonly FeesWebApplicationFactory _factory;
 
-    public CreateAccountCommandHandlerTests(CreateAccountCommandHandlerFixture fixture)
+    public CreateAccountCommandHandlerTests(CreateAccountCommandHandlerFixture fixture, FeesWebApplicationFactory factory)
     {
         _fixture = fixture;
+        _factory = factory;
     }
 
     [Fact]
     public async Task CreateAccountCommandHandler_WhenAccountExists_ShouldThrowAccountHolderConflictException()
     {
         // Arrange
-        using var scope = _fixture.Services.CreateScope();
+        using var scope = _factory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AccountFeesDbContext>();
 
         var account = _fixture.CreateAccount();
@@ -36,7 +37,7 @@ public class CreateAccountCommandHandlerTests : IClassFixture<CreateAccountComma
     public async Task CreateAccountCommandHandler_WhenAccountDontExists_ShouldCreateAccount()
     {
         // Arrange
-        using var scope = _fixture.Services.CreateScope();
+        using var scope = _factory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AccountFeesDbContext>();
 
         var command = _fixture.CreateCommand();

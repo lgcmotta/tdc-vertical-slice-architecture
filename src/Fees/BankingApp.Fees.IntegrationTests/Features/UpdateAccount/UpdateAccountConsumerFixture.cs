@@ -1,7 +1,7 @@
-﻿namespace BankingApp.Fees.IntegrationTests.Features.UpdateAccount;
+﻿// ReSharper disable ClassNeverInstantiated.Global
+namespace BankingApp.Fees.IntegrationTests.Features.UpdateAccount;
 
-// ReSharper disable ClassNeverInstantiated.Global
-public class UpdateAccountConsumerFixture : FeesWebApplicationFactory
+public class UpdateAccountConsumerFixture
 {
     private readonly Mock<ConsumeContext<AccountUpdatedIntegrationEvent>> _consumeContextMock;
     private readonly Faker<AccountUpdatedIntegrationEvent> _eventFaker;

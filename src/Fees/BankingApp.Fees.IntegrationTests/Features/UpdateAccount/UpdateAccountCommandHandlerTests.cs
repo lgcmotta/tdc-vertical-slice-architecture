@@ -1,19 +1,22 @@
 ﻿namespace BankingApp.Fees.IntegrationTests.Features.UpdateAccount;
 
+[Collection("FeesWebApplicationFactory")]
 public class UpdateAccountCommandHandlerTests : IClassFixture<UpdateAccountCommandHandlerFixture>
 {
     private readonly UpdateAccountCommandHandlerFixture _fixture;
+    private readonly FeesWebApplicationFactory _factory;
 
-    public UpdateAccountCommandHandlerTests(UpdateAccountCommandHandlerFixture fixture)
+    public UpdateAccountCommandHandlerTests(UpdateAccountCommandHandlerFixture fixture, FeesWebApplicationFactory factory)
     {
         _fixture = fixture;
+        _factory = factory;
     }
 
     [Fact]
     public async Task UpdateAccountCommandHandler_WhenAccountNotExists_ShouldThrowAccountNotFoundException()
     {
         // Arrange
-        using var scope = _fixture.Services.CreateScope();
+        using var scope = _factory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AccountFeesDbContext>();
 
         var command = _fixture.CreateCommand();
@@ -28,7 +31,7 @@ public class UpdateAccountCommandHandlerTests : IClassFixture<UpdateAccountComma
     [Fact]
     public async Task UpdateAccountCommandHandler_WhenAccountExists_ShouldUpdateAccount()
     {
-        using var scope = _fixture.Services.CreateScope();
+        using var scope = _factory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AccountFeesDbContext>();
 
         var account = _fixture.CreateAccount();

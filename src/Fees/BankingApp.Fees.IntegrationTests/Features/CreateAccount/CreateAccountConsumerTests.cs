@@ -1,12 +1,15 @@
 ﻿namespace BankingApp.Fees.IntegrationTests.Features.CreateAccount;
 
+[Collection("FeesWebApplicationFactory")]
 public class CreateAccountConsumerTests : IClassFixture<CreateAccountConsumerFixture>
 {
     private readonly CreateAccountConsumerFixture _fixture;
+    private readonly FeesWebApplicationFactory _factory;
 
-    public CreateAccountConsumerTests(CreateAccountConsumerFixture fixture)
+    public CreateAccountConsumerTests(CreateAccountConsumerFixture fixture, FeesWebApplicationFactory factory)
     {
         _fixture = fixture;
+        _factory = factory;
     }
 
     [Theory]
@@ -14,7 +17,7 @@ public class CreateAccountConsumerTests : IClassFixture<CreateAccountConsumerFix
     public async Task CreateAccountConsumer_WhenIntegrationEventIsInvalid_ShouldThrowValidationFailedException(AccountCreatedIntegrationEvent integrationEvent)
     {
         // Arrange
-        using var scope = _fixture.Services.CreateScope();
+        using var scope = _factory.Services.CreateScope();
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
         _fixture.SetupConsumeContext(integrationEvent);
@@ -30,7 +33,7 @@ public class CreateAccountConsumerTests : IClassFixture<CreateAccountConsumerFix
     public async Task CreateAccountConsumer_WhenMessageIsReceived_ShouldCreateAccount()
     {
         // Arrange
-        using var scope = _fixture.Services.CreateScope();
+        using var scope = _factory.Services.CreateScope();
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
         var context = scope.ServiceProvider.GetRequiredService<AccountFeesDbContext>();
 
