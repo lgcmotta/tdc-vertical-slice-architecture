@@ -8,6 +8,7 @@ using BankingApp.Fees.API.Infrastructure.Handlers;
 using BankingApp.Infrastructure.Core.Extensions;
 using BankingApp.Infrastructure.Core.Handlers;
 using MediatR.NotificationPublishers;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +44,7 @@ await app.Services.ApplyMigrationsAsync<AccountFeesDbContext>();
 
 app.Run();
 
+[ExcludeFromCodeCoverage]
 public partial class Program
 {
     protected Program()
