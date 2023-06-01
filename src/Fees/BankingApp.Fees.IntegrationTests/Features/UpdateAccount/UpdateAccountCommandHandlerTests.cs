@@ -47,11 +47,8 @@ public class UpdateAccountCommandHandlerTests : IClassFixture<UpdateAccountComma
         await handler.Handle(command, CancellationToken.None).ConfigureAwait(continueOnCapturedContext: false);
         await context.SaveChangesAsync().ConfigureAwait(continueOnCapturedContext: false);
 
-        var updatedAccount = await context.Accounts.FirstOrDefaultAsync(updated => updated.Id == command.HolderId)
-            .ConfigureAwait(continueOnCapturedContext: false);
-
         // Assert
-        updatedAccount.Should().NotBeNull();
-        updatedAccount!.Token.Should().Be(command.Token);
+        account.Should().NotBeNull();
+        account.Token.Should().Be(command.Token);
     }
 }

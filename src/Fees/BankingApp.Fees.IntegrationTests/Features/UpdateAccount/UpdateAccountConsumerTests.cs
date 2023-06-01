@@ -69,10 +69,8 @@ public class UpdateAccountConsumerTests : IClassFixture<UpdateAccountConsumerFix
         // Act
         await consumer.Consume(_fixture.ConsumeContext);
 
-        var updatedAccount = await context.Accounts.FirstOrDefaultAsync(updated => updated.Id == account.Id);
-
         // Assert
-        updatedAccount.Should().NotBeNull();
-        updatedAccount!.Token.Should().Be(integrationEvent.Token);
+        account.Should().NotBeNull();
+        account.Token.Should().Be(integrationEvent.Token);
     }
 }
