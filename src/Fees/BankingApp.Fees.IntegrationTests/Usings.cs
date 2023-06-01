@@ -26,6 +26,8 @@ global using Bogus;
 global using Bogus.Extensions.Brazil;
 global using BankingApp.Fees.API.Features.OverdraftFee;
 global using BankingApp.Fees.API.Features.ProfitFee;
+global using BankingApp.Fees.API.Features.UpdateBalance;
+global using BankingApp.Fees.Domain.ValueObjects;
 global using BankingApp.Fees.Domain;
 global using BankingApp.Fees.API.Features.UpdateAccount;
 global using BankingApp.Fees.Domain.Exceptions;
