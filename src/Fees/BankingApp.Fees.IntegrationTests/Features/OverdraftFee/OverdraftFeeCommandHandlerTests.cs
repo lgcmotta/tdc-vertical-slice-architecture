@@ -6,9 +6,14 @@ public class OverdraftFeeCommandHandlerTests : IClassFixture<OverdraftFeeCommand
     private readonly OverdraftFeeCommandHandlerFixture _fixture;
     private readonly FeesWebApplicationFactory _factory;
 
-    public OverdraftFeeCommandHandlerTests(OverdraftFeeCommandHandlerFixture fixture, FeesWebApplicationFactory factory)
+    private OverdraftFeeCommandHandlerTests(OverdraftFeeCommandHandlerFixture fixture)
     {
         _fixture = fixture;
+        _factory = new FeesWebApplicationFactory();
+    }
+
+    public OverdraftFeeCommandHandlerTests(OverdraftFeeCommandHandlerFixture fixture, FeesWebApplicationFactory factory) : this(fixture)
+    {
         _factory = factory;
     }
 

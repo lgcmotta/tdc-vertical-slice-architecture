@@ -6,9 +6,14 @@ public class CreateAccountCommandHandlerTests : IClassFixture<CreateAccountComma
     private readonly CreateAccountCommandHandlerFixture _fixture;
     private readonly FeesWebApplicationFactory _factory;
 
-    public CreateAccountCommandHandlerTests(CreateAccountCommandHandlerFixture fixture, FeesWebApplicationFactory factory)
+    private CreateAccountCommandHandlerTests(CreateAccountCommandHandlerFixture fixture)
     {
         _fixture = fixture;
+        _factory = new FeesWebApplicationFactory();
+    }
+
+    public CreateAccountCommandHandlerTests(CreateAccountCommandHandlerFixture fixture, FeesWebApplicationFactory factory) : this(fixture)
+    {
         _factory = factory;
     }
 

@@ -6,9 +6,14 @@ public class ProfitFeeCommandHandlerTests : IClassFixture<ProfitFeeCommandHandle
     private readonly ProfitFeeCommandHandlerFixture _fixture;
     private readonly FeesWebApplicationFactory _factory;
 
-    public ProfitFeeCommandHandlerTests(ProfitFeeCommandHandlerFixture fixture, FeesWebApplicationFactory factory)
+    private ProfitFeeCommandHandlerTests(ProfitFeeCommandHandlerFixture fixture)
     {
         _fixture = fixture;
+        _factory = new FeesWebApplicationFactory();
+    }
+
+    public ProfitFeeCommandHandlerTests(ProfitFeeCommandHandlerFixture fixture, FeesWebApplicationFactory factory) : this(fixture)
+    {
         _factory = factory;
     }
 

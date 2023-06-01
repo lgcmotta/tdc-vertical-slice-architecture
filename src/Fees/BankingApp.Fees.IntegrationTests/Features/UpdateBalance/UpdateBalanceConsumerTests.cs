@@ -6,9 +6,14 @@ public class UpdateBalanceConsumerTests : IClassFixture<UpdateBalanceConsumerFix
     private readonly UpdateBalanceConsumerFixture _fixture;
     private readonly FeesWebApplicationFactory _factory;
 
-    public UpdateBalanceConsumerTests(UpdateBalanceConsumerFixture fixture, FeesWebApplicationFactory factory)
+    private UpdateBalanceConsumerTests(UpdateBalanceConsumerFixture fixture)
     {
         _fixture = fixture;
+        _factory = new FeesWebApplicationFactory();
+    }
+
+    public UpdateBalanceConsumerTests(UpdateBalanceConsumerFixture fixture, FeesWebApplicationFactory factory) : this(fixture)
+    {
         _factory = factory;
     }
 

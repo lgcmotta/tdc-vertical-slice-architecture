@@ -6,9 +6,14 @@ public class OverdraftFeeSettledDomainEventHandlerTests : IClassFixture<Overdraf
     private readonly OverdraftFeeSettledDomainEventHandlerFixture _fixture;
     private readonly FeesWebApplicationFactory _factory;
 
-    public OverdraftFeeSettledDomainEventHandlerTests(OverdraftFeeSettledDomainEventHandlerFixture fixture, FeesWebApplicationFactory factory)
+    private OverdraftFeeSettledDomainEventHandlerTests(OverdraftFeeSettledDomainEventHandlerFixture fixture)
     {
         _fixture = fixture;
+        _factory = new FeesWebApplicationFactory();
+    }
+
+    public OverdraftFeeSettledDomainEventHandlerTests(OverdraftFeeSettledDomainEventHandlerFixture fixture, FeesWebApplicationFactory factory) : this(fixture)
+    {
         _factory = factory;
     }
 

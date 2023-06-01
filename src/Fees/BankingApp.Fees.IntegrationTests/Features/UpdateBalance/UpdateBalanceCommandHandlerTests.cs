@@ -6,9 +6,14 @@ public class UpdateBalanceCommandHandlerTests : IClassFixture<UpdateBalanceComma
     private readonly UpdateBalanceCommandHandlerFixture _fixture;
     private readonly FeesWebApplicationFactory _factory;
 
-    public UpdateBalanceCommandHandlerTests(UpdateBalanceCommandHandlerFixture fixture, FeesWebApplicationFactory factory)
+    private UpdateBalanceCommandHandlerTests(UpdateBalanceCommandHandlerFixture fixture)
     {
         _fixture = fixture;
+        _factory = new FeesWebApplicationFactory();
+    }
+
+    public UpdateBalanceCommandHandlerTests(UpdateBalanceCommandHandlerFixture fixture, FeesWebApplicationFactory factory) : this(fixture)
+    {
         _factory = factory;
     }
 

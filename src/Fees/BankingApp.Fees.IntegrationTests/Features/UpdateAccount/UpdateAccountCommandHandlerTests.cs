@@ -6,9 +6,14 @@ public class UpdateAccountCommandHandlerTests : IClassFixture<UpdateAccountComma
     private readonly UpdateAccountCommandHandlerFixture _fixture;
     private readonly FeesWebApplicationFactory _factory;
 
-    public UpdateAccountCommandHandlerTests(UpdateAccountCommandHandlerFixture fixture, FeesWebApplicationFactory factory)
+    private UpdateAccountCommandHandlerTests(UpdateAccountCommandHandlerFixture fixture)
     {
         _fixture = fixture;
+        _factory = new FeesWebApplicationFactory();
+    }
+
+    public UpdateAccountCommandHandlerTests(UpdateAccountCommandHandlerFixture fixture, FeesWebApplicationFactory factory) : this(fixture)
+    {
         _factory = factory;
     }
 

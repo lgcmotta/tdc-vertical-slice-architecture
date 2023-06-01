@@ -6,9 +6,14 @@ public class UpdateAccountConsumerTests : IClassFixture<UpdateAccountConsumerFix
     private readonly UpdateAccountConsumerFixture _fixture;
     private readonly FeesWebApplicationFactory _factory;
 
-    public UpdateAccountConsumerTests(UpdateAccountConsumerFixture fixture, FeesWebApplicationFactory factory)
+    private UpdateAccountConsumerTests(UpdateAccountConsumerFixture fixture)
     {
         _fixture = fixture;
+        _factory = new FeesWebApplicationFactory();
+    }
+
+    public UpdateAccountConsumerTests(UpdateAccountConsumerFixture fixture, FeesWebApplicationFactory factory) : this(fixture)
+    {
         _factory = factory;
     }
 

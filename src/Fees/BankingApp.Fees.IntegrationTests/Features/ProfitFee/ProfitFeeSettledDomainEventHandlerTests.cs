@@ -6,9 +6,14 @@ public class ProfitFeeSettledDomainEventHandlerTests : IClassFixture<ProfitFeeSe
     private readonly ProfitFeeSettledDomainEventHandlerFixture _fixture;
     private readonly FeesWebApplicationFactory _factory;
 
-    public ProfitFeeSettledDomainEventHandlerTests(ProfitFeeSettledDomainEventHandlerFixture fixture, FeesWebApplicationFactory factory)
+    private ProfitFeeSettledDomainEventHandlerTests(ProfitFeeSettledDomainEventHandlerFixture fixture)
     {
         _fixture = fixture;
+        _factory = new FeesWebApplicationFactory();
+    }
+
+    public ProfitFeeSettledDomainEventHandlerTests(ProfitFeeSettledDomainEventHandlerFixture fixture, FeesWebApplicationFactory factory) : this(fixture)
+    {
         _factory = factory;
     }
 

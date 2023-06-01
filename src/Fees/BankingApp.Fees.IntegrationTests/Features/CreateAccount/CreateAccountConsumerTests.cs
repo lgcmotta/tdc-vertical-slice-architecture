@@ -6,9 +6,14 @@ public class CreateAccountConsumerTests : IClassFixture<CreateAccountConsumerFix
     private readonly CreateAccountConsumerFixture _fixture;
     private readonly FeesWebApplicationFactory _factory;
 
-    public CreateAccountConsumerTests(CreateAccountConsumerFixture fixture, FeesWebApplicationFactory factory)
+    private CreateAccountConsumerTests(CreateAccountConsumerFixture fixture)
     {
         _fixture = fixture;
+        _factory = new FeesWebApplicationFactory();
+    }
+
+    public CreateAccountConsumerTests(CreateAccountConsumerFixture fixture, FeesWebApplicationFactory factory) : this(fixture)
+    {
         _factory = factory;
     }
 
