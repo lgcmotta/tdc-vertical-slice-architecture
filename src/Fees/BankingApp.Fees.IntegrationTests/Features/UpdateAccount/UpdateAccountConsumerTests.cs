@@ -51,25 +51,38 @@ public class UpdateAccountConsumerTests : IClassFixture<UpdateAccountConsumerFix
     public async Task UpdateAccountConsumer_WhenMessageIsReceived_ShouldUpdateAccount()
     {
         // Arrange
-        using var scope = _factory.Services.CreateScope();
-        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-        var context = scope.ServiceProvider.GetRequiredService<AccountFeesDbContext>();
+        var harness = _factory.Services.GetTestHarness();
+        using var scope1 = _factory.Services.CreateScope();
+        var context1 = scope1.ServiceProvider.GetRequiredService<AccountFeesDbContext>();
 
         var account = _fixture.CreateAccount();
 
-        await context.AddAsync(account).ConfigureAwait(continueOnCapturedContext: false);
-        await context.SaveChangesAsync().ConfigureAwait(continueOnCapturedContext: false);
+        await context1.Accounts.AddAsync(account).ConfigureAwait(continueOnCapturedContext: false);
+        await context1.SaveChangesAsync().ConfigureAwait(continueOnCapturedContext: false);
+
+        await context1.DisposeAsync();
+        scope1.Dispose();
 
         var integrationEvent = _fixture.CreateIntegrationEvent(account.Id);
 
-        _fixture.SetupConsumeContext(integrationEvent);
-
-        var consumer = new UpdateAccountConsumer(mediator);
+        var consumerHarness = harness.GetConsumerHarness<UpdateAccountConsumer>();
 
         // Act
-        await consumer.Consume(_fixture.ConsumeContext);
+        await harness.Bus.Publish(integrationEvent, CancellationToken.None).ConfigureAwait(continueOnCapturedContext: false);
+
+        await Task.Delay(5000).ConfigureAwait(continueOnCapturedContext: false);
 
         // Assert
-        account.Token.Should().Be(integrationEvent.Token);
+        var consumed = await consumerHarness.Consumed.Any().ConfigureAwait(continueOnCapturedContext: false);
+
+        using var scope2 = _factory.Services.CreateScope();
+        var context2 = scope2.ServiceProvider.GetRequiredService<AccountFeesDbContext>();
+
+        var updatedAccount = await context2.Accounts
+            .FirstOrDefaultAsync(updated => updated.Id == account.Id)
+            .ConfigureAwait(continueOnCapturedContext: false);
+
+        consumed.Should().BeTrue();
+        updatedAccount!.Token.Should().Be(integrationEvent.Token);
     }
 }
