@@ -1,4 +1,10 @@
-﻿namespace BankingApp.Fees.IntegrationTests;
+﻿// ReSharper disable ClassNeverInstantiated.Global
+namespace BankingApp.Fees.IntegrationTests;
+
+
+[CollectionDefinition("FeesWebApplicationFactory")]
+public class FeesWebApplicationFactoryCollection : ICollectionFixture<FeesWebApplicationFactory>
+{ }
 
 public class FeesWebApplicationFactory : WebApplicationFactory<Program>
 {
