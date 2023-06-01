@@ -2,6 +2,7 @@ name: SonarCloud Analysis on Push
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   sonar:
