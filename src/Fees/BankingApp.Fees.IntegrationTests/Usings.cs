@@ -31,3 +31,4 @@ global using BankingApp.Fees.Domain.ValueObjects;
 global using BankingApp.Fees.Domain;
 global using BankingApp.Fees.API.Features.UpdateAccount;
 global using BankingApp.Fees.Domain.Exceptions;
+global using BankingApp.Fees.Domain.Events;
