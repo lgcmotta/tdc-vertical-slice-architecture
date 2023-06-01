@@ -33,23 +33,26 @@ public class CreateAccountConsumerTests : IClassFixture<CreateAccountConsumerFix
     public async Task CreateAccountConsumer_WhenMessageIsReceived_ShouldCreateAccount()
     {
         // Arrange
+        var harness = _factory.Services.GetTestHarness();
         using var scope = _factory.Services.CreateScope();
-        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
         var context = scope.ServiceProvider.GetRequiredService<AccountFeesDbContext>();
 
         var integrationEvent = _fixture.CreatedIntegrationEvent();
 
-        _fixture.SetupConsumeContext(integrationEvent);
-
-        var consumer = new CreateAccountConsumer(mediator);
+        var consumerHarness = harness.GetConsumerHarness<CreateAccountConsumer>();
 
         // Act
-        await consumer.Consume(_fixture.ConsumeContext);
+        await harness.Bus.Publish(integrationEvent, CancellationToken.None).ConfigureAwait(continueOnCapturedContext: false);
 
+        await Task.Delay(5000).ConfigureAwait(continueOnCapturedContext: false);
+
+        // Assert
         var account = await context.Accounts.FirstOrDefaultAsync(account => account.Id == integrationEvent.HolderId)
             .ConfigureAwait(continueOnCapturedContext: false);
 
-        // Assert
+        var consumed = await consumerHarness.Consumed.Any().ConfigureAwait(continueOnCapturedContext: false);
+
         account.Should().NotBeNull();
+        consumed.Should().BeTrue();
     }
 }
