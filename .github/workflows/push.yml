@@ -25,6 +25,10 @@ jobs:
         shell: bash
         run: dotnet tool install --global dotnet-sonarscanner
 
+      - name: Start Containers
+        shell: bash
+        run: docker compose up -d && sleep 10
+
       - name: Begin SonarCloud Analysis
         shell: bash
         env:
