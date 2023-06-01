@@ -45,6 +45,7 @@ public class OverdraftFeeCommandHandlerTests : IClassFixture<OverdraftFeeCommand
         var command = _fixture.CreateCommand(rate);
 
         var handler = new OverdraftFeeCommandHandler(context);
+
         // Act
         await handler.Handle(command, CancellationToken.None).ConfigureAwait(continueOnCapturedContext: false);
         await context.SaveChangesAsync().ConfigureAwait(continueOnCapturedContext: false);
