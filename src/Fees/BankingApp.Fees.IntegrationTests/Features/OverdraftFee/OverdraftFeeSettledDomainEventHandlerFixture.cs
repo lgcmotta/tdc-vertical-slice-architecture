@@ -1,4 +1,6 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
+using BankingApp.Infrastructure.Core.Consumers;
+
 namespace BankingApp.Fees.IntegrationTests.Features.OverdraftFee;
 
 public class OverdraftFeeSettledDomainEventHandlerFixture
@@ -20,5 +22,21 @@ public class OverdraftFeeSettledDomainEventHandlerFixture
     public class OverdraftConsumer : IConsumer<AccountOverdraftSettledIntegrationEvent>
     {
         public Task Consume(ConsumeContext<AccountOverdraftSettledIntegrationEvent> context) => Task.CompletedTask;
+    }
+
+    public class OverdraftConsumerOptions : IConsumerConfiguration
+    {
+        public void ConfigureMassTransit(IBusRegistrationConfigurator configurator)
+        {
+            configurator.AddConsumer<OverdraftConsumer>();
+        }
+
+        public void ConfigureConsumers(IRabbitMqBusFactoryConfigurator rabbitmq, IBusRegistrationContext context)
+        {
+            rabbitmq.ReceiveEndpoint("transactions-overdraft-fee", configurator =>
+            {
+                configurator.ConfigureConsumer<OverdraftConsumer>(context);
+            });
+        }
     }
 }

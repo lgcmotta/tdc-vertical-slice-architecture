@@ -1,7 +1,5 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
-
-using BankingApp.Fees.IntegrationTests.Features.OverdraftFee;
-
+// ReSharper disable PossibleMultipleEnumeration
 namespace BankingApp.Fees.IntegrationTests;
 
 [CollectionDefinition("FeesWebApplicationFactory")]
@@ -29,9 +27,16 @@ public class FeesWebApplicationFactory : WebApplicationFactory<Program>
                 services.Remove(overdraftFeeDescriptor);
             }
 
+            var feesAssembly = Assembly.Load("BankingApp.Fees.API");
+            var integrationTests = Assembly.Load("BankingApp.Fees.IntegrationTests");
+            var consumerConfigurations = ConsumerConfigurationAssemblyScanner.Scan(feesAssembly, integrationTests);
+
             services.AddMassTransitTestHarness(configurator =>
             {
-                configurator.AddConsumer<OverdraftFeeSettledDomainEventHandlerFixture.OverdraftConsumer>();
+                foreach (var consumerConfiguration in consumerConfigurations)
+                {
+                    consumerConfiguration.ConfigureMassTransit(configurator);
+                }
 
                 configurator.SetKebabCaseEndpointNameFormatter();
                 configurator.UsingRabbitMq((context, rabbitmq) =>
@@ -42,10 +47,10 @@ public class FeesWebApplicationFactory : WebApplicationFactory<Program>
                         hostConfigurator.Password("guest");
                     });
 
-                    rabbitmq.ReceiveEndpoint("transactions-overdraft-fee", endpoint =>
+                    foreach (var consumerConfiguration in consumerConfigurations)
                     {
-                        endpoint.ConfigureConsumer<OverdraftFeeSettledDomainEventHandlerFixture.OverdraftConsumer>(context);
-                    });
+                        consumerConfiguration.ConfigureConsumers(rabbitmq, context);
+                    }
 
                     rabbitmq.ConfigureEndpoints(context);
                 });

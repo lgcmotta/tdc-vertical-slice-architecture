@@ -32,3 +32,5 @@ global using BankingApp.Fees.Domain;
 global using BankingApp.Fees.API.Features.UpdateAccount;
 global using BankingApp.Fees.Domain.Exceptions;
 global using BankingApp.Fees.Domain.Events;
+global using BankingApp.Fees.IntegrationTests.Features.OverdraftFee;
+global using BankingApp.Infrastructure.Core.Scanners;
