@@ -14,13 +14,13 @@ using BankingApp.Application.Core.Middlewares;
 using BankingApp.Infrastructure.Core.Extensions;
 using BankingApp.Infrastructure.Core.Handlers;
 using MediatR.NotificationPublishers;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var accountsAssembly = typeof(Program).Assembly;
+var accountsAssemblyName = accountsAssembly.GetName();
 
 builder.Services
     .AddEndpointsApiExplorer()
@@ -38,28 +38,15 @@ builder.Services
         configuration.AddOpenBehavior(typeof(ResilientTransactionBehavior<,>));
         configuration.NotificationPublisherType = typeof(TaskWhenAllPublisher);
     })
-    .AddValidators(typeof(Program).Assembly)
+    .AddValidators(accountsAssembly)
     .AddSingleton<IExceptionHandler, ExceptionHandler>()
     .AddScoped<IAccountTokenGenerator, AccountTokenGenerator>()
     .AddUnitOfWork<AccountHoldersDbContext>()
-    .AddRabbitMqMessaging(builder.Configuration);
-
-builder.Services.AddOpenTelemetry()
-    .ConfigureResource(resource => resource
-        .AddService("Accounts")
-        .AddEnvironmentVariableDetector()
-    )
-    .WithTracing(tracer => tracer
-        .SetSampler<AlwaysOnSampler>()
-        .AddAspNetCoreInstrumentation()
-        .AddEntityFrameworkCoreInstrumentation(options => options.SetDbStatementForText = true)
-        .AddSource("MassTransit")
-        .AddOtlpExporter()
-    )
-    .WithMetrics(meter => meter
-        .AddAspNetCoreInstrumentation()
-        .AddRuntimeInstrumentation()
-        .AddOtlpExporter()
+    .AddRabbitMqMessaging(builder.Configuration)
+    .AddOpenTelemetryConfiguration(
+        serviceName: "Accounts",
+        serviceNamespace: "BankingApp",
+        serviceVersion: accountsAssemblyName.Version?.ToString() ?? null
     );
 
 var app = builder.Build();

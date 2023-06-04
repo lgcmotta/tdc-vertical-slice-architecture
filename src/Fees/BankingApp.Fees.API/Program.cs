@@ -8,15 +8,13 @@ using BankingApp.Fees.API.Infrastructure.Handlers;
 using BankingApp.Infrastructure.Core.Extensions;
 using BankingApp.Infrastructure.Core.Handlers;
 using MediatR.NotificationPublishers;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var feesAssembly = typeof(Program).Assembly;
+var feesAssemblyName = feesAssembly.GetName();
 
 builder.Services
     .AddMySqlDbContext<AccountFeesDbContext>(
@@ -37,24 +35,11 @@ builder.Services
     .AddUnitOfWork<AccountFeesDbContext>()
     .AddOverdraftFeeBackgroundService(builder.Configuration)
     .AddProfitFeeBackgroundService(builder.Configuration)
-    .AddRabbitMqMessaging(builder.Configuration, feesAssembly);
-
-builder.Services.AddOpenTelemetry()
-    .ConfigureResource(resource => resource
-        .AddService("Fees")
-        .AddEnvironmentVariableDetector()
-    )
-    .WithTracing(tracer => tracer
-        .AddEntityFrameworkCoreInstrumentation(options => options.SetDbStatementForText = true)
-        .AddSource("MassTransit")
-        .AddSource(nameof(OverdraftFeeBackgroundService))
-        .AddSource(nameof(ProfitFeeBackgroundService))
-        .AddOtlpExporter()
-    )
-    .WithMetrics(meter => meter
-        .AddRuntimeInstrumentation()
-        .AddOtlpExporter()
-    );
+    .AddRabbitMqMessaging(builder.Configuration, feesAssembly)
+    .AddOpenTelemetryConfiguration(
+        serviceName: "Fees",
+        serviceNamespace: "BankingApp",
+        serviceVersion: feesAssemblyName.Version?.ToString() ?? null);
 
 var app = builder.Build();
 
