@@ -14,6 +14,10 @@ using BankingApp.Application.Core.Middlewares;
 using BankingApp.Infrastructure.Core.Extensions;
 using BankingApp.Infrastructure.Core.Handlers;
 using MediatR.NotificationPublishers;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +44,24 @@ builder.Services
     .AddUnitOfWork<AccountHoldersDbContext>()
     .AddRabbitMqMessaging(builder.Configuration);
 
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource
+        .AddService("Accounts")
+        .AddEnvironmentVariableDetector()
+    )
+    .WithTracing(tracer => tracer
+        .SetSampler<AlwaysOnSampler>()
+        .AddAspNetCoreInstrumentation()
+        .AddEntityFrameworkCoreInstrumentation(options => options.SetDbStatementForText = true)
+        .AddSource("MassTransit")
+        .AddOtlpExporter()
+    )
+    .WithMetrics(meter => meter
+        .AddAspNetCoreInstrumentation()
+        .AddRuntimeInstrumentation()
+        .AddOtlpExporter()
+    );
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -60,3 +82,10 @@ app.MapGet("/api/accounts/{token}", RetrieveAccountDetailsEndpoint.GetAsync).Wit
 await app.Services.ApplyMigrationsAsync<AccountHoldersDbContext>();
 
 await app.RunAsync();
+
+[ExcludeFromCodeCoverage]
+public partial class Program
+{
+    protected Program()
+    { }
+}
