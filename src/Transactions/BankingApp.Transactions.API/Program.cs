@@ -12,6 +12,10 @@ using BankingApp.Transactions.API.Features.Withdraw;
 using BankingApp.Transactions.API.Infrastructure;
 using BankingApp.Transactions.API.Infrastructure.Handlers;
 using MediatR.NotificationPublishers;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +43,24 @@ builder.Services
     .AddUnitOfWork<AccountsDbContext>()
     .AddRabbitMqMessaging(builder.Configuration, transactionsAssembly);
 
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource
+        .AddService("Transactions")
+        .AddEnvironmentVariableDetector()
+    )
+    .WithTracing(tracer => tracer
+        .SetSampler<AlwaysOnSampler>()
+        .AddAspNetCoreInstrumentation()
+        .AddEntityFrameworkCoreInstrumentation(options => options.SetDbStatementForText = true)
+        .AddSource("MassTransit")
+        .AddOtlpExporter()
+    )
+    .WithMetrics(meter => meter
+        .AddAspNetCoreInstrumentation()
+        .AddRuntimeInstrumentation()
+        .AddOtlpExporter()
+    );
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -59,3 +81,10 @@ app.MapGet("/api/statements/{token}/years/{year:int}/months/{month:int}", Retrie
 await app.Services.ApplyMigrationsAsync<AccountsDbContext>();
 
 await app.RunAsync();
+
+[ExcludeFromCodeCoverage]
+public partial class Program
+{
+    protected Program()
+    { }
+}
