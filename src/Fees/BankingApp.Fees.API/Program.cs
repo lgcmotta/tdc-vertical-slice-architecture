@@ -14,6 +14,7 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 var feesAssembly = typeof(Program).Assembly;
+var feesAssemblyName = feesAssembly.GetName();
 
 builder.Services
     .AddMySqlDbContext<AccountFeesDbContext>(
@@ -34,7 +35,11 @@ builder.Services
     .AddUnitOfWork<AccountFeesDbContext>()
     .AddOverdraftFeeBackgroundService(builder.Configuration)
     .AddProfitFeeBackgroundService(builder.Configuration)
-    .AddRabbitMqMessaging(builder.Configuration, feesAssembly);
+    .AddRabbitMqMessaging(builder.Configuration, feesAssembly)
+    .AddOpenTelemetryConfiguration(
+        serviceName: "Fees",
+        serviceNamespace: "BankingApp",
+        serviceVersion: feesAssemblyName.Version?.ToString() ?? null);
 
 var app = builder.Build();
 

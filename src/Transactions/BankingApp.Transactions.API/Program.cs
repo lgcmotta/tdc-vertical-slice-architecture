@@ -12,11 +12,13 @@ using BankingApp.Transactions.API.Features.Withdraw;
 using BankingApp.Transactions.API.Infrastructure;
 using BankingApp.Transactions.API.Infrastructure.Handlers;
 using MediatR.NotificationPublishers;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var transactionsAssembly = typeof(Program).Assembly;
+var transactionsAssemblyName = transactionsAssembly.GetName();
 
 builder.Services
     .AddEndpointsApiExplorer()
@@ -37,7 +39,12 @@ builder.Services
     .AddValidators(transactionsAssembly)
     .AddSingleton<IExceptionHandler, ExceptionHandler>()
     .AddUnitOfWork<AccountsDbContext>()
-    .AddRabbitMqMessaging(builder.Configuration, transactionsAssembly);
+    .AddRabbitMqMessaging(builder.Configuration, transactionsAssembly)
+    .AddOpenTelemetryConfiguration(
+        serviceName: "Transactions",
+        serviceNamespace: "BankingApp",
+        serviceVersion: transactionsAssemblyName.Version?.ToString() ?? null
+    );
 
 var app = builder.Build();
 
@@ -59,3 +66,10 @@ app.MapGet("/api/statements/{token}/years/{year:int}/months/{month:int}", Retrie
 await app.Services.ApplyMigrationsAsync<AccountsDbContext>();
 
 await app.RunAsync();
+
+[ExcludeFromCodeCoverage]
+public partial class Program
+{
+    protected Program()
+    { }
+}

@@ -14,9 +14,13 @@ using BankingApp.Application.Core.Middlewares;
 using BankingApp.Infrastructure.Core.Extensions;
 using BankingApp.Infrastructure.Core.Handlers;
 using MediatR.NotificationPublishers;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var accountsAssembly = typeof(Program).Assembly;
+var accountsAssemblyName = accountsAssembly.GetName();
 
 builder.Services
     .AddEndpointsApiExplorer()
@@ -34,11 +38,16 @@ builder.Services
         configuration.AddOpenBehavior(typeof(ResilientTransactionBehavior<,>));
         configuration.NotificationPublisherType = typeof(TaskWhenAllPublisher);
     })
-    .AddValidators(typeof(Program).Assembly)
+    .AddValidators(accountsAssembly)
     .AddSingleton<IExceptionHandler, ExceptionHandler>()
     .AddScoped<IAccountTokenGenerator, AccountTokenGenerator>()
     .AddUnitOfWork<AccountHoldersDbContext>()
-    .AddRabbitMqMessaging(builder.Configuration);
+    .AddRabbitMqMessaging(builder.Configuration)
+    .AddOpenTelemetryConfiguration(
+        serviceName: "Accounts",
+        serviceNamespace: "BankingApp",
+        serviceVersion: accountsAssemblyName.Version?.ToString() ?? null
+    );
 
 var app = builder.Build();
 
@@ -60,3 +69,10 @@ app.MapGet("/api/accounts/{token}", RetrieveAccountDetailsEndpoint.GetAsync).Wit
 await app.Services.ApplyMigrationsAsync<AccountHoldersDbContext>();
 
 await app.RunAsync();
+
+[ExcludeFromCodeCoverage]
+public partial class Program
+{
+    protected Program()
+    { }
+}
