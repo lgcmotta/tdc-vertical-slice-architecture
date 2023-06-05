@@ -23,7 +23,7 @@ Features can be either a `Command` or a `Query`, but never both. Although the ou
 
 The feature entrypoint is responsible to send the `Command` or request the `Query` data.
 
-![command-query-flow](https://github.com/lgcmotta/tdc-vertical-slice-architecture/assets/33238105/4c69fec5-550a-4be4-8895-e4feb751774a)
+![command-query-flow](https://github.com/lgcmotta/tdc-vertical-slice-architecture/assets/33238105/72c6fc71-a1eb-4f27-a830-f1a98d39032a)
 
 ## Running Banking App :bank:
 
