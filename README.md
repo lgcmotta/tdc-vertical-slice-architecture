@@ -2,6 +2,10 @@
 
 Our implementation of Vertical Slice Architecture in .NET
 
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=lgcmotta_tdc-vertical-slice-architecture&metric=coverage)](https://sonarcloud.io/summary/new_code?id=lgcmotta_tdc-vertical-slice-architecture)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=lgcmotta_tdc-vertical-slice-architecture&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=lgcmotta_tdc-vertical-slice-architecture)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lgcmotta_tdc-vertical-slice-architecture&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=lgcmotta_tdc-vertical-slice-architecture)
+
 Lecture co-hosts: [@lgcmotta](https://github.com/lgcmotta) and [@ffernandolima](https://github.com/ffernandolima).
 
 ## Vertical Slices Architecture :cake:
