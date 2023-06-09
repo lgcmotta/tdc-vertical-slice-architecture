@@ -30,6 +30,7 @@ public static class ApplicationServiceCollectionExtensions
                     serviceVersion: serviceVersion,
                     autoGenerateServiceInstanceId: true
                 )
+                .AddTelemetrySdk()
                 .AddEnvironmentVariableDetector()
             )
             .WithTracing(tracer => tracer

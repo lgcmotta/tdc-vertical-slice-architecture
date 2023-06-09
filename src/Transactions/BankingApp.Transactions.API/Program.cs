@@ -20,6 +20,8 @@ var builder = WebApplication.CreateBuilder(args);
 var transactionsAssembly = typeof(Program).Assembly;
 var transactionsAssemblyName = transactionsAssembly.GetName();
 
+builder.Logging.ConfigureSerilogForOpenTelemetry();
+
 builder.Services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen()
@@ -32,6 +34,7 @@ builder.Services
     .AddMediatR(configuration =>
     {
         configuration.RegisterServicesFromAssemblyContaining<Program>();
+        configuration.AddOpenBehavior(typeof(LoggingBehavior<,>));
         configuration.AddOpenBehavior(typeof(ValidationBehavior<,>));
         configuration.AddOpenBehavior(typeof(ResilientTransactionBehavior<,>));
         configuration.NotificationPublisherType = typeof(TaskWhenAllPublisher);
@@ -41,8 +44,8 @@ builder.Services
     .AddUnitOfWork<AccountsDbContext>()
     .AddRabbitMqMessaging(builder.Configuration, transactionsAssembly)
     .AddOpenTelemetryConfiguration(
-        serviceName: "Transactions",
-        serviceNamespace: "BankingApp",
+        serviceName: "transactions",
+        serviceNamespace: "banking-app",
         serviceVersion: transactionsAssemblyName.Version?.ToString() ?? null
     );
 

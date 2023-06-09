@@ -16,6 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 var feesAssembly = typeof(Program).Assembly;
 var feesAssemblyName = feesAssembly.GetName();
 
+builder.Logging.ConfigureSerilogForOpenTelemetry();
+
 builder.Services
     .AddMySqlDbContext<AccountFeesDbContext>(
         builder.Configuration,
@@ -26,6 +28,7 @@ builder.Services
     .AddMediatR(configuration =>
     {
         configuration.RegisterServicesFromAssemblyContaining<Program>();
+        configuration.AddOpenBehavior(typeof(LoggingBehavior<,>));
         configuration.AddOpenBehavior(typeof(ValidationBehavior<,>));
         configuration.AddOpenBehavior(typeof(ResilientTransactionBehavior<,>));
         configuration.NotificationPublisherType = typeof(TaskWhenAllPublisher);
@@ -37,8 +40,8 @@ builder.Services
     .AddProfitFeeBackgroundService(builder.Configuration)
     .AddRabbitMqMessaging(builder.Configuration, feesAssembly)
     .AddOpenTelemetryConfiguration(
-        serviceName: "Fees",
-        serviceNamespace: "BankingApp",
+        serviceName: "fees",
+        serviceNamespace: "banking-app",
         serviceVersion: feesAssemblyName.Version?.ToString() ?? null);
 
 var app = builder.Build();
