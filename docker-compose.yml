@@ -4,12 +4,12 @@ services:
   mysql:
     container_name: mysql
     image: mysql:latest
-    ports:
-      - '3306:3306'
     environment:
       - MYSQL_USER=user
       - MYSQL_PASSWORD=123456
       - MYSQL_ROOT_PASSWORD=123456
+    ports:
+      - '3306:3306'
     volumes:
       - mysql-data:/var/lib/mysql
 
@@ -38,29 +38,54 @@ services:
   prometheus:
     container_name: prometheus
     image: prom/prometheus:latest
-    volumes:
-      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
     ports:
       - "9090:9090"
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+
+  loki:
+    container_name: loki
+    image: grafana/loki:latest
+    command: ["-config.file=/etc/loki/local-config.yaml"]
+    ports:
+      - "3100:3100"
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    environment:
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yaml
 
   collector:
     container_name: collector
     image: otel/opentelemetry-collector-contrib:0.78.0
     command: ["--config=/etc/otel-collector-config.yml"]
-    volumes:
-      - ./otel-collector-config.yml:/etc/otel-collector-config.yml
     ports:
       - "4317:4317"
       - "4318:4318"
       - "8888:8888"
       - "8889:8889"
       - "13133:13133"
+      - "8090"
+    volumes:
+      - ./otel-collector-config.yml:/etc/otel-collector-config.yml
     depends_on:
       - jaeger
       - prometheus
+      - loki
+      - grafana
 
 volumes:
   mysql-data:
     external: false
   rabbitmq-data:
+    external: false
+  grafana-data:
     external: false
